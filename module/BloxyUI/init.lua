@@ -7,6 +7,7 @@ BloxyUI.Themes = require(script.Themes)
 
 -- Quick access functions
 function BloxyUI.CreateButton(options) return BloxyUI.Components.Create("Button", options) end
+function BloxyUI.CreateMasterButton(options) return require(script.Components.MasterButton).new(options) end
 function BloxyUI.CreateModal(options) return BloxyUI.Components.Create("Modal", options) end
 function BloxyUI.CreateCard(options) return BloxyUI.Components.Create("Card", options) end
 function BloxyUI.CreateTopBar(options) return BloxyUI.Components.Create("TopBar", options) end

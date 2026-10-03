@@ -4,22 +4,23 @@ const { generateLuauCode } = require('../utils/luau-generator');
 
 router.post('/', (req, res) => {
   try {
-    const { componentType, icon, effect, animation, theme, customOptions } = req.body;
-    
-    if (!componentType || !theme) {
-      return res.status(400).json({ error: 'componentType and theme are required' });
-    }
+    const text = req.body.text || req.body.customOptions?.text || 'SHOP';
+    const theme = req.body.theme || req.body.themeSlug || 'cartoony';
+    const icon = req.body.icon || req.body.iconSlug || 'shop';
+    const sparkles = req.body.sparkles !== false;
+    const shine = req.body.shine !== false;
+    const idleFloat = req.body.idleFloat !== false;
 
     const luauCode = generateLuauCode({
-      componentType,
-      icon,
-      effect,
-      animation,
+      text,
       theme,
-      customOptions: customOptions || {}
+      icon,
+      sparkles,
+      shine,
+      idleFloat
     });
 
-    res.json({ success: true, luauCode });
+    res.json({ success: true, code: luauCode, luauCode });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

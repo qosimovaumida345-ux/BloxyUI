@@ -1,16 +1,14 @@
 import { Link } from 'react-router-dom';
-import { Zap, Globe, ExternalLink } from 'lucide-react';
+import { Globe, ExternalLink } from 'lucide-react';
+import Logo from './Logo';
 
 function Footer() {
   return (
     <footer className="border-t border-[var(--border-color)] bg-[var(--bg-primary)] mt-auto">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="flex items-center space-x-2 mb-4 md:mb-0">
-            <Zap className="h-6 w-6 text-[var(--accent-primary)]" />
-            <span className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]">
-              BloxyUI
-            </span>
+          <div className="mb-4 md:mb-0">
+            <Logo />
           </div>
           
           <div className="flex space-x-6 text-[var(--text-secondary)]">
