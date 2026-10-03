@@ -1,0 +1,10 @@
+{
+  "name": "BloxyUI",
+  "tree": {
+    "$className": "Folder",
+    "BloxyUIPlugin": {
+      "$className": "Folder",
+      "$path": "src"
+    }
+  }
+}

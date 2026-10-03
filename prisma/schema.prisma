@@ -1,0 +1,75 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Icon {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  category    String
+  tags        String[]
+  assetId     String?  @map("asset_id")
+  svgPath     String?  @map("svg_path")
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("icons")
+}
+
+model Effect {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  type        String
+  category    String
+  description String?
+  luauCode    String   @map("luau_code") @db.Text
+  parameters  Json     @default("{}")
+  previewData Json?    @map("preview_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("effects")
+}
+
+model Animation {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  type        String
+  category    String
+  description String?
+  luauCode    String   @map("luau_code") @db.Text
+  parameters  Json     @default("{}")
+  previewCss  String?  @map("preview_css") @db.Text
+  duration    Float    @default(0.3)
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("animations")
+}
+
+model Component {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  type        String
+  category    String
+  description String?
+  luauCode    String   @map("luau_code") @db.Text
+  parameters  Json     @default("{}")
+  previewData Json?    @map("preview_data")
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("components")
+}
+
+model Theme {
+  id          Int      @id @default(autoincrement())
+  name        String
+  slug        String   @unique
+  description String?
+  colors      Json
+  style       Json     @default("{}")
+  createdAt   DateTime @default(now()) @map("created_at")
+  @@map("themes")
+}
