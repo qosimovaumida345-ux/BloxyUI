@@ -18,6 +18,9 @@ app.use('/api/animations', require('./routes/animations'));
 app.use('/api/components', require('./routes/components'));
 app.use('/api/themes', require('./routes/themes'));
 app.use('/api/generate', require('./routes/generator'));
+app.use('/api/bloxfx', require('./routes/bloxfx'));
+app.use('/api/mcp', require('./routes/mcp'));
+app.use('/sse', require('./routes/mcp'));
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
