@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7778, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8889, 0.7, 1)
 local dark = Color3.fromHSV(0.7778, 0.55, 0.16)
-local glyph = "✉" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709007535" -- Real Roblox Vector Asset: Gamepad2
 local title = "MODE SELECT"
 local subtitle = "A thumb sliding between modes."
 local speed = 1 -- higher = slower
@@ -42,42 +42,63 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- TOGGLE (click to flip; also auto-flips so you can preview it)
-local root = make("TextButton", center(UDim2.fromOffset(150, 76)), gui)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- TOGGLE (Interactive switch)
+local root = make("TextButton", center(UDim2.fromOffset(160, 80)), gui)
 root.Text = ""
 root.AutoButtonColor = false
 root.BackgroundColor3 = dark
-round(root, 38)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+round(root, 40)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 0, Transparency = NumberSequence.new(0, 0.85)}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.8, BorderSizePixel = 0}, root)
-local knob = make("Frame", {Size = UDim2.fromOffset(60, 60), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.new(1, 1, 1)}, root)
-round(knob, 30)
-local icon = text(knob, {Text = glyph, TextSize = 30, Size = UDim2.fromScale(1, 1), TextColor3 = dark})
+local knob = make("Frame", {Size = UDim2.fromOffset(64, 64), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.new(1, 1, 1)}, root)
+round(knob, 32)
+local icon = icon(knob, center(UDim2.fromOffset(36, 36)))
+icon.ImageColor3 = dark
 local on = false
 local function set(state)
 	on = state
-	TweenService:Create(knob, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = on and UDim2.fromOffset(82, 8) or UDim2.fromOffset(8, 8)}):Play()
+	if clickSound then clickSound:Play() end
+	TweenService:Create(knob, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = on and UDim2.fromOffset(88, 8) or UDim2.fromOffset(8, 8)}):Play()
 	TweenService:Create(root, TweenInfo.new(0.3 * speed), {BackgroundColor3 = on and accent or dark}):Play()
-	TweenService:Create(icon, TweenInfo.new(0.3 * speed), {Rotation = on and 360 or 0}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.2 * speed) set(not on) end end)
+task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
 
 -- MOTION
+-- Digital Glitch Twitch
 task.spawn(function()
+	local origPos = icon.Position
 	while gui.Parent do
-		for step = 1, 8 do
-			icon.Position = icon.Position + UDim2.fromOffset(step % 2 == 0 and 4 or -4, 0)
-			icon.Rotation = step % 2 == 0 and 6 or -6
+		task.wait(2.2 * speed)
+		for i = 1, 6 do
+			local off = (i % 2 == 0) and 4 or -4
+			icon.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
 			task.wait(0.04)
 		end
-		icon.Rotation = 0
-		task.wait(1.8 * speed)
+		icon.Position = origPos
+		icon.ImageColor3 = Color3.new(1, 1, 1)
 	end
 end)

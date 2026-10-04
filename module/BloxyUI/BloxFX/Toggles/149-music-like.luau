@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5167, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6278, 0.7, 1)
 local dark = Color3.fromHSV(0.5167, 0.55, 0.16)
-local glyph = "☘" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709007809" -- Real Roblox Vector Asset: Music2
 local title = "MUSIC LIKE"
 local subtitle = "A note bursting out on toggle."
 local speed = 1 -- higher = slower
@@ -42,32 +42,68 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- TOGGLE (click to flip; also auto-flips so you can preview it)
-local root = make("TextButton", center(UDim2.fromOffset(150, 76)), gui)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- TOGGLE (Interactive switch)
+local root = make("TextButton", center(UDim2.fromOffset(160, 80)), gui)
 root.Text = ""
 root.AutoButtonColor = false
 root.BackgroundColor3 = dark
-round(root, 38)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+round(root, 40)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 0, Transparency = NumberSequence.new(0, 0.85)}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.8, BorderSizePixel = 0}, root)
-local knob = make("Frame", {Size = UDim2.fromOffset(60, 60), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.new(1, 1, 1)}, root)
-round(knob, 30)
-local icon = text(knob, {Text = glyph, TextSize = 30, Size = UDim2.fromScale(1, 1), TextColor3 = dark})
+local knob = make("Frame", {Size = UDim2.fromOffset(64, 64), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.new(1, 1, 1)}, root)
+round(knob, 32)
+local icon = icon(knob, center(UDim2.fromOffset(36, 36)))
+icon.ImageColor3 = dark
 local on = false
 local function set(state)
 	on = state
-	TweenService:Create(knob, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = on and UDim2.fromOffset(82, 8) or UDim2.fromOffset(8, 8)}):Play()
+	if clickSound then clickSound:Play() end
+	TweenService:Create(knob, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = on and UDim2.fromOffset(88, 8) or UDim2.fromOffset(8, 8)}):Play()
 	TweenService:Create(root, TweenInfo.new(0.3 * speed), {BackgroundColor3 = on and accent or dark}):Play()
-	TweenService:Create(icon, TweenInfo.new(0.3 * speed), {Rotation = on and 360 or 0}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.2 * speed) set(not on) end end)
+task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
 
 -- MOTION
-TweenService:Create(gradient, TweenInfo.new(3 * speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1), {Rotation = gradient.Rotation + 360}):Play()
+-- Rotating Border Aura
+local rainbowStroke = make("UIGradient", {
+	Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
+		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
+		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
+		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
+		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+	}),
+	Rotation = 0
+}, stroke)
+task.spawn(function()
+	while gui.Parent do
+		local tw = TweenService:Create(rainbowStroke, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
+		tw:Play()
+		tw.Completed:Wait()
+		rainbowStroke.Rotation = 0
+	end
+end)

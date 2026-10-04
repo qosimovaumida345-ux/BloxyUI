@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5667, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6778, 0.7, 1)
 local dark = Color3.fromHSV(0.5667, 0.55, 0.16)
-local glyph = "⚙" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709009042" -- Real Roblox Vector Asset: Flame
 local title = "SHOCK RIPPLE"
 local subtitle = "Fiery rings on contact."
 local speed = 1 -- higher = slower
@@ -42,9 +42,24 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
+
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
 
 -- BUTTON
 local root = make("TextButton", center(UDim2.fromOffset(280, 76)), gui)
@@ -54,14 +69,39 @@ root.ClipsDescendants = true
 root.BackgroundColor3 = accent
 round(root, 38)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
-local stroke = make("UIStroke", {Color = accent2, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+local stroke = make("UIStroke", {Color = accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.25, 1.6), Position = UDim2.fromScale(-0.4, -0.3), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = text(root, {Text = glyph, TextSize = 30, Size = UDim2.fromOffset(44, 44), Position = UDim2.new(0, 22, 0.5, -22), ZIndex = 3})
-local label = text(root, {Text = "IGNITE", TextSize = 22, Size = UDim2.new(1, -90, 1, 0), Position = UDim2.fromOffset(72, 0), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 3})
+local shine = make("Frame", {Size = UDim2.fromScale(0.25, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 2}, root)
+local icon = icon(root, {Image = iconAssetId, ImageColor3 = Color3.new(1, 1, 1), Size = UDim2.fromOffset(36, 36), Position = UDim2.new(0, 22, 0.5, -18), ZIndex = 3})
+local label = text(root, {Text = "IGNITE", TextSize = 22, Size = UDim2.new(1, -85, 1, 0), Position = UDim2.fromOffset(68, 0), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 3})
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.06}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
-root.Activated:Connect(function() TweenService:Create(scale, TweenInfo.new(0.12, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 0.92}):Play() task.wait(0.12) TweenService:Create(scale, TweenInfo.new(0.2, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.06}):Play() end)
+root.Activated:Connect(function()
+	if clickSound then clickSound:Play() end
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	task.wait(0.08)
+	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
+end)
 
 -- MOTION
-TweenService:Create(icon, TweenInfo.new(2.4 * speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1), {Rotation = 360}):Play()
+-- Expanding Ripple Burst Loops
+task.spawn(function()
+	while gui.Parent do
+		local rip = make("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(12, 12),
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BackgroundTransparency = 0.35,
+			ZIndex = 2
+		}, root)
+		round(rip, 100)
+		local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.fromOffset(340, 340),
+			BackgroundTransparency = 1
+		})
+		t:Play()
+		t.Completed:Connect(function() rip:Destroy() end)
+		task.wait(1.3 * speed)
+	end
+end)

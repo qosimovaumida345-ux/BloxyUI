@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.0000, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.1111, 0.7, 1)
 local dark = Color3.fromHSV(0.0000, 0.55, 0.16)
-local glyph = "☘" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: AudioLines
 local title = "WAVE BARS"
 local subtitle = "A rolling wave of bars."
 local speed = 1 -- higher = slower
@@ -42,29 +42,69 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- LOADER
-local root = make("Frame", {Size = UDim2.fromOffset(150, 150), BackgroundColor3 = dark, ClipsDescendants = false}, gui)
-root.AnchorPoint = Vector2.new(0.5, 0.5)
-root.Position = UDim2.fromScale(0.5, 0.5)
-round(root, 75)
-local stroke = make("UIStroke", {Color = accent, Thickness = 6, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
-local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0), NumberSequenceKeypoint.new(0.45, 0), NumberSequenceKeypoint.new(0.55, 1), NumberSequenceKeypoint.new(1, 1)})}, stroke)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- LOADER (Spinning Orbit Satellites + Pulsing Core)
+local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
+root.BackgroundColor3 = dark
+round(root, 80)
+local stroke = make("UIStroke", {Color = accent, Thickness = 4, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent)}, stroke)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1}, root)
-local icon = text(root, {Text = glyph, TextSize = 52, Size = UDim2.fromScale(1, 1), TextColor3 = accent2})
-local orbit = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundTransparency = 1}, root)
-for index = 1, 3 do
-	local dot = make("Frame", {Size = UDim2.fromOffset(12, 12), AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0), BackgroundColor3 = accent2}, orbit)
-	round(dot, 6)
-	orbit.Rotation = 0
+local icon = icon(root, center(UDim2.fromOffset(56, 56)))
+icon.ImageColor3 = accent2
+local orbit = make("Frame", {Size = UDim2.fromScale(1.3, 1.3), AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), BackgroundTransparency = 1}, root)
+for i = 1, 4 do
+	local angle = (i / 4) * math.pi * 2
+	local dot = make("Frame", {Size = UDim2.fromOffset(14, 14), AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(0.5 + math.cos(angle) * 0.48, 0, 0.5 + math.sin(angle) * 0.48, 0), BackgroundColor3 = accent2}, orbit)
+	round(dot, 7)
 end
-text(gui, {Text = "LOADING", TextSize = 14, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 100), Size = UDim2.fromOffset(200, 24), TextColor3 = accent2})
-local spin = TweenService:Create(orbit, TweenInfo.new(1.4 * speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1), {Rotation = 360})
-spin:Play()
+text(gui, {Text = "DISCOVER", TextSize = 16, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), Size = UDim2.fromOffset(220, 24), TextColor3 = accent2})
+task.spawn(function()
+	while gui.Parent do
+		local tw = TweenService:Create(orbit, TweenInfo.new(2.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
+		tw:Play()
+		tw.Completed:Wait()
+		orbit.Rotation = 0
+	end
+end)
 
 -- MOTION
-TweenService:Create(gradient, TweenInfo.new(3 * speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1), {Rotation = gradient.Rotation + 360}):Play()
+-- Rotating Border Aura
+local rainbowStroke = make("UIGradient", {
+	Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
+		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
+		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
+		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
+		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+	}),
+	Rotation = 0
+}, stroke)
+task.spawn(function()
+	while gui.Parent do
+		local tw = TweenService:Create(rainbowStroke, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
+		tw:Play()
+		tw.Completed:Wait()
+		rainbowStroke.Rotation = 0
+	end
+end)

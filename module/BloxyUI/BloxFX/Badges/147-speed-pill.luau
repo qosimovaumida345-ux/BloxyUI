@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.3444, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.4556, 0.7, 1)
 local dark = Color3.fromHSV(0.3444, 0.55, 0.16)
-local glyph = "☘" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709000137" -- Real Roblox Vector Asset: Timer
 local title = "SPEED PILL"
 local subtitle = "A timer pill with a sliding fill."
 local speed = 1 -- higher = slower
@@ -42,12 +42,27 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- BADGE
-local root = make("Frame", center(UDim2.fromOffset(150, 150)), gui)
+local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = accent
 root.ClipsDescendants = true
 round(root, 75)
@@ -55,8 +70,29 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = text(root, {Text = glyph, TextSize = 70, Size = UDim2.fromScale(1, 1), ZIndex = 4})
-text(gui, {Text = title, TextSize = 14, Size = UDim2.fromOffset(240, 24), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 96), TextColor3 = accent2})
+local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+icon.ImageColor3 = Color3.new(1, 1, 1)
+icon.ZIndex = 4
+text(gui, {Text = "DISCOVER", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
-TweenService:Create(gradient, TweenInfo.new(3 * speed, Enum.EasingStyle.Linear, Enum.EasingDirection.In, -1), {Rotation = gradient.Rotation + 360}):Play()
+-- Rotating Border Aura
+local rainbowStroke = make("UIGradient", {
+	Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
+		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
+		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
+		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
+		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+	}),
+	Rotation = 0
+}, stroke)
+task.spawn(function()
+	while gui.Parent do
+		local tw = TweenService:Create(rainbowStroke, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
+		tw:Play()
+		tw.Completed:Wait()
+		rainbowStroke.Rotation = 0
+	end
+end)

@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5194, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6306, 0.7, 1)
 local dark = Color3.fromHSV(0.5194, 0.55, 0.16)
-local glyph = "✉" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Zap
 local title = "POWER-UP DROP"
 local subtitle = "A power-up popping in with sparkles."
 local speed = 1 -- higher = slower
@@ -42,42 +42,61 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- NOTIFICATION (slides in, waits, slides out)
-local root = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Size = UDim2.fromOffset(360, 84), Position = UDim2.new(0.5, 0, 0, -120), BackgroundColor3 = dark, ClipsDescendants = true}, gui)
-round(root, 16)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
-local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 0, Transparency = NumberSequence.new(0.45, 0)}, root)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- NOTIFICATION
+local root = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Size = UDim2.fromOffset(380, 88), Position = UDim2.new(0.5, 0, 0, -120), BackgroundColor3 = dark, ClipsDescendants = true}, gui)
+round(root, 18)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 0, Transparency = NumberSequence.new(0.35, 0)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.75, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = text(root, {Text = glyph, TextSize = 38, Size = UDim2.fromOffset(60, 60), Position = UDim2.fromOffset(14, 12), TextColor3 = accent2})
-text(root, {Text = title, TextSize = 18, Size = UDim2.new(1, -90, 0, 28), Position = UDim2.fromOffset(78, 14), TextXAlignment = Enum.TextXAlignment.Left})
-text(root, {Text = subtitle, TextSize = 12, Font = Enum.Font.Gotham, TextTransparency = 0.3, TextWrapped = true, Size = UDim2.new(1, -90, 0, 34), Position = UDim2.fromOffset(78, 40), TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top})
+local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(46, 46), Position = UDim2.fromOffset(16, 20), ZIndex = 3})
+text(root, {Text = "JOIN SERVER", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
+text(root, {Text = subtitle, TextSize = 12, Font = Enum.Font.Gotham, TextTransparency = 0.3, TextWrapped = true, Size = UDim2.new(1, -85, 0, 36), Position = UDim2.fromOffset(72, 44), TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top})
 local timer = make("Frame", {Size = UDim2.new(1, 0, 0, 4), Position = UDim2.new(0, 0, 1, -4), BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
 task.spawn(function()
 	while gui.Parent do
 		root.Position = UDim2.new(0.5, 0, 0, -120)
 		timer.Size = UDim2.new(1, 0, 0, 4)
-		TweenService:Create(root, TweenInfo.new(0.6 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, 0, 0, 24)}):Play()
-		TweenService:Create(timer, TweenInfo.new(3 * speed, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 0, 0, 4)}):Play()
-		task.wait(3.2 * speed)
+		TweenService:Create(root, TweenInfo.new(0.6 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = UDim2.new(0.5, 0, 0, 32)}):Play()
+		TweenService:Create(timer, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Size = UDim2.new(0, 0, 0, 4)}):Play()
+		task.wait(3.4 * speed)
 		TweenService:Create(root, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Position = UDim2.new(0.5, 0, 0, -120)}):Play()
-		task.wait(1.6 * speed)
+		task.wait(1.8 * speed)
 	end
 end)
 
 -- MOTION
+-- Digital Glitch Twitch
 task.spawn(function()
+	local origPos = icon.Position
 	while gui.Parent do
-		for step = 1, 8 do
-			icon.Position = icon.Position + UDim2.fromOffset(step % 2 == 0 and 4 or -4, 0)
-			icon.Rotation = step % 2 == 0 and 6 or -6
+		task.wait(2.2 * speed)
+		for i = 1, 6 do
+			local off = (i % 2 == 0) and 4 or -4
+			icon.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
 			task.wait(0.04)
 		end
-		icon.Rotation = 0
-		task.wait(1.8 * speed)
+		icon.Position = origPos
+		icon.ImageColor3 = Color3.new(1, 1, 1)
 	end
 end)

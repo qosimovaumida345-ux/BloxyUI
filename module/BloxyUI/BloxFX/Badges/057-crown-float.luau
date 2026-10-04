@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1694, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2806, 0.7, 1)
 local dark = Color3.fromHSV(0.1694, 0.55, 0.16)
-local glyph = "⚔" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709004795" -- Real Roblox Vector Asset: Crown
 local title = "CROWN FLOAT"
 local subtitle = "A crown bobbing with sparkles."
 local speed = 1 -- higher = slower
@@ -42,12 +42,27 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- BADGE
-local root = make("Frame", center(UDim2.fromOffset(150, 150)), gui)
+local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = accent
 root.ClipsDescendants = true
 round(root, 28)
@@ -55,15 +70,20 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = text(root, {Text = glyph, TextSize = 70, Size = UDim2.fromScale(1, 1), ZIndex = 4})
-text(gui, {Text = title, TextSize = 14, Size = UDim2.fromOffset(240, 24), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 96), TextColor3 = accent2})
+local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+icon.ImageColor3 = Color3.new(1, 1, 1)
+icon.ZIndex = 4
+text(gui, {Text = "PLAY", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
+-- Squishy Jelly Bounce
 task.spawn(function()
 	while gui.Parent do
-		TweenService:Create(scale, TweenInfo.new(0.5 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.88}):Play()
-		task.wait(0.5 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.8 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 1}):Play()
-		task.wait(1.6 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.08}):Play()
+		task.wait(0.35 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+		task.wait(0.55 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+		task.wait(1.4 * speed)
 	end
 end)

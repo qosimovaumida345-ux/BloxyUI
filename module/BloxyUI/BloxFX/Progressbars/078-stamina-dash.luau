@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5167, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6278, 0.7, 1)
 local dark = Color3.fromHSV(0.5167, 0.55, 0.16)
-local glyph = "✔" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Zap
 local title = "STAMINA DASH"
 local subtitle = "A bright gradient with a bolt."
 local speed = 1 -- higher = slower
@@ -42,24 +42,51 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- PROGRESS BAR
-local root = make("Frame", center(UDim2.fromOffset(420, 40)), gui)
+local root = make("Frame", center(UDim2.fromOffset(440, 44)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
-round(root, 20)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+round(root, 22)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = accent, BorderSizePixel = 0}, root)
-round(fill, 20)
+round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = text(gui, {Text = glyph, TextSize = 36, AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -226, 0.5, 0), Size = UDim2.fromOffset(44, 44), TextColor3 = accent2})
-text(root, {Text = title, TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
-loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.4, Enum.EasingStyle.Quad, true)
+local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+text(root, {Text = "FIGHT", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
+loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
 -- MOTION
-loop(shine, {Size = UDim2.fromScale(1.4, 1.6), BackgroundTransparency = 0.85}, 1.3, Enum.EasingStyle.Quad, true)
+-- High-Energy Color Flood
+task.spawn(function()
+	while gui.Parent do
+		shine.Size = UDim2.fromScale(0.1, 1.6)
+		shine.Position = UDim2.fromScale(-0.4, -0.3)
+		local tw = TweenService:Create(shine, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.fromScale(1.8, 1.6), Position = UDim2.fromScale(-0.1, -0.3)})
+		tw:Play()
+		tw.Completed:Wait()
+		task.wait(0.4 * speed)
+		TweenService:Create(shine, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromScale(0, 1.6), Position = UDim2.fromScale(1.4, -0.3)}):Play()
+		task.wait(1.5 * speed)
+	end
+end)

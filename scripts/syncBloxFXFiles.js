@@ -1,179 +1,49 @@
-export const categories = ['Buttons', 'Backgrounds', 'Loaders', 'Cards', 'Panels', 'Notifications', 'Badges', 'Progress bars', 'Toggles', 'Transitions']
+const fs = require('fs');
+const path = require('path');
 
-// name | tagline | lucide icon  — index = variant (0-19); archetype = variant % 10
-const catalog: string[][] = [
-  ['Crimson Sweep|A silky light sweep on every loop.|Zap', 'Neon Pulse|A heartbeat of glowing rings.|Power', 'Ripple Burst|Click energy spreading outward.|MousePointerClick', 'Hover Drift|Floats on a cushion of shadow.|Rocket', 'Prism Border|A rainbow edge that never rests.|Sparkles', 'Jelly Press|Squishy, springy, satisfying.|Gamepad2', 'Glitch Play|RGB split with digital static.|Play', 'Fill Rush|Color floods in from the left.|Swords', 'Launch Pad|The icon blasts off and returns.|Send', 'Arcade Key|A chunky 3D key that clicks down.|Joystick',
-    'Gold Rush|A warm shine across a golden call to action.|Coins', 'Heartbeat Like|Thumps like a living thing.|Heart', 'Shock Ripple|Fiery rings on contact.|Flame', 'Cloud Lift|A soft, weightless bobbing button.|Cloud', 'Aurora Edge|Shifting northern-light outline.|WandSparkles', 'Gummy Buy|A bouncy shop button.|ShoppingCart', 'Static Join|A glitchy join-server button.|Users', 'Slide Unlock|A shutter of color sweeps across.|LockOpen', 'Paper Plane|Send with a satisfying swoosh.|SendHorizontal', 'Keycap Gold|Tactile, clicky, golden.|Crown'],
-  ['Aurora Drift|Soft blobs of color drifting.|Sparkles', 'Grid Runner|A neon floor racing toward you.|Grid3x3', 'Star Field|Twinkling stars with slow parallax.|Star', 'Ember Rise|Warm sparks lifting off.|Flame', 'Deep Waves|Layered tides rolling past.|Waves', 'Code Rain|Falling streaks of light.|Binary', 'Sun Rays|Rotating beams from a bright core.|Sun', 'Bubble Bloom|Glowing orbs floating upward.|Droplets', 'Radar Sweep|A scanning beam over a dot grid.|Radar', 'Candy Stripes|Diagonal ribbons in motion.|Candy',
-    'Nebula Swirl|Cosmic clouds slowly spiraling.|Orbit', 'Synth Horizon|Retro sunset over a moving grid.|Sunset', 'Cosmic Dust|Fine dust twinkling in deep space.|Sparkle', 'Firefly Forest|Tiny lights blinking in the dark.|TreePine', 'Ocean Swell|Bright water sliding sideways.|Anchor', 'Data Stream|Lines of light streaming past.|Database', 'Solar Flare|Pulsing rays with a warm glow.|SunMedium', 'Soda Pop|Fizzing bubbles in neon.|GlassWater', 'Pulse Scanner|Concentric sweeps from the center.|ScanLine', 'Pastel Ribbon|Gentle stripes drifting slowly.|Rainbow'],
-  ['Orbit Spinner|Satellites circling a core.|Atom', 'Twin Rings|Counter-rotating rings.|Loader', 'Bounce Trio|Three dots bouncing in rhythm.|CircleDot', 'Sonar Pulse|Rings expanding outward.|Wifi', 'Equalizer|Bars dancing to the beat.|Music', 'Shape Shifter|A square morphing as it turns.|Shapes', 'Dash Ring|A stroke chasing its own tail.|RefreshCw', 'Comet Trail|A glowing comet with a tail.|Telescope', 'Tile Wave|A grid of tiles rippling.|LayoutGrid', 'Cube Flip|Tiles flipping over in sequence.|Box',
-    'Planet Orbit|A moon swinging round a planet.|Globe', 'Gear Duo|Gears turning in opposite directions.|Settings', 'Hop Dots|Dots hopping on a spring.|Footprints', 'Radar Ping|Soft pings from a signal.|Radio', 'Wave Bars|A rolling wave of bars.|AudioLines', 'Morph Blob|A blob changing shape.|Hexagon', 'Dual Arc|Two arcs chasing each other.|Hourglass', 'Spark Trail|Sparkles orbiting a star.|Sparkle', 'Block Ripple|Squares rising and falling.|Blocks', 'Card Shuffle|Cards flipping in order.|Layers'],
-  ['Mirror Flip|Flips over to reveal its back.|Gift', 'Tilt Glare|Leans toward you with a shine.|Sword', 'Fan Deck|Cards fan out one by one.|Spade', 'Glow Frame|A bright border circling the card.|Gem', 'Floating Icon|A hero icon bobbing above.|Backpack', 'Slide Reveal|Details slide up on a loop.|Map', 'Holo Foil|A rainbow foil sheen.|Award', 'Glass Orbit|Frosted glass over moving color.|Shield', 'Loot Burst|Rays spin behind the prize.|Trophy', 'Corner Peel|A folding corner reveals more.|Ticket',
-    'Pet Egg|Flips over to reveal what hatched.|Egg', 'Potion Brew|A tilting card with a bubbling shine.|FlaskConical', 'Skin Locker|A fan of outfits to choose from.|Shirt', 'Quest Scroll|A glowing frame around the quest.|ScrollText', 'Treasure Crate|A crate bobbing above its card.|Package', 'Map Pin|Details slide up over the map.|MapPin', 'Gem Vault|A foil gem card with a rainbow sheen.|Diamond', 'Glass Disc|Frosted glass over spinning color.|Disc3', 'Mythic Pull|Rays spin behind a mythic pull.|Crown', 'Blueprint|A folding corner on the plan.|Ruler'],
-  ['Inventory Grid|Slots pop in one by one.|Backpack', 'Stat Board|Bars growing to their values.|ChartColumn', 'Player Profile|An avatar with a spinning halo.|UserRound', 'Settings Deck|Sliders gliding to new values.|SlidersHorizontal', 'Item Shop|Wares glowing in turn.|Store', 'Leaderboard|Ranks sliding into place.|Medal', 'Quest Log|Tasks ticking themselves off.|ListChecks', 'Chat Window|Messages arriving with typing dots.|MessageCircle', 'Mini Map|A radar sweep with moving pings.|Compass', 'Skill Hotbar|Cooldown sweeps across ability slots.|Crosshair',
-    'Pet Roster|Pets bouncing into their slots.|PawPrint', 'Match Summary|Score bars tallying up.|Flag', 'Clan Hall|Members around a glowing halo.|Castle', 'Audio Mixer|Sliders gliding to new levels.|Volume2', 'Daily Rewards|Prizes glowing one after another.|CalendarCheck', 'Server List|Ranks and pings sliding in.|Server', 'Daily Tasks|Chores ticking themselves off.|ListChecks', 'Team Chat|Messages arriving with typing dots.|MessagesSquare', 'World Map|A radar sweep over the world.|Globe', 'Gear Hotbar|Cooldown sweeps across gear slots.|Axe'],
-  ['Slide Toast|Slides in from the edge.|BellRing', 'Trophy Banner|An achievement with a golden burst.|Trophy', 'Level Up|A ribbon stretching open.|ChevronsUp', 'Coin Reward|Coins floating up from a pickup.|Coins', 'Friend Request|An avatar with pulsing accept.|UserPlus', 'Warning Shake|A nervous, shaking alert.|TriangleAlert', 'Loot Drop|A rare drop popping in.|PackageOpen', 'Chat Bubble|A bubble pops with typing dots.|MessageSquare', 'Kill Feed|Entries sliding down the feed.|Crosshair', 'Bell Count|A bell ringing with a counter.|Bell',
-    'Quest Complete|Slides in with a quest-complete check.|CircleCheck', 'Gift Banner|A celebratory banner with a burst.|Gift', 'Rank Up|A ribbon stretching to a new rank.|Medal', 'Gem Reward|Gems popping from a pickup.|Gem', 'Party Invite|A friend asking you to team up.|Users', 'Boss Alert|A pulsing, shaking siren alert.|Siren', 'Power-Up Drop|A power-up popping in with sparkles.|Zap', 'Whisper|A private message pops in.|Mail', 'Event Feed|Event lines sliding down the feed.|Info', 'Alarm Bell|A bell ringing with a counter.|AlarmClock'],
-  ['Rank Shield|A shield with a sweeping glint.|ShieldCheck', 'Level Hex|A hexagon with an orbiting spark.|Hexagon', 'Medal Swing|A medal swaying on its ribbon.|Medal', 'Verified Pulse|A check that pulses softly.|BadgeCheck', 'XP Pill|A fill sliding in beside a star.|Star', 'Crown Float|A crown bobbing with sparkles.|Crown', 'Gem Spin|A gem turning with glints.|Gem', 'Streak Flame|A flame flickering alive.|Flame', 'Star Rating|Stars lighting up in sequence.|Star', 'Rarity Sticker|A shimmering rarity tag.|Tag',
-    'Rank Crest|A crest with a sweeping glint.|Swords', 'Staff Seal|A spinning ring around a seal.|Stamp', 'Event Medal|A medal swinging on its ribbon.|Award', 'Trusted Seal|A seal that pulses softly.|ShieldCheck', 'Speed Pill|A timer pill with a sliding fill.|Timer', 'Royal Heart|A heart floating with sparkles.|Heart', 'Skull Gem|A skull turning with glints.|Skull', 'Ghost Flame|A flickering ghost light.|Ghost', 'Builder Rating|Stars lighting up for the builder.|Wrench', 'Founder Sticker|A shimmering founder tag.|Rocket'],
-  ['Health Bar|A heart-driven bar with a damage trail.|Heart', 'XP Stripes|Moving stripes in the fill.|Star', 'Ring Gauge|A circular gauge filling.|Gauge', 'Segment Charge|Cells lighting up one at a time.|BatteryCharging', 'Download Run|A fill with a falling arrow.|Download', 'Mana Wave|Liquid waves inside a bar.|Droplet', 'Boss Bar|A menacing bar draining in steps.|Skull', 'Stamina Dash|A bright gradient with a bolt.|Zap', 'Cooldown Radial|A radial sweep on an ability.|Timer', 'Loot Charge|A vertical meter filling to the top.|Package',
-    'Shield Bar|A bar with a metallic damage trail.|Shield', 'Hunger Meter|Stripes crawling through the fill.|Drumstick', 'Fuel Gauge|A circular fuel gauge.|Rocket', 'Oxygen Cells|Air cells lighting one by one.|Wind', 'Upload Run|An upload with a rising arrow.|Upload', 'Potion Tank|A tank filling with liquid.|FlaskConical', 'Raid Boss|A big boss bar draining in hits.|Swords', 'Sprint Bar|A bright bar with a glowing head.|Wind', 'Dash Ready|A radial cooldown that flashes ready.|Sparkles', 'Crystal Charge|A gem filling from the bottom.|Gem'],
-  ['Sun Moon|Day to night in a flip.|SunMoon', 'Power Latch|A button latching on and off.|Power', 'Sound Waves|Speaker waves appearing.|Volume2', 'Check Draw|A box drawing its own check.|SquareCheck', 'Heart Like|A like with a burst.|Heart', 'Lock Switch|A shackle opening and closing.|Lock', 'Mode Slider|A selector sliding between modes.|Gamepad2', 'Star Fave|A star popping on.|Star', 'Bell Mute|A bell that rings then mutes.|BellOff', 'Wifi Link|Signal connecting and dropping.|Wifi',
-    'Eye Toggle|An eye opening and closing.|Eye', 'Lamp Latch|A latching button with a glowing bulb.|Lightbulb', 'Mic Live|A mic with live meter bars.|Mic', 'Quest Check|A box that ticks itself.|CircleCheck', 'Music Like|A note bursting out on toggle.|Music2', 'Vault Lock|A shackle opening and closing.|KeyRound', 'Mode Select|A thumb sliding between modes.|Gamepad2', 'Fire Fave|A flame popping on with sparkles.|Flame', 'Shield Guard|Guard mode ringing on.|ShieldHalf', 'Rocket Link|A rocket link powering up.|Rocket'],
-  ['Circle Wipe|A circle growing to reveal.|Circle', 'Curtain Doors|Doors parting from the center.|DoorOpen', 'Pixel Dissolve|Blocks dissolving into the next scene.|Grid2x2', 'Slide Push|One scene pushing another out.|MoveRight', 'Iris Close|An iris closing then opening.|Aperture', 'Zoom Portal|Zooming through a portal.|Orbit', 'Diagonal Swipe|A slanted swipe across.|Slash', 'Venetian Blinds|Slats turning to reveal.|Blinds', 'Page Turn|A page folding over.|BookOpen', 'Tile Flip|Tiles flipping to the new scene.|LayoutGrid',
-    'Heart Wipe|A heart expanding to cover.|Heart', 'Elevator Doors|Doors closing then opening.|ArrowUpDown', 'Mosaic Shift|Mosaic blocks swapping scenes.|Grid2x2', 'Vertical Push|One scene pushing another up.|MoveUp', 'Spotlight|A spotlight widening on the scene.|Flashlight', 'Warp Zoom|Zooming deeper through a portal.|Zap', 'Reverse Swipe|A slanted swipe from the right.|MoveLeft', 'Roller Blinds|Slats turning to reveal.|PanelTop', 'Book Flip|A page folding the other way.|BookOpen', 'Checker Flip|Tiles flipping in a checker pattern.|Grid3x3'],
-]
+const assetsTs = fs.readFileSync(path.join(__dirname, '../client/src/assets.ts'), 'utf8');
 
-export const buttonLabels = ['POWER UP', 'ACTIVATE', 'CLICK ME', 'LAUNCH', 'EXPLORE', 'PLAY', 'JOIN GAME', 'FIGHT', 'SEND', 'START', 'CLAIM GOLD', 'LIKE', 'IGNITE', 'RELAX', 'DISCOVER', 'BUY NOW', 'JOIN SERVER', 'UNLOCK', 'SEND IT', 'CONTINUE']
+// Extract categories
+const catMatch = assetsTs.match(/export const categories = (\[[\s\S]*?\])/);
+const categories = eval(catMatch[1]);
 
-export type CustomConfig = {
-  customHue?: number
-  customIcon?: string
-  customLabel?: string
-  customSpeed?: number
-}
+// Extract catalog using indexOf
+const catStart = assetsTs.indexOf('const catalog: string[][] = [');
+const catEnd = assetsTs.indexOf('export const buttonLabels');
+const catalogStr = assetsTs.substring(catStart + 'const catalog: string[][] = '.length, catEnd).trim();
+const catalog = eval(catalogStr);
 
-export type Asset = {
-  id: number
-  name: string
-  slug: string
-  category: string
-  categoryIndex: number
-  variant: number
-  archetype: number
-  style: number
-  icon: string
-  hue: number
-  description: string
-  customHue?: number
-  customIcon?: string
-  customLabel?: string
-  customSpeed?: number
-}
+// Extract iconToAssetId
+const iconMapMatch = assetsTs.match(/export const iconToAssetId: Record<string, string> = (\{[\s\S]*?\n\})/);
+const iconToAssetId = eval('(' + iconMapMatch[1] + ')');
 
-export const iconToAssetId: Record<string, string> = {
-  "Home": "rbxassetid://10709000000",
-  "Settings": "rbxassetid://10709000137",
-  "Search": "rbxassetid://10709000274",
-  "Menu": "rbxassetid://10709000411",
-  "Check": "rbxassetid://10709000685",
-  "User": "rbxassetid://10709000822",
-  "UserRound": "rbxassetid://10709000822",
-  "Star": "rbxassetid://10709001096",
-  "Heart": "rbxassetid://10709001233",
-  "Bell": "rbxassetid://10709001507",
-  "BellRing": "rbxassetid://10709001507",
-  "BellOff": "rbxassetid://10709001507",
-  "Volume2": "rbxassetid://10709001644",
-  "Zap": "rbxassetid://10709013563",
-  "Play": "rbxassetid://10709022605",
-  "Download": "rbxassetid://10709002603",
-  "Upload": "rbxassetid://10709002466",
-  "Eye": "rbxassetid://10709002877",
-  "Lock": "rbxassetid://10709003014",
-  "LockOpen": "rbxassetid://10709003014",
-  "Sparkles": "rbxassetid://10709003973",
-  "Sparkle": "rbxassetid://10709003973",
-  "Shop": "rbxassetid://10709004110",
-  "Store": "rbxassetid://10709004110",
-  "ShoppingCart": "rbxassetid://10709004247",
-  "Coin": "rbxassetid://10709004521",
-  "Coins": "rbxassetid://10709004521",
-  "Gem": "rbxassetid://10709004658",
-  "Crown": "rbxassetid://10709004795",
-  "Gift": "rbxassetid://10709004932",
-  "Trophy": "rbxassetid://10709007672",
-  "Gamepad": "rbxassetid://10709007535",
-  "Gamepad2": "rbxassetid://10709007535",
-  "Joystick": "rbxassetid://10709007535",
-  "Music": "rbxassetid://10709007809",
-  "Music2": "rbxassetid://10709007809",
-  "Sword": "rbxassetid://10709008083",
-  "Swords": "rbxassetid://10709008083",
-  "Shield": "rbxassetid://10709008220",
-  "ShieldCheck": "rbxassetid://10709008220",
-  "ShieldHalf": "rbxassetid://10709008220",
-  "Crosshair": "rbxassetid://10709008768",
-  "Flame": "rbxassetid://10709009042",
-  "Backpack": "rbxassetid://10709009316",
-  "Package": "rbxassetid://10709009316",
-  "PackageOpen": "rbxassetid://10709009316",
-  "Compass": "rbxassetid://10709010275",
-  "Rocket": "rbxassetid://10709032606",
-  "Key": "rbxassetid://10709029181",
-  "KeyRound": "rbxassetid://10709029181",
-  "Send": "rbxassetid://10709002740",
-  "SendHorizontal": "rbxassetid://10709002740",
-  "RefreshCw": "rbxassetid://10709000137",
-  "Sliders": "rbxassetid://10709000137",
-  "SlidersHorizontal": "rbxassetid://10709000137",
-  "Tag": "rbxassetid://10709001370",
-  "Sun": "rbxassetid://10709013563",
-  "SunMoon": "rbxassetid://10709013563",
-  "Cloud": "rbxassetid://10709001233",
-  "Droplet": "rbxassetid://10709001233",
-  "Droplets": "rbxassetid://10709001233",
-  "Waves": "rbxassetid://10709007809",
-  "Radar": "rbxassetid://10709010275",
-  "Wifi": "rbxassetid://10709001644",
-  "Power": "rbxassetid://10709029044",
-  "Skull": "rbxassetid://10709009042",
-  "Medal": "rbxassetid://10709007672",
-  "Award": "rbxassetid://10709007672",
-  "Target": "rbxassetid://10709008768",
-  "House": "rbxassetid://10709000000",
-  "Map": "rbxassetid://10709010275",
-  "MapPin": "rbxassetid://10709010275",
-  "MessageCircle": "rbxassetid://10709002740",
-  "MessageSquare": "rbxassetid://10709002740",
-  "MessagesSquare": "rbxassetid://10709002740",
-  "Mail": "rbxassetid://10709002740",
-  "FileText": "rbxassetid://10709001370",
-  "ScrollText": "rbxassetid://10709001370",
-  "Bookmark": "rbxassetid://10709001370",
-  "CircleCheck": "rbxassetid://10709000685",
-  "SquareCheck": "rbxassetid://10709000685",
-  "BadgeCheck": "rbxassetid://10709008220",
-  "ChevronsUp": "rbxassetid://10709002603",
-  "ChevronRight": "rbxassetid://10709002603",
-  "Users": "rbxassetid://10709000822",
-  "UserPlus": "rbxassetid://10709000822",
-  "Clock": "rbxassetid://10709000137",
-  "Timer": "rbxassetid://10709000137",
-  "AlarmClock": "rbxassetid://10709001507",
-  "Grid": "rbxassetid://10709000411",
-  "Grid3x3": "rbxassetid://10709000411",
-  "LayoutGrid": "rbxassetid://10709000411",
-  "ListChecks": "rbxassetid://10709000685",
-  "ChartColumn": "rbxassetid://10709000137",
-  "Layers": "rbxassetid://10709000411",
-  "Wrench": "rbxassetid://10709000137",
-  "Axe": "rbxassetid://10709008083",
-  "TreePine": "rbxassetid://10709010275",
-  "Server": "rbxassetid://10709000137",
-  "Siren": "rbxassetid://10709001507",
-  "TriangleAlert": "rbxassetid://10709001507",
-  "Info": "rbxassetid://10709000000",
-  "Lightbulb": "rbxassetid://10709013563",
-  "Mic": "rbxassetid://10709001644",
-  "Camera": "rbxassetid://10709002877",
-  "MousePointer2": "rbxassetid://10709000000",
-  "MousePointerClick": "rbxassetid://10709000000"
-}
+const buttonLabels = ['POWER UP', 'ACTIVATE', 'CLICK ME', 'LAUNCH', 'EXPLORE', 'PLAY', 'JOIN GAME', 'FIGHT', 'SEND', 'START', 'CLAIM GOLD', 'LIKE', 'IGNITE', 'RELAX', 'DISCOVER', 'BUY NOW', 'JOIN SERVER', 'UNLOCK', 'SEND IT', 'CONTINUE'];
 
-export const assets: Asset[] = Array.from({ length: 200 }, (_, index) => {
-  const categoryIndex = index % 10
-  const variant = Math.floor(index / 10)
-  const [name, description, icon] = catalog[categoryIndex][variant].split('|')
-  return { id: index + 1, name, slug: `${String(index + 1).padStart(3, '0')}-${name.toLowerCase().replaceAll(' ', '-')}`, category: categories[categoryIndex], categoryIndex, variant, archetype: variant % 10, style: Math.floor(variant / 10), icon, hue: (variant * 47 + categoryIndex * 31) % 360, description }
-})
+const assets = Array.from({ length: 200 }, (_, index) => {
+  const categoryIndex = index % 10;
+  const variant = Math.floor(index / 10);
+  const [name, description, icon] = catalog[categoryIndex][variant].split('|');
+  return {
+    id: index + 1,
+    name,
+    slug: `${String(index + 1).padStart(3, '0')}-${name.toLowerCase().replaceAll(' ', '-')}`,
+    category: categories[categoryIndex],
+    categoryIndex,
+    variant,
+    archetype: variant % 10,
+    style: Math.floor(variant / 10),
+    icon,
+    hue: (variant * 47 + categoryIndex * 31) % 360,
+    description
+  };
+});
 
-const prelude = (asset: Asset, custom?: CustomConfig) => {
-  const h = custom?.customHue !== undefined ? custom.customHue : (asset.customHue !== undefined ? asset.customHue : asset.hue)
-  const iconName = custom?.customIcon || asset.customIcon || asset.icon
-  const assetId = iconToAssetId[iconName] || 'rbxassetid://10709013563'
-  const lbl = custom?.customLabel || asset.customLabel || asset.name.toUpperCase()
-  const spd = custom?.customSpeed !== undefined ? custom.customSpeed : (asset.customSpeed !== undefined ? asset.customSpeed : 1)
+const prelude = (asset) => {
+  const h = asset.hue;
+  const iconName = asset.icon;
+  const assetId = iconToAssetId[iconName] || 'rbxassetid://10709013563';
+  const lbl = asset.name.toUpperCase();
+  const spd = 1;
   return `-- BLOXFX / ${asset.name}  (${asset.category})
 -- ${asset.description}
 -- Paste into a LocalScript in StarterPlayer > StarterPlayerScripts, then press Play.
@@ -185,8 +55,8 @@ local accent = Color3.fromHSV(${(h / 360).toFixed(4)}, 0.78, 0.95)
 local accent2 = Color3.fromHSV(${(((h + 40) % 360) / 360).toFixed(4)}, 0.7, 1)
 local dark = Color3.fromHSV(${(h / 360).toFixed(4)}, 0.55, 0.16)
 local iconAssetId = "${assetId}" -- Real Roblox Vector Asset: ${iconName}
-local title = "${lbl.replaceAll('"', '\\\"')}"
-local subtitle = "${asset.description.replaceAll('"', '\\\"')}"
+local title = "${lbl.replaceAll('"', '\\"')}"
+local subtitle = "${asset.description.replaceAll('"', '\\"')}"
 local speed = ${spd} -- higher = slower
 ---------------------------------------------------------------------
 
@@ -236,24 +106,23 @@ local clickSound = make("Sound", {
 	Volume = 0.5,
 	PlayOnRemove = false
 }, gui)
-`
-}
+`;
+};
 
-// Each builder creates category-specific objects, then exposes: root, icon, shine, scale, gradient, stroke.
-const builders: ((a: Asset) => string)[] = [
-  () => `-- BUTTON
+const builders = [
+  (radius, label) => `-- BUTTON
 local root = make("TextButton", center(UDim2.fromOffset(280, 76)), gui)
 root.Text = ""
 root.AutoButtonColor = false
 root.ClipsDescendants = true
 root.BackgroundColor3 = accent
-round(root, ${'\${radius}'})
+round(root, ${radius})
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local stroke = make("UIStroke", {Color = accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 2}, root)
 local icon = icon(root, {Image = iconAssetId, ImageColor3 = Color3.new(1, 1, 1), Size = UDim2.fromOffset(36, 36), Position = UDim2.new(0, 22, 0.5, -18), ZIndex = 3})
-local label = text(root, {Text = "${'\${LABEL}'}", TextSize = 22, Size = UDim2.new(1, -85, 1, 0), Position = UDim2.fromOffset(68, 0), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 3})
+local label = text(root, {Text = "${label}", TextSize = 22, Size = UDim2.new(1, -85, 1, 0), Position = UDim2.fromOffset(68, 0), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 3})
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.06}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
@@ -263,7 +132,7 @@ root.Activated:Connect(function()
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
 end)`,
 
-  () => `-- BACKGROUND (Full Screen Ambient FX)
+  (radius, label, seed) => `-- BACKGROUND (Full Screen Ambient FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = dark, BorderSizePixel = 0, ClipsDescendants = true, Active = false}, gui)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 60, Transparency = NumberSequence.new(0, 0.55)}, root)
 local scale = make("UIScale", {}, root)
@@ -272,7 +141,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.5), Position = UDim2.
 local icon = icon(root, center(UDim2.fromOffset(120, 120)))
 icon.ImageColor3 = accent2
 icon.ImageTransparency = 0.35
-local random = Random.new(${'\${seed}'})
+local random = Random.new(${seed})
 for index = 1, 24 do
 	local size = random:NextInteger(8, 26)
 	local pFrame = make("Frame", {Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
@@ -290,7 +159,7 @@ for index = 1, 24 do
 	end)
 end`,
 
-  () => `-- LOADER (Spinning Orbit Satellites + Pulsing Core)
+  (radius, label) => `-- LOADER (Spinning Orbit Satellites + Pulsing Core)
 local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = dark
 round(root, 80)
@@ -306,7 +175,7 @@ for i = 1, 4 do
 	local dot = make("Frame", {Size = UDim2.fromOffset(14, 14), AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(0.5 + math.cos(angle) * 0.48, 0, 0.5 + math.sin(angle) * 0.48, 0), BackgroundColor3 = accent2}, orbit)
 	round(dot, 7)
 end
-text(gui, {Text = "${'\${LABEL}'}", TextSize = 16, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), Size = UDim2.fromOffset(220, 24), TextColor3 = accent2})
+text(gui, {Text = "${label}", TextSize = 16, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), Size = UDim2.fromOffset(220, 24), TextColor3 = accent2})
 task.spawn(function()
 	while gui.Parent do
 		local tw = TweenService:Create(orbit, TweenInfo.new(2.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
@@ -316,7 +185,7 @@ task.spawn(function()
 	end
 end)`,
 
-  () => `-- CARD
+  (radius, label, seed, subtitle) => `-- CARD
 local root = make("Frame", center(UDim2.fromOffset(250, 330)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
@@ -326,10 +195,10 @@ local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Ro
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 22, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.78, BorderSizePixel = 0, ZIndex = 2}, root)
 local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 150), ZIndex = 3})
+text(root, {Text = "${label}", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 150), ZIndex = 3})
 text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 190), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})`,
 
-  () => `-- PANEL
+  (radius, label) => `-- PANEL
 local root = make("Frame", center(UDim2.fromOffset(440, 300)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
@@ -339,7 +208,7 @@ local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Ro
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 1.8), Position = UDim2.fromScale(-0.4, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.85, BorderSizePixel = 0, ZIndex = 5}, root)
 local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(36, 36), Position = UDim2.fromOffset(16, 14), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(60, 14), TextXAlignment = Enum.TextXAlignment.Left})
+text(root, {Text = "${label}", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(60, 14), TextXAlignment = Enum.TextXAlignment.Left})
 local slots = {}
 for index = 0, 7 do
 	local slot = make("Frame", {Size = UDim2.fromOffset(92, 92), Position = UDim2.fromOffset(16 + (index % 4) * 105, 68 + math.floor(index / 4) * 105), BackgroundColor3 = accent, BackgroundTransparency = 0.75}, root)
@@ -361,7 +230,7 @@ task.spawn(function()
 	end
 end)`,
 
-  () => `-- NOTIFICATION
+  (radius, label, seed, subtitle) => `-- NOTIFICATION
 local root = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Size = UDim2.fromOffset(380, 88), Position = UDim2.new(0.5, 0, 0, -120), BackgroundColor3 = dark, ClipsDescendants = true}, gui)
 round(root, 18)
 local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
@@ -369,7 +238,7 @@ local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Ro
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.75, BorderSizePixel = 0, ZIndex = 3}, root)
 local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(46, 46), Position = UDim2.fromOffset(16, 20), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
+text(root, {Text = "${label}", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
 text(root, {Text = subtitle, TextSize = 12, Font = Enum.Font.Gotham, TextTransparency = 0.3, TextWrapped = true, Size = UDim2.new(1, -85, 0, 36), Position = UDim2.fromOffset(72, 44), TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top})
 local timer = make("Frame", {Size = UDim2.new(1, 0, 0, 4), Position = UDim2.new(0, 0, 1, -4), BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
 task.spawn(function()
@@ -384,11 +253,11 @@ task.spawn(function()
 	end
 end)`,
 
-  () => `-- BADGE
+  (radius, label) => `-- BADGE
 local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = accent
 root.ClipsDescendants = true
-round(root, ${'\${radius}'})
+round(root, ${radius})
 local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
@@ -396,9 +265,9 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.f
 local icon = icon(root, center(UDim2.fromOffset(72, 72)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
-text(gui, {Text = "${'\${LABEL}'}", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})`,
+text(gui, {Text = "${label}", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})`,
 
-  () => `-- PROGRESS BAR
+  (radius, label) => `-- PROGRESS BAR
 local root = make("Frame", center(UDim2.fromOffset(440, 44)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
@@ -410,10 +279,10 @@ round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
 local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
+text(root, {Text = "${label}", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)`,
 
-  () => `-- TOGGLE (Interactive switch)
+  (radius, label) => `-- TOGGLE (Interactive switch)
 local root = make("TextButton", center(UDim2.fromOffset(160, 80)), gui)
 root.Text = ""
 root.AutoButtonColor = false
@@ -438,7 +307,7 @@ end
 root.Activated:Connect(function() set(not on) end)
 task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)`,
 
-  () => `-- TRANSITION (Scene Wipe FX)
+  (radius, label) => `-- TRANSITION (Scene Wipe FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = accent, BorderSizePixel = 0, ClipsDescendants = true, ZIndex = 10, Position = UDim2.fromScale(-1, 0)}, gui)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 45}, root)
 local scale = make("UIScale", {}, root)
@@ -447,7 +316,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.12, 1.6), Position = UDim2
 local icon = icon(root, center(UDim2.fromOffset(130, 130)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 11
-text(root, {Text = "${'\${LABEL}'}", TextSize = 28, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 95), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
+text(root, {Text = "${label}", TextSize = 28, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 95), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
 task.spawn(function()
 	while gui.Parent do
 		root.Position = UDim2.fromScale(-1, 0)
@@ -456,10 +325,9 @@ task.spawn(function()
 		TweenService:Create(root, TweenInfo.new(0.75 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Position = UDim2.fromScale(1, 0)}):Play()
 		task.wait(2.2 * speed)
 	end
-end)`,
-]
+end)`
+];
 
-// Looping motion chosen by archetype matching web preview
 const motions = [
   `-- Continuous Silk Shine Sweep
 task.spawn(function()
@@ -617,21 +485,41 @@ task.spawn(function()
 		TweenService:Create(root, TweenInfo.new(0.16 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
 	end
 end)`,
-]
+];
 
-export function scriptFor(asset: Asset, custom?: CustomConfig) {
-  const c = asset.categoryIndex
-  const radius = c === 6 ? (asset.style ? 75 : 28) : asset.style ? 38 : 14
-  const label = custom?.customLabel || asset.customLabel || buttonLabels[asset.variant]
-  const body = builders[c](asset)
-    .replace('${radius}', String(radius))
-    .replace('${LABEL}', label)
-    .replace('${seed}', String(asset.id * 17))
-  const motion = asset.archetype === 3 && [1, 5, 9].includes(c) ? 'loop(icon, {Rotation = 10}, 1.1)' : motions[asset.archetype]
-  return `${prelude(asset, custom)}
+function scriptFor(asset) {
+  const c = asset.categoryIndex;
+  const radius = c === 6 ? (asset.style ? 75 : 28) : asset.style ? 38 : 14;
+  const label = buttonLabels[asset.variant] || asset.name.toUpperCase();
+  const seed = asset.id * 17;
+  const subtitle = asset.description.replace(/"/g, '\\"');
+  
+  const body = builders[c](radius, label, seed, subtitle);
+  const motion = asset.archetype === 3 && [1, 5, 9].includes(c) ? 'loop(icon, {Rotation = 10}, 1.1)' : motions[asset.archetype];
+  
+  return `${prelude(asset)}
 ${body}
 
 -- MOTION
 ${motion}
-`
+`;
 }
+
+// Write to module/BloxyUI/BloxFX
+const baseDir = path.join(__dirname, '../module/BloxyUI/BloxFX');
+let updatedCount = 0;
+
+assets.forEach(asset => {
+  const catFolder = asset.category.replace(/\s+/g, '');
+  const folderPath = path.join(baseDir, catFolder);
+  if (!fs.existsSync(folderPath)) {
+    fs.mkdirSync(folderPath, { recursive: true });
+  }
+
+  const filePath = path.join(folderPath, `${asset.slug}.luau`);
+  const code = scriptFor(asset);
+  fs.writeFileSync(filePath, code, 'utf8');
+  updatedCount++;
+});
+
+console.log(`Successfully synced all ${updatedCount} BloxFX Luau files in module/BloxyUI/BloxFX/!`);

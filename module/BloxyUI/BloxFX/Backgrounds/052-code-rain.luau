@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7389, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8500, 0.7, 1)
 local dark = Color3.fromHSV(0.7389, 0.55, 0.16)
-local glyph = "⚔" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Binary
 local title = "CODE RAIN"
 local subtitle = "Falling streaks of light."
 local speed = 1 -- higher = slower
@@ -42,32 +42,46 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- BACKGROUND (full screen)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- BACKGROUND (Full Screen Ambient FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = dark, BorderSizePixel = 0, ClipsDescendants = true, Active = false}, gui)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 60, Transparency = NumberSequence.new(0, 0.55)}, root)
 local scale = make("UIScale", {}, root)
 local stroke = make("UIStroke", {Thickness = 0, Transparency = 1}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.5), Position = UDim2.fromScale(-0.4, -0.2), Rotation = 20, BackgroundColor3 = accent2, BackgroundTransparency = 0.82, BorderSizePixel = 0}, root)
-local icon = text(root, center(UDim2.fromOffset(120, 120)))
-icon.Text = glyph
-icon.TextSize = 96
-icon.TextTransparency = 0.25
+local icon = icon(root, center(UDim2.fromOffset(120, 120)))
+icon.ImageColor3 = accent2
+icon.ImageTransparency = 0.35
 local random = Random.new(884)
-for index = 1, 22 do
-	local size = random:NextInteger(6, 22)
-	local dot = text(root, {Text = random:NextInteger(1, 3) == 1 and glyph or "", Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, TextSize = size, TextColor3 = accent2})
-	round(dot, size)
+for index = 1, 24 do
+	local size = random:NextInteger(8, 26)
+	local pFrame = make("Frame", {Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
+	round(pFrame, size / 2)
 	local duration = random:NextNumber(4, 9)
 	task.spawn(function()
 		task.wait(random:NextNumber(0, duration))
 		while gui.Parent do
-			dot.Position = UDim2.fromScale(random:NextNumber(), 1.05)
-			dot.BackgroundTransparency = 0.5
-			local tween = TweenService:Create(dot, TweenInfo.new(duration * speed, Enum.EasingStyle.Sine), {Position = dot.Position - UDim2.fromScale(random:NextNumber(-0.1, 0.1), 1.2), BackgroundTransparency = 1})
+			pFrame.Position = UDim2.fromScale(random:NextNumber(), 1.05)
+			pFrame.BackgroundTransparency = 0.4
+			local tween = TweenService:Create(pFrame, TweenInfo.new(duration * speed, Enum.EasingStyle.Sine), {Position = pFrame.Position - UDim2.fromScale(random:NextNumber(-0.1, 0.1), 1.2), BackgroundTransparency = 1})
 			tween:Play()
 			tween.Completed:Wait()
 		end
@@ -75,11 +89,14 @@ for index = 1, 22 do
 end
 
 -- MOTION
+-- Squishy Jelly Bounce
 task.spawn(function()
 	while gui.Parent do
-		TweenService:Create(scale, TweenInfo.new(0.5 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.88}):Play()
-		task.wait(0.5 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.8 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 1}):Play()
-		task.wait(1.6 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.08}):Play()
+		task.wait(0.35 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+		task.wait(0.55 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+		task.wait(1.4 * speed)
 	end
 end)

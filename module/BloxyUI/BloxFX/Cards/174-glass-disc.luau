@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.4778, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.5889, 0.7, 1)
 local dark = Color3.fromHSV(0.4778, 0.55, 0.16)
-local glyph = "☎" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Disc3
 local title = "GLASS DISC"
 local subtitle = "Frosted glass over spinning color."
 local speed = 1 -- higher = slower
@@ -42,22 +42,49 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- CARD
-local root = make("Frame", center(UDim2.fromOffset(240, 320)), gui)
+local root = make("Frame", center(UDim2.fromOffset(250, 330)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
-round(root, 20)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
-local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 70, Transparency = NumberSequence.new(0.35, 0)}, root)
+round(root, 22)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 70, Transparency = NumberSequence.new(0.2, 0)}, root)
 local scale = make("UIScale", {}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.6), Position = UDim2.fromScale(-0.4, -0.3), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.8, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = text(root, {Text = glyph, TextSize = 90, Size = UDim2.new(1, 0, 0, 140), Position = UDim2.fromOffset(0, 36), TextColor3 = accent2})
-text(root, {Text = title, TextSize = 22, Size = UDim2.new(1, -30, 0, 30), Position = UDim2.fromOffset(15, 190)})
-text(root, {Text = subtitle, TextSize = 14, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 60), Position = UDim2.fromOffset(20, 224), TextYAlignment = Enum.TextYAlignment.Top})
+local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 22, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.78, BorderSizePixel = 0, ZIndex = 2}, root)
+local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ZIndex = 3})
+text(root, {Text = "UNLOCK", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 150), ZIndex = 3})
+text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 190), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})
 
 -- MOTION
-loop(shine, {Size = UDim2.fromScale(1.4, 1.6), BackgroundTransparency = 0.85}, 1.3, Enum.EasingStyle.Quad, true)
+-- High-Energy Color Flood
+task.spawn(function()
+	while gui.Parent do
+		shine.Size = UDim2.fromScale(0.1, 1.6)
+		shine.Position = UDim2.fromScale(-0.4, -0.3)
+		local tw = TweenService:Create(shine, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.fromScale(1.8, 1.6), Position = UDim2.fromScale(-0.1, -0.3)})
+		tw:Play()
+		tw.Completed:Wait()
+		task.wait(0.4 * speed)
+		TweenService:Create(shine, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromScale(0, 1.6), Position = UDim2.fromScale(1.4, -0.3)}):Play()
+		task.wait(1.5 * speed)
+	end
+end)

@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7333, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8444, 0.7, 1)
 local dark = Color3.fromHSV(0.7333, 0.55, 0.16)
-local glyph = "★" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709001096" -- Real Roblox Vector Asset: Star
 local title = "XP STRIPES"
 local subtitle = "Moving stripes in the fill."
 local speed = 1 -- higher = slower
@@ -42,25 +42,56 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- PROGRESS BAR
-local root = make("Frame", center(UDim2.fromOffset(420, 40)), gui)
+local root = make("Frame", center(UDim2.fromOffset(440, 44)), gui)
 root.BackgroundColor3 = dark
 root.ClipsDescendants = true
-round(root, 20)
-local stroke = make("UIStroke", {Color = accent, Thickness = 2, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+round(root, 22)
+local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = accent, BorderSizePixel = 0}, root)
-round(fill, 20)
+round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = text(gui, {Text = glyph, TextSize = 36, AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -226, 0.5, 0), Size = UDim2.fromOffset(44, 44), TextColor3 = accent2})
-text(root, {Text = title, TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
-loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.4, Enum.EasingStyle.Quad, true)
+local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+text(root, {Text = "ACTIVATE", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
+loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
 -- MOTION
-loop(scale, {Scale = 1.07}, 0.9)
-loop(stroke, {Thickness = 6, Transparency = 0.6}, 0.9)
+-- Neon Pulse Rings + Heartbeat
+local pRing = make("Frame", center(root.Size), root.Parent)
+round(pRing, 16)
+pRing.BackgroundTransparency = 1
+local pStroke = make("UIStroke", {Color = accent2, Thickness = 3, Transparency = 0.2}, pRing)
+task.spawn(function()
+	while gui.Parent do
+		pRing.Size = root.Size
+		pStroke.Transparency = 0.2
+		local t1 = TweenService:Create(pRing, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(40, 24)})
+		local t2 = TweenService:Create(pStroke, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1})
+		local tBeat = TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.07})
+		t1:Play() t2:Play() tBeat:Play()
+		task.wait(0.2 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
+		task.wait(1.1 * speed)
+	end
+end)

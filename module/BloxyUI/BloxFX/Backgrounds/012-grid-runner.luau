@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.2167, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.3278, 0.7, 1)
 local dark = Color3.fromHSV(0.2167, 0.55, 0.16)
-local glyph = "★" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709000411" -- Real Roblox Vector Asset: Grid3x3
 local title = "GRID RUNNER"
 local subtitle = "A neon floor racing toward you."
 local speed = 1 -- higher = slower
@@ -42,32 +42,46 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- BACKGROUND (full screen)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- BACKGROUND (Full Screen Ambient FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = dark, BorderSizePixel = 0, ClipsDescendants = true, Active = false}, gui)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 60, Transparency = NumberSequence.new(0, 0.55)}, root)
 local scale = make("UIScale", {}, root)
 local stroke = make("UIStroke", {Thickness = 0, Transparency = 1}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.5), Position = UDim2.fromScale(-0.4, -0.2), Rotation = 20, BackgroundColor3 = accent2, BackgroundTransparency = 0.82, BorderSizePixel = 0}, root)
-local icon = text(root, center(UDim2.fromOffset(120, 120)))
-icon.Text = glyph
-icon.TextSize = 96
-icon.TextTransparency = 0.25
+local icon = icon(root, center(UDim2.fromOffset(120, 120)))
+icon.ImageColor3 = accent2
+icon.ImageTransparency = 0.35
 local random = Random.new(204)
-for index = 1, 22 do
-	local size = random:NextInteger(6, 22)
-	local dot = text(root, {Text = random:NextInteger(1, 3) == 1 and glyph or "", Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, TextSize = size, TextColor3 = accent2})
-	round(dot, size)
+for index = 1, 24 do
+	local size = random:NextInteger(8, 26)
+	local pFrame = make("Frame", {Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
+	round(pFrame, size / 2)
 	local duration = random:NextNumber(4, 9)
 	task.spawn(function()
 		task.wait(random:NextNumber(0, duration))
 		while gui.Parent do
-			dot.Position = UDim2.fromScale(random:NextNumber(), 1.05)
-			dot.BackgroundTransparency = 0.5
-			local tween = TweenService:Create(dot, TweenInfo.new(duration * speed, Enum.EasingStyle.Sine), {Position = dot.Position - UDim2.fromScale(random:NextNumber(-0.1, 0.1), 1.2), BackgroundTransparency = 1})
+			pFrame.Position = UDim2.fromScale(random:NextNumber(), 1.05)
+			pFrame.BackgroundTransparency = 0.4
+			local tween = TweenService:Create(pFrame, TweenInfo.new(duration * speed, Enum.EasingStyle.Sine), {Position = pFrame.Position - UDim2.fromScale(random:NextNumber(-0.1, 0.1), 1.2), BackgroundTransparency = 1})
 			tween:Play()
 			tween.Completed:Wait()
 		end
@@ -75,5 +89,21 @@ for index = 1, 22 do
 end
 
 -- MOTION
-loop(scale, {Scale = 1.07}, 0.9)
-loop(stroke, {Thickness = 6, Transparency = 0.6}, 0.9)
+-- Neon Pulse Rings + Heartbeat
+local pRing = make("Frame", center(root.Size), root.Parent)
+round(pRing, 16)
+pRing.BackgroundTransparency = 1
+local pStroke = make("UIStroke", {Color = accent2, Thickness = 3, Transparency = 0.2}, pRing)
+task.spawn(function()
+	while gui.Parent do
+		pRing.Size = root.Size
+		pStroke.Transparency = 0.2
+		local t1 = TweenService:Create(pRing, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(40, 24)})
+		local t2 = TweenService:Create(pStroke, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1})
+		local tBeat = TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.07})
+		t1:Play() t2:Play() tBeat:Play()
+		task.wait(0.2 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
+		task.wait(1.1 * speed)
+	end
+end)

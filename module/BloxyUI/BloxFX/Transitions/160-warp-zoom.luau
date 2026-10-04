@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7333, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8444, 0.7, 1)
 local dark = Color3.fromHSV(0.7333, 0.55, 0.16)
-local glyph = "♛" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Zap
 local title = "WARP ZOOM"
 local subtitle = "Zooming deeper through a portal."
 local speed = 1 -- higher = slower
@@ -42,37 +42,54 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
--- TRANSITION (covers the screen, swaps scene, reveals)
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
+-- TRANSITION (Scene Wipe FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = accent, BorderSizePixel = 0, ClipsDescendants = true, ZIndex = 10, Position = UDim2.fromScale(-1, 0)}, gui)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 45}, root)
 local scale = make("UIScale", {}, root)
 local stroke = make("UIStroke", {Thickness = 0, Transparency = 1}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.1, 1.5), Position = UDim2.fromScale(0.9, -0.2), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0}, root)
-local icon = text(root, center(UDim2.fromOffset(160, 160)))
-icon.Text = glyph
-icon.TextSize = 120
+local shine = make("Frame", {Size = UDim2.fromScale(0.12, 1.6), Position = UDim2.fromScale(0.9, -0.2), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0}, root)
+local icon = icon(root, center(UDim2.fromOffset(130, 130)))
+icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 11
-text(root, {Text = title, TextSize = 26, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 90), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
+text(root, {Text = "BUY NOW", TextSize = 28, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 95), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
 task.spawn(function()
 	while gui.Parent do
 		root.Position = UDim2.fromScale(-1, 0)
-		TweenService:Create(root, TweenInfo.new(0.7 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.fromScale(0, 0)}):Play()
-		task.wait(2 * speed)
-		TweenService:Create(root, TweenInfo.new(0.7 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Position = UDim2.fromScale(1, 0)}):Play()
+		TweenService:Create(root, TweenInfo.new(0.75 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position = UDim2.fromScale(0, 0)}):Play()
+		task.wait(2.2 * speed)
+		TweenService:Create(root, TweenInfo.new(0.75 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Position = UDim2.fromScale(1, 0)}):Play()
 		task.wait(2.2 * speed)
 	end
 end)
 
 -- MOTION
+-- Squishy Jelly Bounce
 task.spawn(function()
 	while gui.Parent do
-		TweenService:Create(scale, TweenInfo.new(0.5 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.88}):Play()
-		task.wait(0.5 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.8 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 1}):Play()
-		task.wait(1.6 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.08}):Play()
+		task.wait(0.35 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+		task.wait(0.55 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+		task.wait(1.4 * speed)
 	end
 end)

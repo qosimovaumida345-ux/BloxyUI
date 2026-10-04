@@ -8,7 +8,7 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5167, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6278, 0.7, 1)
 local dark = Color3.fromHSV(0.5167, 0.55, 0.16)
-local glyph = "⚡" -- text glyph, no external assets needed
+local iconAssetId = "rbxassetid://10709008220" -- Real Roblox Vector Asset: ShieldCheck
 local title = "RANK SHIELD"
 local subtitle = "A shield with a sweeping glint."
 local speed = 1 -- higher = slower
@@ -42,12 +42,27 @@ local function text(parent, props)
 	props.TextColor3 = props.TextColor3 or Color3.new(1, 1, 1)
 	return make("TextLabel", props, parent)
 end
+local function icon(parent, props)
+	props.BackgroundTransparency = 1
+	props.ScaleType = Enum.ScaleType.Fit
+	if not props.Image or props.Image == "" then
+		props.Image = iconAssetId
+	end
+	return make("ImageLabel", props, parent)
+end
 local function center(size)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = size}
 end
 
+-- UI Click Sound FX
+local clickSound = make("Sound", {
+	SoundId = "rbxassetid://6895079853",
+	Volume = 0.5,
+	PlayOnRemove = false
+}, gui)
+
 -- BADGE
-local root = make("Frame", center(UDim2.fromOffset(150, 150)), gui)
+local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = accent
 root.ClipsDescendants = true
 round(root, 28)
@@ -55,8 +70,19 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = text(root, {Text = glyph, TextSize = 70, Size = UDim2.fromScale(1, 1), ZIndex = 4})
-text(gui, {Text = title, TextSize = 14, Size = UDim2.fromOffset(240, 24), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 96), TextColor3 = accent2})
+local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+icon.ImageColor3 = Color3.new(1, 1, 1)
+icon.ZIndex = 4
+text(gui, {Text = "POWER UP", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
-loop(shine, {Position = UDim2.fromScale(1.3, -0.3)}, 1.4, Enum.EasingStyle.Quad, false)
+-- Continuous Silk Shine Sweep
+task.spawn(function()
+	while gui.Parent do
+		shine.Position = UDim2.fromScale(-0.6, -0.3)
+		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.3)})
+		tw:Play()
+		tw.Completed:Wait()
+		task.wait(1.2 * speed)
+	end
+end)
