@@ -114,7 +114,7 @@ button.MouseButton1Up:Connect(function() resize(hovering and 1.045 or 1); sweepS
       <section className="text-center py-16 max-w-4xl mx-auto">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--bg-card)] border border-[var(--border-color)] mb-6 text-xs font-mono uppercase tracking-wider text-[var(--accent-secondary)]">
           <Sparkles className="w-3.5 h-3.5 text-yellow-300 animate-spin" />
-          <span>Figma-to-Roblox Vector UI Architecture</span>
+          <span>520+ Icons • 200 BloxFX Assets • Zero Asset Dependencies</span>
         </div>
 
         <h1 className="text-5xl sm:text-7xl font-black mb-6 tracking-tight text-white">
@@ -124,14 +124,17 @@ button.MouseButton1Up:Connect(function() resize(hovering and 1.045 or 1); sweepS
           </span>
         </h1>
         <p className="text-lg sm:text-xl text-[var(--text-secondary)] mb-10 max-w-2xl mx-auto leading-relaxed">
-          High-performance, procedural vector Roblox interfaces. Zero broken asset IDs, multi-layer 3D depth, specular shine sweeps, and spring physics.
+          High-performance, procedural vector Roblox interfaces. 200 standalone BloxFX effects, 520+ vector icons, multi-layer 3D depth, specular shine sweeps, and spring physics.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link to="/builder" className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[#ff7675] hover:opacity-95 text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-xl flex items-center justify-center gap-2">
-            Open Visual Builder <Wand2 className="w-5 h-5" />
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <Link to="/bloxfx" className="px-8 py-4 bg-gradient-to-r from-[var(--accent-primary)] to-[#ff7675] hover:opacity-95 text-white rounded-2xl font-black text-lg transition-all hover:scale-105 shadow-xl flex items-center justify-center gap-2">
+            <span>Explore 200 BloxFX Effects</span> <Sparkles className="w-5 h-5 text-yellow-300" />
           </Link>
-          <Link to="/components" className="w-full sm:w-auto px-8 py-4 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-gray-400 text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
-            Explore Component Suite <ArrowRight className="w-5 h-5" />
+          <Link to="/builder" className="px-8 py-4 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-gray-400 text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
+            <span>Visual Builder</span> <Wand2 className="w-5 h-5" />
+          </Link>
+          <Link to="/icons" className="px-8 py-4 bg-[var(--bg-card)] border border-[var(--border-color)] hover:border-gray-400 text-white rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2">
+            <span>520+ Icons</span> <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
       </section>

@@ -13,13 +13,17 @@ function Navbar() {
               <Logo />
             </Link>
             
-            <div className="hidden md:flex space-x-6 text-[var(--text-secondary)]">
-              <Link to="/icons" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Icons</Link>
-              <Link to="/effects" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Effects</Link>
-              <Link to="/animations" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Animations</Link>
-              <Link to="/components" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Components</Link>
-              <Link to="/builder" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Builder</Link>
-              <Link to="/docs" className="hover:text-[var(--text-primary)] transition-colors hover:glow-purple">Docs</Link>
+            <div className="hidden md:flex items-center space-x-6 text-[var(--text-secondary)] text-sm">
+              <Link to="/bloxfx" className="text-white font-bold flex items-center gap-1.5 hover:text-[#ff7675] transition-colors">
+                <span className="px-2 py-0.5 rounded-full bg-red-500/20 text-[#ff7675] text-[10px] font-mono border border-red-500/40">200</span>
+                <span>BloxFX</span>
+              </Link>
+              <Link to="/icons" className="hover:text-[var(--text-primary)] transition-colors">Icons (520+)</Link>
+              <Link to="/effects" className="hover:text-[var(--text-primary)] transition-colors">Effects</Link>
+              <Link to="/animations" className="hover:text-[var(--text-primary)] transition-colors">Animations</Link>
+              <Link to="/components" className="hover:text-[var(--text-primary)] transition-colors">Components</Link>
+              <Link to="/builder" className="hover:text-[var(--text-primary)] transition-colors">Builder</Link>
+              <Link to="/docs" className="hover:text-[var(--text-primary)] transition-colors">Docs</Link>
             </div>
           </div>
           

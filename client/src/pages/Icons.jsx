@@ -3,7 +3,7 @@ import { fetchIcons } from '../lib/api';
 import { Search, Loader2, Copy, Check, Sparkles, Filter } from 'lucide-react';
 
 const CATEGORIES = [
-  'all', 'general', 'commerce', 'gaming', 'combat', 'magic', 'navigation', 'media', 'social', 'tools', 'status'
+  'all', 'general', 'commerce', 'gaming', 'combat', 'magic', 'scifi', 'rpg', 'nature', 'vehicles', 'emotes', 'navigation', 'media', 'social', 'tools', 'status'
 ];
 
 function Icons() {
@@ -39,11 +39,11 @@ function Icons() {
             <span className="px-3 py-1 bg-[var(--accent-primary)] text-white text-xs font-bold rounded-full">
               {icons.length} ICONS READY
             </span>
-            <span className="text-xs text-[var(--text-secondary)]">Roblox Asset ID & Luau Verified</span>
+            <span className="text-xs text-[var(--text-secondary)]">Roblox Asset ID & Vector Ready</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">Icon Library</h1>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight">520+ Icon Library</h1>
           <p className="text-[var(--text-secondary)] mt-1">
-            Browse 230+ pixel-perfect Roblox icons. Click any icon to copy its Asset ID or Luau code.
+            Browse 520+ pixel-perfect Roblox icons across 16 categories. Click any icon to copy its Asset ID or Luau code.
           </p>
         </div>
 
