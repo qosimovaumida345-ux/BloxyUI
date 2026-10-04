@@ -84,6 +84,18 @@ const tools = [
       },
       required: ['screenType', 'themeSlug']
     }
+  },
+  {
+    name: 'bloxyui_get_bloxfx_asset',
+    description: 'Search or get any of the 200 standalone BloxFX effects (Buttons, Backgrounds, Badges, Cards, Loaders, Notifications, Panels, Progress bars, Toggles, Transitions) with complete, dependency-free Luau code',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        query: { type: 'string', description: 'Effect name or keyword (e.g. crimson sweep, star field, orbit spinner, flip)' },
+        category: { type: 'string', description: 'Category: Buttons, Backgrounds, Badges, Cards, Loaders, Notifications, Panels, Progressbars, Toggles, Transitions' },
+        assetId: { type: 'number', description: 'Asset ID (1 to 200)' }
+      }
+    }
   }
 ];
 
@@ -231,6 +243,42 @@ screenGui.Parent = playerGui
 print("BloxyUI ${args.screenType} screen loaded successfully!")
 `;
         return { content: [{ type: 'text', text: screenCode }] };
+      }
+
+      case 'bloxyui_get_bloxfx_asset': {
+        const bloxfxCatalog = require('../data/bloxfxCatalog');
+        if (args.assetId) {
+          const found = bloxfxCatalog.find(a => a.id === args.assetId);
+          if (found) {
+            return { content: [{ type: 'text', text: JSON.stringify(found, null, 2) }] };
+          }
+        }
+        let matched = bloxfxCatalog;
+        if (args.category) {
+          const cat = args.category.toLowerCase();
+          matched = matched.filter(a => a.category.toLowerCase().includes(cat));
+        }
+        if (args.query) {
+          const q = args.query.toLowerCase();
+          matched = matched.filter(a => 
+            a.name.toLowerCase().includes(q) || 
+            a.description.toLowerCase().includes(q) || 
+            a.slug.toLowerCase().includes(q)
+          );
+        }
+        return {
+          content: [{
+            type: 'text',
+            text: JSON.stringify(matched.slice(0, 10).map(a => ({
+              id: a.id,
+              name: a.name,
+              category: a.category,
+              description: a.description,
+              slug: a.slug,
+              code: a.code
+            })), null, 2)
+          }]
+        };
       }
 
       default:
