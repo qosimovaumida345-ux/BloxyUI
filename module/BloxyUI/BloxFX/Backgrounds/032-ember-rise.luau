@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.4778, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.5889, 0.7, 1)
 local dark = Color3.fromHSV(0.4778, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709009042" -- Real Roblox Vector Asset: Flame
-local title = "EMBER RISE"
+local iconAssetId = "rbxassetid://16898670919" -- Real Roblox Vector Asset: Flame
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 257)
+local title = "LAUNCH"
 local subtitle = "Warm sparks lifting off."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end

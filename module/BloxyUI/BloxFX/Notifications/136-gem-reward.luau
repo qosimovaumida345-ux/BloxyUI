@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1278, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2389, 0.7, 1)
 local dark = Color3.fromHSV(0.1278, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709004658" -- Real Roblox Vector Asset: Gem
-local title = "GEM REWARD"
+local iconAssetId = "rbxassetid://16898672166" -- Real Roblox Vector Asset: Gem
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 514)
+local title = "RELAX"
 local subtitle = "Gems popping from a pickup."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -68,7 +72,7 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 0, Transparency = NumberSequence.new(0.35, 0)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.75, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(46, 46), Position = UDim2.fromOffset(16, 20), ZIndex = 3})
+local icon = icon(root, {Size = UDim2.fromOffset(44, 44), Position = UDim2.fromOffset(16, 20), ImageColor3 = accent2, ZIndex = 3})
 text(root, {Text = "RELAX", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
 text(root, {Text = subtitle, TextSize = 12, Font = Enum.Font.Gotham, TextTransparency = 0.3, TextWrapped = true, Size = UDim2.new(1, -85, 0, 36), Position = UDim2.fromOffset(72, 44), TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top})
 local timer = make("Frame", {Size = UDim2.new(1, 0, 0, 4), Position = UDim2.new(0, 0, 1, -4), BackgroundColor3 = accent2, BorderSizePixel = 0}, root)

@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1278, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2389, 0.7, 1)
 local dark = Color3.fromHSV(0.1278, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709000685" -- Real Roblox Vector Asset: ListChecks
-local title = "QUEST LOG"
+local iconAssetId = "rbxassetid://16898674482" -- Real Roblox Vector Asset: ListChecks
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "JOIN GAME"
 local subtitle = "Tasks ticking themselves off."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,8 +74,8 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 90, Transparency = NumberSequence.new(0, 0.75)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 1.8), Position = UDim2.fromScale(-0.4, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.85, BorderSizePixel = 0, ZIndex = 5}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(36, 36), Position = UDim2.fromOffset(16, 14), ZIndex = 3})
-text(root, {Text = "JOIN GAME", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(60, 14), TextXAlignment = Enum.TextXAlignment.Left})
+local icon = icon(root, {Size = UDim2.fromOffset(32, 32), Position = UDim2.fromOffset(16, 16), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "JOIN GAME", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(56, 14), TextXAlignment = Enum.TextXAlignment.Left})
 local slots = {}
 for index = 0, 7 do
 	local slot = make("Frame", {Size = UDim2.fromOffset(92, 92), Position = UDim2.fromOffset(16 + (index % 4) * 105, 68 + math.floor(index / 4) * 105), BackgroundColor3 = accent, BackgroundTransparency = 0.75}, root)
@@ -94,18 +98,18 @@ task.spawn(function()
 end)
 
 -- MOTION
--- Digital Glitch Twitch
+-- Digital Glitch Split Twitch
 task.spawn(function()
-	local origPos = icon.Position
+	local origPos = root.Position
 	while gui.Parent do
 		task.wait(2.2 * speed)
 		for i = 1, 6 do
 			local off = (i % 2 == 0) and 4 or -4
-			icon.Position = origPos + UDim2.fromOffset(off, 0)
-			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
+			root.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
 			task.wait(0.04)
 		end
-		icon.Position = origPos
-		icon.ImageColor3 = Color3.new(1, 1, 1)
+		root.Position = origPos
+		icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
 	end
 end)

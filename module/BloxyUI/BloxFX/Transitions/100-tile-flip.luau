@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.9500, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.0611, 0.7, 1)
 local dark = Color3.fromHSV(0.9500, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709000411" -- Real Roblox Vector Asset: LayoutGrid
-local title = "TILE FLIP"
+local iconAssetId = "rbxassetid://16898674182" -- Real Roblox Vector Asset: LayoutGrid
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 0)
+local title = "START"
 local subtitle = "Tiles flipping to the new scene."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -86,9 +90,9 @@ end)
 task.spawn(function()
 	local origPos = root.Position
 	while gui.Parent do
-		task.wait(1.6 * speed)
-		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 6)}):Play()
+		task.wait(1.8 * speed)
+		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 5)}):Play()
 		task.wait(0.14 * speed)
-		TweenService:Create(root, TweenInfo.new(0.16 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
+		TweenService:Create(root, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
 	end
 end)

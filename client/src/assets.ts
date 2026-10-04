@@ -51,128 +51,914 @@ export type Asset = {
   customSpeed?: number
 }
 
-export const iconToAssetId: Record<string, string> = {
-  "Home": "rbxassetid://10709000000",
-  "Settings": "rbxassetid://10709000137",
-  "Search": "rbxassetid://10709000274",
-  "Menu": "rbxassetid://10709000411",
-  "Check": "rbxassetid://10709000685",
-  "User": "rbxassetid://10709000822",
-  "UserRound": "rbxassetid://10709000822",
-  "Star": "rbxassetid://10709001096",
-  "Heart": "rbxassetid://10709001233",
-  "Bell": "rbxassetid://10709001507",
-  "BellRing": "rbxassetid://10709001507",
-  "BellOff": "rbxassetid://10709001507",
-  "Volume2": "rbxassetid://10709001644",
-  "Zap": "rbxassetid://10709013563",
-  "Play": "rbxassetid://10709022605",
-  "Download": "rbxassetid://10709002603",
-  "Upload": "rbxassetid://10709002466",
-  "Eye": "rbxassetid://10709002877",
-  "Lock": "rbxassetid://10709003014",
-  "LockOpen": "rbxassetid://10709003014",
-  "Sparkles": "rbxassetid://10709003973",
-  "Sparkle": "rbxassetid://10709003973",
-  "Shop": "rbxassetid://10709004110",
-  "Store": "rbxassetid://10709004110",
-  "ShoppingCart": "rbxassetid://10709004247",
-  "Coin": "rbxassetid://10709004521",
-  "Coins": "rbxassetid://10709004521",
-  "Gem": "rbxassetid://10709004658",
-  "Crown": "rbxassetid://10709004795",
-  "Gift": "rbxassetid://10709004932",
-  "Trophy": "rbxassetid://10709007672",
-  "Gamepad": "rbxassetid://10709007535",
-  "Gamepad2": "rbxassetid://10709007535",
-  "Joystick": "rbxassetid://10709007535",
-  "Music": "rbxassetid://10709007809",
-  "Music2": "rbxassetid://10709007809",
-  "Sword": "rbxassetid://10709008083",
-  "Swords": "rbxassetid://10709008083",
-  "Shield": "rbxassetid://10709008220",
-  "ShieldCheck": "rbxassetid://10709008220",
-  "ShieldHalf": "rbxassetid://10709008220",
-  "Crosshair": "rbxassetid://10709008768",
-  "Flame": "rbxassetid://10709009042",
-  "Backpack": "rbxassetid://10709009316",
-  "Package": "rbxassetid://10709009316",
-  "PackageOpen": "rbxassetid://10709009316",
-  "Compass": "rbxassetid://10709010275",
-  "Rocket": "rbxassetid://10709032606",
-  "Key": "rbxassetid://10709029181",
-  "KeyRound": "rbxassetid://10709029181",
-  "Send": "rbxassetid://10709002740",
-  "SendHorizontal": "rbxassetid://10709002740",
-  "RefreshCw": "rbxassetid://10709000137",
-  "Sliders": "rbxassetid://10709000137",
-  "SlidersHorizontal": "rbxassetid://10709000137",
-  "Tag": "rbxassetid://10709001370",
-  "Sun": "rbxassetid://10709013563",
-  "SunMoon": "rbxassetid://10709013563",
-  "Cloud": "rbxassetid://10709001233",
-  "Droplet": "rbxassetid://10709001233",
-  "Droplets": "rbxassetid://10709001233",
-  "Waves": "rbxassetid://10709007809",
-  "Radar": "rbxassetid://10709010275",
-  "Wifi": "rbxassetid://10709001644",
-  "Power": "rbxassetid://10709029044",
-  "Skull": "rbxassetid://10709009042",
-  "Medal": "rbxassetid://10709007672",
-  "Award": "rbxassetid://10709007672",
-  "Target": "rbxassetid://10709008768",
-  "House": "rbxassetid://10709000000",
-  "Map": "rbxassetid://10709010275",
-  "MapPin": "rbxassetid://10709010275",
-  "MessageCircle": "rbxassetid://10709002740",
-  "MessageSquare": "rbxassetid://10709002740",
-  "MessagesSquare": "rbxassetid://10709002740",
-  "Mail": "rbxassetid://10709002740",
-  "FileText": "rbxassetid://10709001370",
-  "ScrollText": "rbxassetid://10709001370",
-  "Bookmark": "rbxassetid://10709001370",
-  "CircleCheck": "rbxassetid://10709000685",
-  "SquareCheck": "rbxassetid://10709000685",
-  "BadgeCheck": "rbxassetid://10709008220",
-  "ChevronsUp": "rbxassetid://10709002603",
-  "ChevronRight": "rbxassetid://10709002603",
-  "Users": "rbxassetid://10709000822",
-  "UserPlus": "rbxassetid://10709000822",
-  "Clock": "rbxassetid://10709000137",
-  "Timer": "rbxassetid://10709000137",
-  "AlarmClock": "rbxassetid://10709001507",
-  "Grid": "rbxassetid://10709000411",
-  "Grid3x3": "rbxassetid://10709000411",
-  "LayoutGrid": "rbxassetid://10709000411",
-  "ListChecks": "rbxassetid://10709000685",
-  "ChartColumn": "rbxassetid://10709000137",
-  "Layers": "rbxassetid://10709000411",
-  "Wrench": "rbxassetid://10709000137",
-  "Axe": "rbxassetid://10709008083",
-  "TreePine": "rbxassetid://10709010275",
-  "Server": "rbxassetid://10709000137",
-  "Siren": "rbxassetid://10709001507",
-  "TriangleAlert": "rbxassetid://10709001507",
-  "Info": "rbxassetid://10709000000",
-  "Lightbulb": "rbxassetid://10709013563",
-  "Mic": "rbxassetid://10709001644",
-  "Camera": "rbxassetid://10709002877",
-  "MousePointer2": "rbxassetid://10709000000",
-  "MousePointerClick": "rbxassetid://10709000000"
+// Verified Roblox Marketplace Lucide Spritesheet Map: [assetId, size, offsetX, offsetY]
+export const iconToSprite: Record<string, [string, number, number, number]> = {
+  "Zap": [
+    "16898791349",
+    256,
+    257,
+    257
+  ],
+  "Sparkles": [
+    "16898735175",
+    256,
+    514,
+    514
+  ],
+  "Flame": [
+    "16898670919",
+    256,
+    0,
+    257
+  ],
+  "Shield": [
+    "16898734664",
+    256,
+    257,
+    0
+  ],
+  "Crown": [
+    "16898668482",
+    256,
+    257,
+    514
+  ],
+  "Sword": [
+    "16898787671",
+    256,
+    257,
+    514
+  ],
+  "Swords": [
+    "16898787671",
+    256,
+    514,
+    514
+  ],
+  "Star": [
+    "16898736776",
+    256,
+    257,
+    0
+  ],
+  "Heart": [
+    "16898673271",
+    256,
+    0,
+    0
+  ],
+  "Trophy": [
+    "16898789153",
+    256,
+    0,
+    514
+  ],
+  "Gamepad2": [
+    "16898672166",
+    256,
+    0,
+    0
+  ],
+  "Rocket": [
+    "16898733317",
+    256,
+    0,
+    514
+  ],
+  "Coins": [
+    "16898619182",
+    256,
+    0,
+    0
+  ],
+  "Lock": [
+    "16898674825",
+    256,
+    0,
+    257
+  ],
+  "Bell": [
+    "16898615428",
+    256,
+    0,
+    514
+  ],
+  "Play": [
+    "16898731919",
+    256,
+    0,
+    514
+  ],
+  "Check": [
+    "16898617411",
+    256,
+    257,
+    0
+  ],
+  "Eye": [
+    "16898669897",
+    256,
+    0,
+    0
+  ],
+  "Settings": [
+    "16898734421",
+    256,
+    514,
+    0
+  ],
+  "Key": [
+    "16898673616",
+    256,
+    514,
+    514
+  ],
+  "Gem": [
+    "16898672166",
+    256,
+    257,
+    514
+  ],
+  "Package": [
+    "16898730641",
+    256,
+    514,
+    0
+  ],
+  "Crosshair": [
+    "16898668482",
+    256,
+    514,
+    257
+  ],
+  "Compass": [
+    "16898619182",
+    256,
+    257,
+    514
+  ],
+  "MousePointerClick": [
+    "16898729337",
+    256,
+    0,
+    514
+  ],
+  "Power": [
+    "16898732262",
+    256,
+    514,
+    257
+  ],
+  "Send": [
+    "16898734242",
+    256,
+    257,
+    257
+  ],
+  "Joystick": [
+    "16898672166",
+    256,
+    257,
+    0
+  ],
+  "ShoppingCart": [
+    "16898734664",
+    256,
+    257,
+    514
+  ],
+  "Users": [
+    "16898790259",
+    256,
+    514,
+    0
+  ],
+  "LockOpen": [
+    "16898674825",
+    256,
+    257,
+    0
+  ],
+  "SendHorizontal": [
+    "16898734242",
+    256,
+    0,
+    257
+  ],
+  "Waves": [
+    "16898790791",
+    256,
+    257,
+    514
+  ],
+  "Binary": [
+    "16898615570",
+    256,
+    0,
+    257
+  ],
+  "Sun": [
+    "16898787671",
+    256,
+    0,
+    0
+  ],
+  "Droplets": [
+    "16898669562",
+    256,
+    514,
+    257
+  ],
+  "Radar": [
+    "16898732504",
+    256,
+    257,
+    514
+  ],
+  "Candy": [
+    "16898617146",
+    256,
+    514,
+    257
+  ],
+  "Orbit": [
+    "16898730417",
+    256,
+    514,
+    0
+  ],
+  "Sunset": [
+    "16898787671",
+    256,
+    0,
+    257
+  ],
+  "Sparkle": [
+    "16898735175",
+    256,
+    257,
+    514
+  ],
+  "TreePine": [
+    "16898789012",
+    256,
+    514,
+    257
+  ],
+  "Anchor": [
+    "16898613613",
+    256,
+    0,
+    514
+  ],
+  "Database": [
+    "16898668755",
+    256,
+    0,
+    514
+  ],
+  "SunMedium": [
+    "16898736967",
+    256,
+    514,
+    257
+  ],
+  "GlassWater": [
+    "16898672599",
+    256,
+    0,
+    0
+  ],
+  "ScanLine": [
+    "16898733817",
+    256,
+    0,
+    0
+  ],
+  "Rainbow": [
+    "16898732665",
+    256,
+    514,
+    257
+  ],
+  "ChartColumn": [
+    "16898615143",
+    256,
+    0,
+    257
+  ],
+  "AudioLines": [
+    "16898614755",
+    256,
+    0,
+    0
+  ],
+  "ListChecks": [
+    "16898674482",
+    256,
+    0,
+    514
+  ],
+  "LayoutGrid": [
+    "16898674182",
+    256,
+    514,
+    0
+  ],
+  "MousePointer2": [
+    "16898729337",
+    256,
+    257,
+    257
+  ],
+  "Cloud": [
+    "16898618899",
+    256,
+    257,
+    514
+  ],
+  "WandSparkles": [
+    "16898790791",
+    256,
+    0,
+    257
+  ],
+  "Grid3x3": [
+    "16898672700",
+    256,
+    257,
+    0
+  ],
+  "Atom": [
+    "16898614574",
+    256,
+    514,
+    514
+  ],
+  "Loader": [
+    "16898674684",
+    256,
+    257,
+    257
+  ],
+  "CircleDot": [
+    "16898617884",
+    256,
+    257,
+    257
+  ],
+  "Wifi": [
+    "16898790996",
+    256,
+    514,
+    514
+  ],
+  "Music": [
+    "16898730065",
+    256,
+    0,
+    0
+  ],
+  "Shapes": [
+    "16898734421",
+    256,
+    257,
+    257
+  ],
+  "RefreshCw": [
+    "16898733146",
+    256,
+    257,
+    0
+  ],
+  "Telescope": [
+    "16898788248",
+    256,
+    0,
+    257
+  ],
+  "Box": [
+    "16898616650",
+    256,
+    0,
+    514
+  ],
+  "Globe": [
+    "16898672599",
+    256,
+    257,
+    257
+  ],
+  "Footprints": [
+    "16898671684",
+    256,
+    514,
+    0
+  ],
+  "Radio": [
+    "16898732665",
+    256,
+    514,
+    0
+  ],
+  "Hexagon": [
+    "16898673271",
+    256,
+    257,
+    257
+  ],
+  "Hourglass": [
+    "16898673358",
+    256,
+    514,
+    0
+  ],
+  "Blocks": [
+    "16898615570",
+    256,
+    514,
+    514
+  ],
+  "Layers": [
+    "16898674182",
+    256,
+    257,
+    0
+  ],
+  "Gift": [
+    "16898672316",
+    256,
+    0,
+    0
+  ],
+  "Spade": [
+    "16898735175",
+    256,
+    514,
+    257
+  ],
+  "Backpack": [
+    "16898614755",
+    256,
+    514,
+    257
+  ],
+  "Map": [
+    "16898675359",
+    256,
+    0,
+    514
+  ],
+  "Award": [
+    "16898614755",
+    256,
+    0,
+    257
+  ],
+  "Ticket": [
+    "16898788789",
+    256,
+    0,
+    257
+  ],
+  "Egg": [
+    "16898669689",
+    256,
+    514,
+    514
+  ],
+  "FlaskConical": [
+    "16898670919",
+    256,
+    514,
+    257
+  ],
+  "Shirt": [
+    "16898734664",
+    256,
+    257,
+    257
+  ],
+  "ScrollText": [
+    "16898734065",
+    256,
+    257,
+    257
+  ],
+  "MapPin": [
+    "16898675359",
+    256,
+    514,
+    0
+  ],
+  "Diamond": [
+    "16898669042",
+    256,
+    257,
+    0
+  ],
+  "Disc3": [
+    "16898669271",
+    256,
+    0,
+    257
+  ],
+  "Ruler": [
+    "16898733534",
+    256,
+    514,
+    0
+  ],
+  "UserRound": [
+    "16898790047",
+    256,
+    514,
+    0
+  ],
+  "SlidersHorizontal": [
+    "16898735040",
+    256,
+    0,
+    257
+  ],
+  "Store": [
+    "16898736776",
+    256,
+    514,
+    514
+  ],
+  "Medal": [
+    "16898675673",
+    256,
+    0,
+    0
+  ],
+  "MessageCircle": [
+    "16898675863",
+    256,
+    0,
+    0
+  ],
+  "PawPrint": [
+    "16898731301",
+    256,
+    514,
+    514
+  ],
+  "Flag": [
+    "16898670919",
+    256,
+    0,
+    0
+  ],
+  "Castle": [
+    "16898617325",
+    256,
+    0,
+    257
+  ],
+  "Volume2": [
+    "16898790615",
+    256,
+    257,
+    0
+  ],
+  "CalendarCheck": [
+    "16898616953",
+    256,
+    257,
+    257
+  ],
+  "Server": [
+    "16898734421",
+    256,
+    257,
+    0
+  ],
+  "MessagesSquare": [
+    "16898728402",
+    256,
+    257,
+    514
+  ],
+  "Axe": [
+    "16898614755",
+    256,
+    514,
+    0
+  ],
+  "BellRing": [
+    "16898615428",
+    256,
+    257,
+    257
+  ],
+  "ChevronsUp": [
+    "16898617626",
+    256,
+    257,
+    514
+  ],
+  "UserPlus": [
+    "16898789825",
+    256,
+    0,
+    514
+  ],
+  "TriangleAlert": [
+    "16898789153",
+    256,
+    0,
+    257
+  ],
+  "PackageOpen": [
+    "16898730417",
+    256,
+    514,
+    514
+  ],
+  "MessageSquare": [
+    "16898728402",
+    256,
+    514,
+    257
+  ],
+  "CircleCheck": [
+    "16898617803",
+    256,
+    257,
+    257
+  ],
+  "Siren": [
+    "16898734905",
+    256,
+    257,
+    257
+  ],
+  "Mail": [
+    "16898675156",
+    256,
+    514,
+    514
+  ],
+  "Info": [
+    "16898673523",
+    256,
+    257,
+    257
+  ],
+  "AlarmClock": [
+    "16898612819",
+    256,
+    257,
+    257
+  ],
+  "ShieldCheck": [
+    "16898734564",
+    256,
+    0,
+    257
+  ],
+  "BadgeCheck": [
+    "16898614945",
+    256,
+    0,
+    0
+  ],
+  "Tag": [
+    "16898788033",
+    256,
+    0,
+    257
+  ],
+  "Stamp": [
+    "16898736597",
+    256,
+    257,
+    514
+  ],
+  "Timer": [
+    "16898788789",
+    256,
+    0,
+    514
+  ],
+  "Skull": [
+    "16898734905",
+    256,
+    257,
+    514
+  ],
+  "Ghost": [
+    "16898672166",
+    256,
+    514,
+    514
+  ],
+  "Wrench": [
+    "16898791187",
+    256,
+    514,
+    257
+  ],
+  "Gauge": [
+    "16898672166",
+    256,
+    0,
+    514
+  ],
+  "BatteryCharging": [
+    "16898615240",
+    256,
+    0,
+    257
+  ],
+  "Download": [
+    "16898669562",
+    256,
+    0,
+    0
+  ],
+  "Droplet": [
+    "16898669562",
+    256,
+    0,
+    514
+  ],
+  "Drumstick": [
+    "16898669562",
+    256,
+    514,
+    514
+  ],
+  "Wind": [
+    "16898791187",
+    256,
+    0,
+    0
+  ],
+  "Upload": [
+    "16898789644",
+    256,
+    0,
+    257
+  ],
+  "SunMoon": [
+    "16898736967",
+    256,
+    257,
+    514
+  ],
+  "SquareCheck": [
+    "16898735664",
+    256,
+    514,
+    514
+  ],
+  "BellOff": [
+    "16898615428",
+    256,
+    0,
+    257
+  ],
+  "Lightbulb": [
+    "16898674337",
+    256,
+    514,
+    514
+  ],
+  "Mic": [
+    "16898728659",
+    256,
+    0,
+    257
+  ],
+  "Music2": [
+    "16898729752",
+    256,
+    514,
+    257
+  ],
+  "KeyRound": [
+    "16898673616",
+    256,
+    514,
+    257
+  ],
+  "ShieldHalf": [
+    "16898734564",
+    256,
+    257,
+    257
+  ],
+  "Circle": [
+    "16898618049",
+    256,
+    257,
+    514
+  ],
+  "DoorOpen": [
+    "16898669433",
+    256,
+    514,
+    257
+  ],
+  "Grid2x2": [
+    "16898672700",
+    256,
+    0,
+    0
+  ],
+  "MoveRight": [
+    "16898729752",
+    256,
+    0,
+    0
+  ],
+  "Aperture": [
+    "16898613699",
+    256,
+    257,
+    0
+  ],
+  "Slash": [
+    "16898735040",
+    256,
+    0,
+    0
+  ],
+  "Blinds": [
+    "16898615570",
+    256,
+    257,
+    514
+  ],
+  "BookOpen": [
+    "16898616322",
+    256,
+    0,
+    514
+  ],
+  "ArrowUpDown": [
+    "16898614275",
+    256,
+    514,
+    514
+  ],
+  "MoveUp": [
+    "16898729752",
+    256,
+    514,
+    0
+  ],
+  "Flashlight": [
+    "16898670919",
+    256,
+    257,
+    257
+  ],
+  "MoveLeft": [
+    "16898729572",
+    256,
+    514,
+    514
+  ],
+  "PanelTop": [
+    "16898731166",
+    256,
+    0,
+    257
+  ]
 }
+
+export const iconToAssetId: Record<string, string> = Object.fromEntries(
+  Object.entries(iconToSprite).map(([k, v]) => [k, 'rbxassetid://' + v[0]])
+)
 
 export const assets: Asset[] = Array.from({ length: 200 }, (_, index) => {
   const categoryIndex = index % 10
   const variant = Math.floor(index / 10)
   const [name, description, icon] = catalog[categoryIndex][variant].split('|')
-  return { id: index + 1, name, slug: `${String(index + 1).padStart(3, '0')}-${name.toLowerCase().replaceAll(' ', '-')}`, category: categories[categoryIndex], categoryIndex, variant, archetype: variant % 10, style: Math.floor(variant / 10), icon, hue: (variant * 47 + categoryIndex * 31) % 360, description }
+  return { 
+    id: index + 1, 
+    name, 
+    slug: `${String(index + 1).padStart(3, '0')}-${name.toLowerCase().replaceAll(' ', '-')}`, 
+    category: categories[categoryIndex], 
+    categoryIndex, 
+    variant, 
+    archetype: variant % 10, 
+    style: Math.floor(variant / 10), 
+    icon, 
+    hue: (variant * 47 + categoryIndex * 31) % 360, 
+    description 
+  }
 })
 
 const prelude = (asset: Asset, custom?: CustomConfig) => {
   const h = custom?.customHue !== undefined ? custom.customHue : (asset.customHue !== undefined ? asset.customHue : asset.hue)
   const iconName = custom?.customIcon || asset.customIcon || asset.icon
-  const assetId = iconToAssetId[iconName] || 'rbxassetid://10709013563'
-  const lbl = custom?.customLabel || asset.customLabel || asset.name.toUpperCase()
+  const sprite = iconToSprite[iconName] || iconToSprite['Sparkles'] || ['16898735175', 256, 514, 514]
+  const lbl = custom?.customLabel || asset.customLabel || buttonLabels[asset.variant] || asset.name.toUpperCase()
   const spd = custom?.customSpeed !== undefined ? custom.customSpeed : (asset.customSpeed !== undefined ? asset.customSpeed : 1)
   return `-- BLOXFX / ${asset.name}  (${asset.category})
 -- ${asset.description}
@@ -184,7 +970,9 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(${(h / 360).toFixed(4)}, 0.78, 0.95)
 local accent2 = Color3.fromHSV(${(((h + 40) % 360) / 360).toFixed(4)}, 0.7, 1)
 local dark = Color3.fromHSV(${(h / 360).toFixed(4)}, 0.55, 0.16)
-local iconAssetId = "${assetId}" -- Real Roblox Vector Asset: ${iconName}
+local iconAssetId = "rbxassetid://${sprite[0]}" -- Real Roblox Vector Asset: ${iconName}
+local iconRectSize = Vector2.new(${sprite[1]}, ${sprite[1]})
+local iconRectOffset = Vector2.new(${sprite[2]}, ${sprite[3]})
 local title = "${lbl.replaceAll('"', '\\\"')}"
 local subtitle = "${asset.description.replaceAll('"', '\\\"')}"
 local speed = ${spd} -- higher = slower
@@ -223,6 +1011,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -239,29 +1029,78 @@ local clickSound = make("Sound", {
 `
 }
 
-// Each builder creates category-specific objects, then exposes: root, icon, shine, scale, gradient, stroke.
 const builders: ((a: Asset) => string)[] = [
-  () => `-- BUTTON
-local root = make("TextButton", center(UDim2.fromOffset(280, 76)), gui)
+  (a: Asset) => {
+    const isDark = a.archetype === 4 || a.archetype === 6 || a.archetype === 7 || a.style === 1;
+    return `-- BUTTON (Pill shape, auto-centered Icon + Label)
+local isDark = ${isDark}
+local root = make("TextButton", center(UDim2.fromOffset(260, 68)), gui)
 root.Text = ""
 root.AutoButtonColor = false
 root.ClipsDescendants = true
-root.BackgroundColor3 = accent
-round(root, ${'\${radius}'})
+root.BackgroundColor3 = isDark and Color3.fromRGB(21, 22, 29) or accent
+round(root, 34)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
-local stroke = make("UIStroke", {Color = accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
+if isDark then gradient.Enabled = false end
+local stroke = make("UIStroke", {Color = isDark and accent or accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.25, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = Color3.new(1, 1, 1), Size = UDim2.fromOffset(36, 36), Position = UDim2.new(0, 22, 0.5, -18), ZIndex = 3})
-local label = text(root, {Text = "${'\${LABEL}'}", TextSize = 22, Size = UDim2.new(1, -85, 1, 0), Position = UDim2.fromOffset(68, 0), TextXAlignment = Enum.TextXAlignment.Left, ZIndex = 3})
-root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.06}):Play() end)
+local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
+
+${a.archetype === 7 ? `local fill = make("Frame", {Size = UDim2.new(0, 0, 1, 0), Position = UDim2.new(0, 0, 0, 0), BackgroundColor3 = accent, BorderSizePixel = 0, ZIndex = 2}, root)
+round(fill, 34)
+make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)` : ''}
+${a.archetype === 1 ? `local ring1 = make("Frame", center(root.Size), root.Parent)
+round(ring1, 34)
+ring1.BackgroundTransparency = 1
+local ringStroke1 = make("UIStroke", {Color = accent, Thickness = 2.5, Transparency = 0.2}, ring1)
+local ring2 = make("Frame", center(root.Size), root.Parent)
+round(ring2, 34)
+ring2.BackgroundTransparency = 1
+local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 0.2}, ring2)` : ''}
+${a.archetype === 3 ? `local shadow = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 38), Size = UDim2.fromOffset(180, 12), BackgroundColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 0.65, BorderSizePixel = 0}, root.Parent)
+round(shadow, 6)` : ''}
+${a.archetype === 9 ? `local shadowKey = make("Frame", {AnchorPoint = Vector2.new(0.5, 0.5), Position = root.Position + UDim2.fromOffset(0, 6), Size = root.Size, BackgroundColor3 = dark, ZIndex = root.ZIndex - 1}, root.Parent)
+round(shadowKey, 34)` : ''}
+
+local content = make("Frame", {
+	AnchorPoint = Vector2.new(0.5, 0.5),
+	Position = UDim2.fromScale(0.5, 0.5),
+	AutomaticSize = Enum.AutomaticSize.XY,
+	BackgroundTransparency = 1,
+	ZIndex = 4
+}, root)
+make("UIListLayout", {
+	FillDirection = Enum.FillDirection.Horizontal,
+	HorizontalAlignment = Enum.HorizontalAlignment.Center,
+	VerticalAlignment = Enum.VerticalAlignment.Center,
+	Padding = UDim.new(0, 10),
+	SortOrder = Enum.SortOrder.LayoutOrder
+}, content)
+
+local icon = icon(content, {
+	Size = UDim2.fromOffset(26, 26),
+	ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12),
+	LayoutOrder = 1,
+	ZIndex = 4
+})
+local label = text(content, {
+	Text = "__LABEL__",
+	TextSize = 20,
+	TextColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12),
+	AutomaticSize = Enum.AutomaticSize.XY,
+	LayoutOrder = 2,
+	ZIndex = 4
+})
+
+root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
 	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
 	task.wait(0.08)
-	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
-end)`,
+	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
+end)`
+  },
 
   () => `-- BACKGROUND (Full Screen Ambient FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = dark, BorderSizePixel = 0, ClipsDescendants = true, Active = false}, gui)
@@ -272,7 +1111,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.5), Position = UDim2.
 local icon = icon(root, center(UDim2.fromOffset(120, 120)))
 icon.ImageColor3 = accent2
 icon.ImageTransparency = 0.35
-local random = Random.new(${'\${seed}'})
+local random = Random.new(__SEED__)
 for index = 1, 24 do
 	local size = random:NextInteger(8, 26)
 	local pFrame = make("Frame", {Size = UDim2.fromOffset(size, size), Position = UDim2.fromScale(random:NextNumber(), 1.05), BackgroundTransparency = 0.5, BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
@@ -306,7 +1145,7 @@ for i = 1, 4 do
 	local dot = make("Frame", {Size = UDim2.fromOffset(14, 14), AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.new(0.5 + math.cos(angle) * 0.48, 0, 0.5 + math.sin(angle) * 0.48, 0), BackgroundColor3 = accent2}, orbit)
 	round(dot, 7)
 end
-text(gui, {Text = "${'\${LABEL}'}", TextSize = 16, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), Size = UDim2.fromOffset(220, 24), TextColor3 = accent2})
+text(gui, {Text = "__LABEL__", TextSize = 16, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), Size = UDim2.fromOffset(220, 24), TextColor3 = accent2})
 task.spawn(function()
 	while gui.Parent do
 		local tw = TweenService:Create(orbit, TweenInfo.new(2.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
@@ -325,9 +1164,9 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 70, Transparency = NumberSequence.new(0.2, 0)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 22, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.78, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 150), ZIndex = 3})
-text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 190), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})`,
+local icon = icon(root, {Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "__LABEL__", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 140), ZIndex = 3})
+text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 180), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})`,
 
   () => `-- PANEL
 local root = make("Frame", center(UDim2.fromOffset(440, 300)), gui)
@@ -338,8 +1177,8 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 90, Transparency = NumberSequence.new(0, 0.75)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 1.8), Position = UDim2.fromScale(-0.4, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.85, BorderSizePixel = 0, ZIndex = 5}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(36, 36), Position = UDim2.fromOffset(16, 14), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(60, 14), TextXAlignment = Enum.TextXAlignment.Left})
+local icon = icon(root, {Size = UDim2.fromOffset(32, 32), Position = UDim2.fromOffset(16, 16), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "__LABEL__", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(56, 14), TextXAlignment = Enum.TextXAlignment.Left})
 local slots = {}
 for index = 0, 7 do
 	local slot = make("Frame", {Size = UDim2.fromOffset(92, 92), Position = UDim2.fromOffset(16 + (index % 4) * 105, 68 + math.floor(index / 4) * 105), BackgroundColor3 = accent, BackgroundTransparency = 0.75}, root)
@@ -368,8 +1207,8 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 0, Transparency = NumberSequence.new(0.35, 0)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.75, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(46, 46), Position = UDim2.fromOffset(16, 20), ZIndex = 3})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
+local icon = icon(root, {Size = UDim2.fromOffset(44, 44), Position = UDim2.fromOffset(16, 20), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "__LABEL__", TextSize = 19, Size = UDim2.new(1, -85, 0, 26), Position = UDim2.fromOffset(72, 16), TextXAlignment = Enum.TextXAlignment.Left})
 text(root, {Text = subtitle, TextSize = 12, Font = Enum.Font.Gotham, TextTransparency = 0.3, TextWrapped = true, Size = UDim2.new(1, -85, 0, 36), Position = UDim2.fromOffset(72, 44), TextXAlignment = Enum.TextXAlignment.Left, TextYAlignment = Enum.TextYAlignment.Top})
 local timer = make("Frame", {Size = UDim2.new(1, 0, 0, 4), Position = UDim2.new(0, 0, 1, -4), BackgroundColor3 = accent2, BorderSizePixel = 0}, root)
 task.spawn(function()
@@ -388,15 +1227,15 @@ end)`,
 local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)
 root.BackgroundColor3 = accent
 root.ClipsDescendants = true
-round(root, ${'\${radius}'})
+round(root, __RADIUS__)
 local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+local icon = icon(root, center(UDim2.fromOffset(68, 68)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
-text(gui, {Text = "${'\${LABEL}'}", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})`,
+text(gui, {Text = "__LABEL__", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})`,
 
   () => `-- PROGRESS BAR
 local root = make("Frame", center(UDim2.fromOffset(440, 44)), gui)
@@ -409,8 +1248,8 @@ local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = a
 round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
-text(root, {Text = "${'\${LABEL}'}", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
+local icon = icon(gui, {Size = UDim2.fromOffset(38, 38), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0), ImageColor3 = accent2})
+text(root, {Text = "__LABEL__", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)`,
 
   () => `-- TOGGLE (Interactive switch)
@@ -447,7 +1286,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.12, 1.6), Position = UDim2
 local icon = icon(root, center(UDim2.fromOffset(130, 130)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 11
-text(root, {Text = "${'\${LABEL}'}", TextSize = 28, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 95), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
+text(root, {Text = "__LABEL__", TextSize = 28, AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 95), Size = UDim2.fromOffset(400, 40), ZIndex = 11})
 task.spawn(function()
 	while gui.Parent do
 		root.Position = UDim2.fromScale(-1, 0)
@@ -456,16 +1295,15 @@ task.spawn(function()
 		TweenService:Create(root, TweenInfo.new(0.75 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Position = UDim2.fromScale(1, 0)}):Play()
 		task.wait(2.2 * speed)
 	end
-end)`,
+end)`
 ]
 
-// Looping motion chosen by archetype matching web preview
 const motions = [
   `-- Continuous Silk Shine Sweep
 task.spawn(function()
 	while gui.Parent do
-		shine.Position = UDim2.fromScale(-0.6, -0.3)
-		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.3)})
+		shine.Position = UDim2.fromScale(-0.6, -0.4)
+		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
 		tw:Play()
 		tw.Completed:Wait()
 		task.wait(1.2 * speed)
@@ -473,62 +1311,69 @@ task.spawn(function()
 end)`,
 
   `-- Neon Pulse Rings + Heartbeat
-local pRing = make("Frame", center(root.Size), root.Parent)
-round(pRing, 16)
-pRing.BackgroundTransparency = 1
-local pStroke = make("UIStroke", {Color = accent2, Thickness = 3, Transparency = 0.2}, pRing)
 task.spawn(function()
 	while gui.Parent do
-		pRing.Size = root.Size
-		pStroke.Transparency = 0.2
-		local t1 = TweenService:Create(pRing, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(40, 24)})
-		local t2 = TweenService:Create(pStroke, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1})
-		local tBeat = TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.07})
-		t1:Play() t2:Play() tBeat:Play()
+		ring1.Size = root.Size
+		ringStroke1.Transparency = 0.2
+		TweenService:Create(ring1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
 		task.wait(0.2 * speed)
 		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
-		task.wait(1.1 * speed)
+		task.wait(0.4 * speed)
+		
+		ring2.Size = root.Size
+		ringStroke2.Transparency = 0.2
+		TweenService:Create(ring2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		task.wait(0.8 * speed)
 	end
 end)`,
 
   `-- Expanding Ripple Burst Loops
 task.spawn(function()
 	while gui.Parent do
-		local rip = make("Frame", {
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			Size = UDim2.fromOffset(12, 12),
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BackgroundTransparency = 0.35,
-			ZIndex = 2
-		}, root)
-		round(rip, 100)
-		local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			Size = UDim2.fromOffset(340, 340),
-			BackgroundTransparency = 1
-		})
-		t:Play()
-		t.Completed:Connect(function() rip:Destroy() end)
-		task.wait(1.3 * speed)
+		for i = 1, 2 do
+			local rip = make("Frame", {
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				Position = UDim2.fromScale(0.5, 0.5),
+				Size = UDim2.fromOffset(12, 12),
+				BackgroundColor3 = Color3.new(1, 1, 1),
+				BackgroundTransparency = 0.35,
+				ZIndex = 3
+			}, root)
+			round(rip, 100)
+			local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+				Size = UDim2.fromOffset(320, 320),
+				BackgroundTransparency = 1
+			})
+			t:Play()
+			t.Completed:Connect(function() rip:Destroy() end)
+			task.wait(0.22 * speed)
+		end
+		task.wait(1.4 * speed)
 	end
 end)`,
 
-  `-- Gentle Levitation Float
+  `-- Gentle Levitation Float with Floor Shadow
 task.spawn(function()
 	local origPos = root.Position
 	while gui.Parent do
-		local up = TweenService:Create(root, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos - UDim2.fromOffset(0, 10)})
-		local iconTilt = TweenService:Create(icon, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = 8})
-		up:Play() iconTilt:Play()
+		local up = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos - UDim2.fromOffset(0, 10)})
+		local tilt = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = 8})
+		local shShrink = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(140, 8), BackgroundTransparency = 0.85})
+		up:Play() tilt:Play() shShrink:Play()
 		up.Completed:Wait()
-		local down = TweenService:Create(root, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos})
-		local iconTiltBack = TweenService:Create(icon, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = -4})
-		down:Play() iconTiltBack:Play()
+		
+		local down = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos})
+		local tiltBack = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = -4})
+		local shGrow = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(180, 12), BackgroundTransparency = 0.65})
+		down:Play() tiltBack:Play() shGrow:Play()
 		down.Completed:Wait()
 	end
 end)`,
 
-  `-- Rotating Border Aura
+  `-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
@@ -549,61 +1394,82 @@ task.spawn(function()
 	end
 end)`,
 
-  `-- Squishy Jelly Bounce
+  `-- Squishy Jelly Bounce & Icon Wobble
 task.spawn(function()
 	while gui.Parent do
-		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.08}):Play()
+		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.09}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Rotation = 12}):Play()
 		task.wait(0.35 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
-		task.wait(0.55 * speed)
+		TweenService:Create(scale, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.93}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Rotation = -12}):Play()
+		task.wait(0.45 * speed)
 		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Rotation = 0}):Play()
 		task.wait(1.4 * speed)
 	end
 end)`,
 
-  `-- Digital Glitch Twitch
+  `-- Digital Glitch Split Twitch
 task.spawn(function()
-	local origPos = icon.Position
+	local origPos = root.Position
 	while gui.Parent do
 		task.wait(2.2 * speed)
 		for i = 1, 6 do
 			local off = (i % 2 == 0) and 4 or -4
-			icon.Position = origPos + UDim2.fromOffset(off, 0)
-			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
+			root.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
 			task.wait(0.04)
 		end
-		icon.Position = origPos
-		icon.ImageColor3 = Color3.new(1, 1, 1)
+		root.Position = origPos
+		icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
 	end
 end)`,
 
-  `-- High-Energy Color Flood
+  `-- High-Energy Color Flood (Fill Rush)
 task.spawn(function()
 	while gui.Parent do
-		shine.Size = UDim2.fromScale(0.1, 1.6)
-		shine.Position = UDim2.fromScale(-0.4, -0.3)
-		local tw = TweenService:Create(shine, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.fromScale(1.8, 1.6), Position = UDim2.fromScale(-0.1, -0.3)})
-		tw:Play()
-		tw.Completed:Wait()
-		task.wait(0.4 * speed)
-		TweenService:Create(shine, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromScale(0, 1.6), Position = UDim2.fromScale(1.4, -0.3)}):Play()
-		task.wait(1.5 * speed)
+		fill.AnchorPoint = Vector2.new(0, 0)
+		fill.Position = UDim2.new(0, 0, 0, 0)
+		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+		task.wait(0.2 * speed)
+		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+		task.wait(0.7 * speed)
+		
+		fill.AnchorPoint = Vector2.new(1, 0)
+		fill.Position = UDim2.new(1, 0, 0, 0)
+		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 1, 0)}):Play()
+		task.wait(0.25 * speed)
+		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.new(1, 1, 1)}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.new(1, 1, 1)}):Play()
+		task.wait(0.8 * speed)
 	end
 end)`,
 
-  `-- Rocket Launch Pad Lift
+  `-- Rocket Launch Pad Lift & Recoil
 task.spawn(function()
 	local origPos = icon.Position
 	while gui.Parent do
 		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Position = origPos - UDim2.fromOffset(0, 45), ImageTransparency = 1})
+		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+			Position = origPos + UDim2.fromOffset(46, -34),
+			ImageTransparency = 1,
+			Rotation = 25
+		})
 		blast:Play()
 		blast.Completed:Wait()
-		icon.Position = origPos + UDim2.fromOffset(0, 35)
-		icon.ImageTransparency = 1
-		local enter = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = origPos, ImageTransparency = 0})
-		enter:Play()
-		enter.Completed:Wait()
+		
+		icon.Position = origPos + UDim2.fromOffset(-46, 34)
+		icon.Rotation = -15
+		icon.ImageTransparency = 0.6
+		
+		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			Position = origPos,
+			ImageTransparency = 0,
+			Rotation = 0
+		})
+		land:Play()
+		land.Completed:Wait()
 	end
 end)`,
 
@@ -611,22 +1477,25 @@ end)`,
 task.spawn(function()
 	local origPos = root.Position
 	while gui.Parent do
-		task.wait(1.6 * speed)
-		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 6)}):Play()
+		task.wait(1.8 * speed)
+		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 5)}):Play()
 		task.wait(0.14 * speed)
-		TweenService:Create(root, TweenInfo.new(0.16 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
+		TweenService:Create(root, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
 	end
-end)`,
+end)`
 ]
 
 export function scriptFor(asset: Asset, custom?: CustomConfig) {
   const c = asset.categoryIndex
   const radius = c === 6 ? (asset.style ? 75 : 28) : asset.style ? 38 : 14
-  const label = custom?.customLabel || asset.customLabel || buttonLabels[asset.variant]
+  const label = custom?.customLabel || asset.customLabel || buttonLabels[asset.variant] || asset.name.toUpperCase()
   const body = builders[c](asset)
-    .replace('${radius}', String(radius))
-    .replace('${LABEL}', label)
-    .replace('${seed}', String(asset.id * 17))
+    .replaceAll('__RADIUS__', String(radius))
+    .replaceAll('__LABEL__', label)
+    .replaceAll('__SEED__', String(asset.id * 17))
+    .replaceAll('${radius}', String(radius))
+    .replaceAll('${LABEL}', label)
+    .replaceAll('${seed}', String(asset.id * 17))
   const motion = asset.archetype === 3 && [1, 5, 9].includes(c) ? 'loop(icon, {Rotation = 10}, 1.1)' : motions[asset.archetype]
   return `${prelude(asset, custom)}
 ${body}

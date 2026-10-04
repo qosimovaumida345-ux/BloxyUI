@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.6083, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.7194, 0.7, 1)
 local dark = Color3.fromHSV(0.6083, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709007809" -- Real Roblox Vector Asset: Waves
-local title = "DEEP WAVES"
+local iconAssetId = "rbxassetid://16898790791" -- Real Roblox Vector Asset: Waves
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 514)
+local title = "EXPLORE"
 local subtitle = "Layered tides rolling past."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -89,7 +93,7 @@ for index = 1, 24 do
 end
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

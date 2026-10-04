@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.4306, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.5417, 0.7, 1)
 local dark = Color3.fromHSV(0.4306, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709002466" -- Real Roblox Vector Asset: Upload
-local title = "UPLOAD RUN"
+local iconAssetId = "rbxassetid://16898789644" -- Real Roblox Vector Asset: Upload
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 257)
+local title = "DISCOVER"
 local subtitle = "An upload with a rising arrow."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -72,12 +76,12 @@ local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = a
 round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+local icon = icon(gui, {Size = UDim2.fromOffset(38, 38), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0), ImageColor3 = accent2})
 text(root, {Text = "DISCOVER", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

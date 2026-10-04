@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.8667, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.9778, 0.7, 1)
 local dark = Color3.fromHSV(0.8667, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709004110" -- Real Roblox Vector Asset: Store
-local title = "ITEM SHOP"
+local iconAssetId = "rbxassetid://16898736776" -- Real Roblox Vector Asset: Store
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 514)
+local title = "EXPLORE"
 local subtitle = "Wares glowing in turn."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,8 +74,8 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 90, Transparency = NumberSequence.new(0, 0.75)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.2, 1.8), Position = UDim2.fromScale(-0.4, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.85, BorderSizePixel = 0, ZIndex = 5}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(36, 36), Position = UDim2.fromOffset(16, 14), ZIndex = 3})
-text(root, {Text = "EXPLORE", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(60, 14), TextXAlignment = Enum.TextXAlignment.Left})
+local icon = icon(root, {Size = UDim2.fromOffset(32, 32), Position = UDim2.fromOffset(16, 16), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "EXPLORE", TextSize = 20, Size = UDim2.new(1, -70, 0, 36), Position = UDim2.fromOffset(56, 14), TextXAlignment = Enum.TextXAlignment.Left})
 local slots = {}
 for index = 0, 7 do
 	local slot = make("Frame", {Size = UDim2.fromOffset(92, 92), Position = UDim2.fromOffset(16 + (index % 4) * 105, 68 + math.floor(index / 4) * 105), BackgroundColor3 = accent, BackgroundTransparency = 0.75}, root)
@@ -94,7 +98,7 @@ task.spawn(function()
 end)
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

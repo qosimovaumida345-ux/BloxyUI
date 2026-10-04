@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.9972, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.1083, 0.7, 1)
 local dark = Color3.fromHSV(0.9972, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709032606" -- Real Roblox Vector Asset: Rocket
-local title = "FOUNDER STICKER"
+local iconAssetId = "rbxassetid://16898733317" -- Real Roblox Vector Asset: Rocket
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "CONTINUE"
 local subtitle = "A shimmering founder tag."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,7 +74,7 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+local icon = icon(root, center(UDim2.fromOffset(68, 68)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
 text(gui, {Text = "CONTINUE", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
@@ -80,9 +84,9 @@ text(gui, {Text = "CONTINUE", TextSize = 16, Size = UDim2.fromOffset(260, 26), A
 task.spawn(function()
 	local origPos = root.Position
 	while gui.Parent do
-		task.wait(1.6 * speed)
-		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 6)}):Play()
+		task.wait(1.8 * speed)
+		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 5)}):Play()
 		task.wait(0.14 * speed)
-		TweenService:Create(root, TweenInfo.new(0.16 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
+		TweenService:Create(root, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
 	end
 end)

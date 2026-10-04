@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.3028, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.4139, 0.7, 1)
 local dark = Color3.fromHSV(0.3028, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709007672" -- Real Roblox Vector Asset: Trophy
-local title = "LOOT BURST"
+local iconAssetId = "rbxassetid://16898789153" -- Real Roblox Vector Asset: Trophy
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "SEND"
 local subtitle = "Rays spin behind the prize."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,23 +74,34 @@ local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMod
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, dark), Rotation = 70, Transparency = NumberSequence.new(0.2, 0)}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.3, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 22, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.78, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ZIndex = 3})
-text(root, {Text = "SEND", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 150), ZIndex = 3})
-text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 190), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})
+local icon = icon(root, {Size = UDim2.fromOffset(72, 72), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0, 42), ImageColor3 = accent2, ZIndex = 3})
+text(root, {Text = "SEND", TextSize = 22, Size = UDim2.new(1, -30, 0, 32), Position = UDim2.fromOffset(15, 140), ZIndex = 3})
+text(root, {Text = subtitle, TextSize = 13, TextWrapped = true, Font = Enum.Font.Gotham, TextTransparency = 0.25, Size = UDim2.new(1, -40, 0, 80), Position = UDim2.fromOffset(20, 180), TextYAlignment = Enum.TextYAlignment.Top, ZIndex = 3})
 
 -- MOTION
--- Rocket Launch Pad Lift
+-- Rocket Launch Pad Lift & Recoil
 task.spawn(function()
 	local origPos = icon.Position
 	while gui.Parent do
 		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Position = origPos - UDim2.fromOffset(0, 45), ImageTransparency = 1})
+		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+			Position = origPos + UDim2.fromOffset(46, -34),
+			ImageTransparency = 1,
+			Rotation = 25
+		})
 		blast:Play()
 		blast.Completed:Wait()
-		icon.Position = origPos + UDim2.fromOffset(0, 35)
-		icon.ImageTransparency = 1
-		local enter = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = origPos, ImageTransparency = 0})
-		enter:Play()
-		enter.Completed:Wait()
+		
+		icon.Position = origPos + UDim2.fromOffset(-46, 34)
+		icon.Rotation = -15
+		icon.ImageTransparency = 0.6
+		
+		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			Position = origPos,
+			ImageTransparency = 0,
+			Rotation = 0
+		})
+		land:Play()
+		land.Completed:Wait()
 	end
 end)

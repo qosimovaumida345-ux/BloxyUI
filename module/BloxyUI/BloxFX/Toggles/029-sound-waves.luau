@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.9500, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.0611, 0.7, 1)
 local dark = Color3.fromHSV(0.9500, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709001644" -- Real Roblox Vector Asset: Volume2
-local title = "SOUND WAVES"
+local iconAssetId = "rbxassetid://16898790615" -- Real Roblox Vector Asset: Volume2
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 0)
+local title = "CLICK ME"
 local subtitle = "Speaker waves appearing."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -90,21 +94,24 @@ task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end
 -- Expanding Ripple Burst Loops
 task.spawn(function()
 	while gui.Parent do
-		local rip = make("Frame", {
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			Size = UDim2.fromOffset(12, 12),
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BackgroundTransparency = 0.35,
-			ZIndex = 2
-		}, root)
-		round(rip, 100)
-		local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			Size = UDim2.fromOffset(340, 340),
-			BackgroundTransparency = 1
-		})
-		t:Play()
-		t.Completed:Connect(function() rip:Destroy() end)
-		task.wait(1.3 * speed)
+		for i = 1, 2 do
+			local rip = make("Frame", {
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				Position = UDim2.fromScale(0.5, 0.5),
+				Size = UDim2.fromOffset(12, 12),
+				BackgroundColor3 = Color3.new(1, 1, 1),
+				BackgroundTransparency = 0.35,
+				ZIndex = 3
+			}, root)
+			round(rip, 100)
+			local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+				Size = UDim2.fromOffset(320, 320),
+				BackgroundTransparency = 1
+			})
+			t:Play()
+			t.Completed:Connect(function() rip:Destroy() end)
+			task.wait(0.22 * speed)
+		end
+		task.wait(1.4 * speed)
 	end
 end)

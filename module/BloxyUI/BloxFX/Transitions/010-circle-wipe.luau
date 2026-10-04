@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7750, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8861, 0.7, 1)
 local dark = Color3.fromHSV(0.7750, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Circle
-local title = "CIRCLE WIPE"
+local iconAssetId = "rbxassetid://16898618049" -- Real Roblox Vector Asset: Circle
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 514)
+local title = "POWER UP"
 local subtitle = "A circle growing to reveal."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -85,8 +89,8 @@ end)
 -- Continuous Silk Shine Sweep
 task.spawn(function()
 	while gui.Parent do
-		shine.Position = UDim2.fromScale(-0.6, -0.3)
-		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.3)})
+		shine.Position = UDim2.fromScale(-0.6, -0.4)
+		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
 		tw:Play()
 		tw.Completed:Wait()
 		task.wait(1.2 * speed)

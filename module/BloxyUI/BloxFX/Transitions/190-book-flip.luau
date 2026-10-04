@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1250, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2361, 0.7, 1)
 local dark = Color3.fromHSV(0.1250, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: BookOpen
-local title = "BOOK FLIP"
+local iconAssetId = "rbxassetid://16898616322" -- Real Roblox Vector Asset: BookOpen
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "SEND IT"
 local subtitle = "A page folding the other way."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -82,18 +86,29 @@ task.spawn(function()
 end)
 
 -- MOTION
--- Rocket Launch Pad Lift
+-- Rocket Launch Pad Lift & Recoil
 task.spawn(function()
 	local origPos = icon.Position
 	while gui.Parent do
 		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Position = origPos - UDim2.fromOffset(0, 45), ImageTransparency = 1})
+		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+			Position = origPos + UDim2.fromOffset(46, -34),
+			ImageTransparency = 1,
+			Rotation = 25
+		})
 		blast:Play()
 		blast.Completed:Wait()
-		icon.Position = origPos + UDim2.fromOffset(0, 35)
-		icon.ImageTransparency = 1
-		local enter = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = origPos, ImageTransparency = 0})
-		enter:Play()
-		enter.Completed:Wait()
+		
+		icon.Position = origPos + UDim2.fromOffset(-46, 34)
+		icon.Rotation = -15
+		icon.ImageTransparency = 0.6
+		
+		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			Position = origPos,
+			ImageTransparency = 0,
+			Rotation = 0
+		})
+		land:Play()
+		land.Completed:Wait()
 	end
 end)

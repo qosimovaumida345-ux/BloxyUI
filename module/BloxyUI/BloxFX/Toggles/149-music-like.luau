@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5167, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6278, 0.7, 1)
 local dark = Color3.fromHSV(0.5167, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709007809" -- Real Roblox Vector Asset: Music2
-local title = "MUSIC LIKE"
+local iconAssetId = "rbxassetid://16898729752" -- Real Roblox Vector Asset: Music2
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 257)
+local title = "DISCOVER"
 local subtitle = "A note bursting out on toggle."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -87,7 +91,7 @@ root.Activated:Connect(function() set(not on) end)
 task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

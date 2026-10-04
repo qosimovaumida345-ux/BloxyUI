@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1750, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2861, 0.7, 1)
 local dark = Color3.fromHSV(0.1750, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: SunMedium
-local title = "SOLAR FLARE"
+local iconAssetId = "rbxassetid://16898736967" -- Real Roblox Vector Asset: SunMedium
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 257)
+local title = "JOIN SERVER"
 local subtitle = "Pulsing rays with a warm glow."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -89,18 +93,18 @@ for index = 1, 24 do
 end
 
 -- MOTION
--- Digital Glitch Twitch
+-- Digital Glitch Split Twitch
 task.spawn(function()
-	local origPos = icon.Position
+	local origPos = root.Position
 	while gui.Parent do
 		task.wait(2.2 * speed)
 		for i = 1, 6 do
 			local off = (i % 2 == 0) and 4 or -4
-			icon.Position = origPos + UDim2.fromOffset(off, 0)
-			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
+			root.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
 			task.wait(0.04)
 		end
-		icon.Position = origPos
-		icon.ImageColor3 = Color3.new(1, 1, 1)
+		root.Position = origPos
+		icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
 	end
 end)

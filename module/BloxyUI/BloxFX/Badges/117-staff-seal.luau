@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.9528, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.0639, 0.7, 1)
 local dark = Color3.fromHSV(0.9528, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Stamp
-local title = "STAFF SEAL"
+local iconAssetId = "rbxassetid://16898736597" -- Real Roblox Vector Asset: Stamp
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 514)
+local title = "LIKE"
 local subtitle = "A spinning ring around a seal."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,27 +74,28 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+local icon = icon(root, center(UDim2.fromOffset(68, 68)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
 text(gui, {Text = "LIKE", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
 -- Neon Pulse Rings + Heartbeat
-local pRing = make("Frame", center(root.Size), root.Parent)
-round(pRing, 16)
-pRing.BackgroundTransparency = 1
-local pStroke = make("UIStroke", {Color = accent2, Thickness = 3, Transparency = 0.2}, pRing)
 task.spawn(function()
 	while gui.Parent do
-		pRing.Size = root.Size
-		pStroke.Transparency = 0.2
-		local t1 = TweenService:Create(pRing, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(40, 24)})
-		local t2 = TweenService:Create(pStroke, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1})
-		local tBeat = TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.07})
-		t1:Play() t2:Play() tBeat:Play()
+		ring1.Size = root.Size
+		ringStroke1.Transparency = 0.2
+		TweenService:Create(ring1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
 		task.wait(0.2 * speed)
 		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
-		task.wait(1.1 * speed)
+		task.wait(0.4 * speed)
+		
+		ring2.Size = root.Size
+		ringStroke2.Transparency = 0.2
+		TweenService:Create(ring2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		task.wait(0.8 * speed)
 	end
 end)

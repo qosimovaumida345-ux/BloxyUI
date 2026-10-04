@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1694, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2806, 0.7, 1)
 local dark = Color3.fromHSV(0.1694, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709032606" -- Real Roblox Vector Asset: Rocket
-local title = "FUEL GAUGE"
+local iconAssetId = "rbxassetid://16898733317" -- Real Roblox Vector Asset: Rocket
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "IGNITE"
 local subtitle = "A circular fuel gauge."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -72,7 +76,7 @@ local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = a
 round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+local icon = icon(gui, {Size = UDim2.fromOffset(38, 38), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0), ImageColor3 = accent2})
 text(root, {Text = "IGNITE", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
@@ -80,21 +84,24 @@ loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 -- Expanding Ripple Burst Loops
 task.spawn(function()
 	while gui.Parent do
-		local rip = make("Frame", {
-			AnchorPoint = Vector2.new(0.5, 0.5),
-			Position = UDim2.fromScale(0.5, 0.5),
-			Size = UDim2.fromOffset(12, 12),
-			BackgroundColor3 = Color3.new(1, 1, 1),
-			BackgroundTransparency = 0.35,
-			ZIndex = 2
-		}, root)
-		round(rip, 100)
-		local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-			Size = UDim2.fromOffset(340, 340),
-			BackgroundTransparency = 1
-		})
-		t:Play()
-		t.Completed:Connect(function() rip:Destroy() end)
-		task.wait(1.3 * speed)
+		for i = 1, 2 do
+			local rip = make("Frame", {
+				AnchorPoint = Vector2.new(0.5, 0.5),
+				Position = UDim2.fromScale(0.5, 0.5),
+				Size = UDim2.fromOffset(12, 12),
+				BackgroundColor3 = Color3.new(1, 1, 1),
+				BackgroundTransparency = 0.35,
+				ZIndex = 3
+			}, root)
+			round(rip, 100)
+			local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+				Size = UDim2.fromOffset(320, 320),
+				BackgroundTransparency = 1
+			})
+			t:Play()
+			t.Completed:Connect(function() rip:Destroy() end)
+			task.wait(0.22 * speed)
+		end
+		task.wait(1.4 * speed)
 	end
 end)

@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.3861, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.4972, 0.7, 1)
 local dark = Color3.fromHSV(0.3861, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709009042" -- Real Roblox Vector Asset: Skull
-local title = "BOSS BAR"
+local iconAssetId = "rbxassetid://16898734905" -- Real Roblox Vector Asset: Skull
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 514)
+local title = "JOIN GAME"
 local subtitle = "A menacing bar draining in steps."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -72,23 +76,23 @@ local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = a
 round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+local icon = icon(gui, {Size = UDim2.fromOffset(38, 38), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0), ImageColor3 = accent2})
 text(root, {Text = "JOIN GAME", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
 -- MOTION
--- Digital Glitch Twitch
+-- Digital Glitch Split Twitch
 task.spawn(function()
-	local origPos = icon.Position
+	local origPos = root.Position
 	while gui.Parent do
 		task.wait(2.2 * speed)
 		for i = 1, 6 do
 			local off = (i % 2 == 0) and 4 or -4
-			icon.Position = origPos + UDim2.fromOffset(off, 0)
-			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 75, 75) or Color3.fromRGB(80, 220, 255)
+			root.Position = origPos + UDim2.fromOffset(off, 0)
+			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
 			task.wait(0.04)
 		end
-		icon.Position = origPos
-		icon.ImageColor3 = Color3.new(1, 1, 1)
+		root.Position = origPos
+		icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
 	end
 end)

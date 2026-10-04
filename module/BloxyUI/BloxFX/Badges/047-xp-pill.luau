@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.0389, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.1500, 0.7, 1)
 local dark = Color3.fromHSV(0.0389, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709001096" -- Real Roblox Vector Asset: Star
-local title = "XP PILL"
+local iconAssetId = "rbxassetid://16898736776" -- Real Roblox Vector Asset: Star
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 0)
+local title = "EXPLORE"
 local subtitle = "A fill sliding in beside a star."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,13 +74,13 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+local icon = icon(root, center(UDim2.fromOffset(68, 68)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
 text(gui, {Text = "EXPLORE", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

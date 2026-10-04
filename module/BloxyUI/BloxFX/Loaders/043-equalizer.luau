@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.6944, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8056, 0.7, 1)
 local dark = Color3.fromHSV(0.6944, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709007809" -- Real Roblox Vector Asset: Music
-local title = "EQUALIZER"
+local iconAssetId = "rbxassetid://16898730065" -- Real Roblox Vector Asset: Music
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 0)
+local title = "EXPLORE"
 local subtitle = "Bars dancing to the beat."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -88,7 +92,7 @@ task.spawn(function()
 end)
 
 -- MOTION
--- Rotating Border Aura
+-- Rotating Rainbow Border Aura
 local rainbowStroke = make("UIGradient", {
 	Color = ColorSequence.new({
 		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),

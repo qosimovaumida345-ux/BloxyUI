@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.0000, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.1111, 0.7, 1)
 local dark = Color3.fromHSV(0.0000, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709001233" -- Real Roblox Vector Asset: Droplets
-local title = "BUBBLE BLOOM"
+local iconAssetId = "rbxassetid://16898669562" -- Real Roblox Vector Asset: Droplets
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 257)
+local title = "FIGHT"
 local subtitle = "Glowing orbs floating upward."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -89,16 +93,23 @@ for index = 1, 24 do
 end
 
 -- MOTION
--- High-Energy Color Flood
+-- High-Energy Color Flood (Fill Rush)
 task.spawn(function()
 	while gui.Parent do
-		shine.Size = UDim2.fromScale(0.1, 1.6)
-		shine.Position = UDim2.fromScale(-0.4, -0.3)
-		local tw = TweenService:Create(shine, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = UDim2.fromScale(1.8, 1.6), Position = UDim2.fromScale(-0.1, -0.3)})
-		tw:Play()
-		tw.Completed:Wait()
-		task.wait(0.4 * speed)
-		TweenService:Create(shine, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Size = UDim2.fromScale(0, 1.6), Position = UDim2.fromScale(1.4, -0.3)}):Play()
-		task.wait(1.5 * speed)
+		fill.AnchorPoint = Vector2.new(0, 0)
+		fill.Position = UDim2.new(0, 0, 0, 0)
+		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+		task.wait(0.2 * speed)
+		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+		task.wait(0.7 * speed)
+		
+		fill.AnchorPoint = Vector2.new(1, 0)
+		fill.Position = UDim2.new(1, 0, 0, 0)
+		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 1, 0)}):Play()
+		task.wait(0.25 * speed)
+		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.new(1, 1, 1)}):Play()
+		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.new(1, 1, 1)}):Play()
+		task.wait(0.8 * speed)
 	end
 end)

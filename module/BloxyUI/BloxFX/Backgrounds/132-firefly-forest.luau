@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.7833, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.8944, 0.7, 1)
 local dark = Color3.fromHSV(0.7833, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709010275" -- Real Roblox Vector Asset: TreePine
-local title = "FIREFLY FOREST"
+local iconAssetId = "rbxassetid://16898789012" -- Real Roblox Vector Asset: TreePine
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(514, 257)
+local title = "RELAX"
 local subtitle = "Tiny lights blinking in the dark."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end

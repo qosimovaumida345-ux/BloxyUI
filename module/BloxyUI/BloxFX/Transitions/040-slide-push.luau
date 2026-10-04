@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.1667, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.2778, 0.7, 1)
 local dark = Color3.fromHSV(0.1667, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: MoveRight
-local title = "SLIDE PUSH"
+local iconAssetId = "rbxassetid://16898729752" -- Real Roblox Vector Asset: MoveRight
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 0)
+local title = "LAUNCH"
 local subtitle = "One scene pushing another out."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end

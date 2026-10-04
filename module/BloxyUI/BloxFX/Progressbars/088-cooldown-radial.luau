@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.6472, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.7583, 0.7, 1)
 local dark = Color3.fromHSV(0.6472, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709000137" -- Real Roblox Vector Asset: Timer
-local title = "COOLDOWN RADIAL"
+local iconAssetId = "rbxassetid://16898788789" -- Real Roblox Vector Asset: Timer
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 514)
+local title = "SEND"
 local subtitle = "A radial sweep on an ability."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -72,23 +76,34 @@ local fill = make("Frame", {Size = UDim2.fromScale(0.1, 1), BackgroundColor3 = a
 round(fill, 22)
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, fill)
 local shine = make("Frame", {Size = UDim2.fromScale(0.15, 2), Position = UDim2.fromScale(-0.3, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-local icon = icon(gui, {Image = iconAssetId, ImageColor3 = accent2, Size = UDim2.fromOffset(42, 42), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0)})
+local icon = icon(gui, {Size = UDim2.fromOffset(38, 38), AnchorPoint = Vector2.new(1, 0.5), Position = UDim2.new(0.5, -236, 0.5, 0), ImageColor3 = accent2})
 text(root, {Text = "SEND", TextSize = 14, Size = UDim2.fromScale(1, 1), ZIndex = 4})
 loop(fill, {Size = UDim2.fromScale(1, 1)}, 2.5, Enum.EasingStyle.Quad, true)
 
 -- MOTION
--- Rocket Launch Pad Lift
+-- Rocket Launch Pad Lift & Recoil
 task.spawn(function()
 	local origPos = icon.Position
 	while gui.Parent do
 		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Position = origPos - UDim2.fromOffset(0, 45), ImageTransparency = 1})
+		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+			Position = origPos + UDim2.fromOffset(46, -34),
+			ImageTransparency = 1,
+			Rotation = 25
+		})
 		blast:Play()
 		blast.Completed:Wait()
-		icon.Position = origPos + UDim2.fromOffset(0, 35)
-		icon.ImageTransparency = 1
-		local enter = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = origPos, ImageTransparency = 0})
-		enter:Play()
-		enter.Completed:Wait()
+		
+		icon.Position = origPos + UDim2.fromOffset(-46, 34)
+		icon.Rotation = -15
+		icon.ImageTransparency = 0.6
+		
+		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			Position = origPos,
+			ImageTransparency = 0,
+			Rotation = 0
+		})
+		land:Play()
+		land.Completed:Wait()
 	end
 end)

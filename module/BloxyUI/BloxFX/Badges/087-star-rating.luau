@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5611, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6722, 0.7, 1)
 local dark = Color3.fromHSV(0.5611, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709001096" -- Real Roblox Vector Asset: Star
-local title = "STAR RATING"
+local iconAssetId = "rbxassetid://16898736776" -- Real Roblox Vector Asset: Star
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(257, 0)
+local title = "SEND"
 local subtitle = "Stars lighting up in sequence."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -70,24 +74,35 @@ local stroke = make("UIStroke", {Color = accent2, Thickness = 4, ApplyStrokeMode
 local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent), Rotation = 90}, root)
 local scale = make("UIScale", {}, root)
 local shine = make("Frame", {Size = UDim2.fromScale(0.25, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.6, BorderSizePixel = 0, ZIndex = 2}, root)
-local icon = icon(root, center(UDim2.fromOffset(72, 72)))
+local icon = icon(root, center(UDim2.fromOffset(68, 68)))
 icon.ImageColor3 = Color3.new(1, 1, 1)
 icon.ZIndex = 4
 text(gui, {Text = "SEND", TextSize = 16, Size = UDim2.fromOffset(260, 26), AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 105), TextColor3 = accent2})
 
 -- MOTION
--- Rocket Launch Pad Lift
+-- Rocket Launch Pad Lift & Recoil
 task.spawn(function()
 	local origPos = icon.Position
 	while gui.Parent do
 		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.In), {Position = origPos - UDim2.fromOffset(0, 45), ImageTransparency = 1})
+		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+			Position = origPos + UDim2.fromOffset(46, -34),
+			ImageTransparency = 1,
+			Rotation = 25
+		})
 		blast:Play()
 		blast.Completed:Wait()
-		icon.Position = origPos + UDim2.fromOffset(0, 35)
-		icon.ImageTransparency = 1
-		local enter = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Position = origPos, ImageTransparency = 0})
-		enter:Play()
-		enter.Completed:Wait()
+		
+		icon.Position = origPos + UDim2.fromOffset(-46, 34)
+		icon.Rotation = -15
+		icon.ImageTransparency = 0.6
+		
+		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+			Position = origPos,
+			ImageTransparency = 0,
+			Rotation = 0
+		})
+		land:Play()
+		land.Completed:Wait()
 	end
 end)

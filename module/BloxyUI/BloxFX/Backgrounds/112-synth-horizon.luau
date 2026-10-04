@@ -8,8 +8,10 @@ local TweenService = game:GetService("TweenService")
 local accent = Color3.fromHSV(0.5222, 0.78, 0.95)
 local accent2 = Color3.fromHSV(0.6333, 0.7, 1)
 local dark = Color3.fromHSV(0.5222, 0.55, 0.16)
-local iconAssetId = "rbxassetid://10709013563" -- Real Roblox Vector Asset: Sunset
-local title = "SYNTH HORIZON"
+local iconAssetId = "rbxassetid://16898787671" -- Real Roblox Vector Asset: Sunset
+local iconRectSize = Vector2.new(256, 256)
+local iconRectOffset = Vector2.new(0, 257)
+local title = "LIKE"
 local subtitle = "Retro sunset over a moving grid."
 local speed = 1 -- higher = slower
 ---------------------------------------------------------------------
@@ -47,6 +49,8 @@ local function icon(parent, props)
 	props.ScaleType = Enum.ScaleType.Fit
 	if not props.Image or props.Image == "" then
 		props.Image = iconAssetId
+		props.ImageRectSize = iconRectSize
+		props.ImageRectOffset = iconRectOffset
 	end
 	return make("ImageLabel", props, parent)
 end
@@ -90,20 +94,21 @@ end
 
 -- MOTION
 -- Neon Pulse Rings + Heartbeat
-local pRing = make("Frame", center(root.Size), root.Parent)
-round(pRing, 16)
-pRing.BackgroundTransparency = 1
-local pStroke = make("UIStroke", {Color = accent2, Thickness = 3, Transparency = 0.2}, pRing)
 task.spawn(function()
 	while gui.Parent do
-		pRing.Size = root.Size
-		pStroke.Transparency = 0.2
-		local t1 = TweenService:Create(pRing, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(40, 24)})
-		local t2 = TweenService:Create(pStroke, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1})
-		local tBeat = TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.07})
-		t1:Play() t2:Play() tBeat:Play()
+		ring1.Size = root.Size
+		ringStroke1.Transparency = 0.2
+		TweenService:Create(ring1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
 		task.wait(0.2 * speed)
 		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
-		task.wait(1.1 * speed)
+		task.wait(0.4 * speed)
+		
+		ring2.Size = root.Size
+		ringStroke2.Transparency = 0.2
+		TweenService:Create(ring2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
+		TweenService:Create(ringStroke2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+		task.wait(0.8 * speed)
 	end
 end)
