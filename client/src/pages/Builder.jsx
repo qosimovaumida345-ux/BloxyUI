@@ -529,9 +529,9 @@ export default function Builder() {
               <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:16px_16px]" />
 
               {/* The Live Interactive BloxFX Preview Component */}
-              <div key={replayCount} className="relative z-10 w-full flex items-center justify-center">
+              <div key={replayCount} className="relative z-10 w-full max-w-[460px] h-[280px] mx-auto flex items-center justify-center">
                 <Preview 
-                  asset={activeAsset} 
+                  asset={activeAsset || bloxfxAssets[0]} 
                   customHue={customHue}
                   customIcon={customIcon}
                   customLabel={customLabel}
@@ -543,10 +543,10 @@ export default function Builder() {
               {/* Asset Meta Info */}
               <div className="mt-6 text-center z-10">
                 <span className="text-[11px] font-mono uppercase tracking-widest text-[var(--accent-secondary)] block font-bold">
-                  {activeAsset.category} • #{activeAsset.id}
+                  {(activeAsset || bloxfxAssets[0]).category} • #{(activeAsset || bloxfxAssets[0]).id}
                 </span>
-                <h4 className="text-base font-black text-white mt-0.5">{activeAsset.name}</h4>
-                <p className="text-xs text-gray-400 mt-1 max-w-xs">{activeAsset.description}</p>
+                <h4 className="text-base font-black text-white mt-0.5">{(activeAsset || bloxfxAssets[0]).name}</h4>
+                <p className="text-xs text-gray-400 mt-1 max-w-xs">{(activeAsset || bloxfxAssets[0]).description}</p>
               </div>
             </div>
           </div>

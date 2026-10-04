@@ -8,8 +8,8 @@ const range = (n: number) => Array.from({ length: n }, (_, i) => i)
 const rnd = (i: number, s = 1) => { const x = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x) }
 
 export function Ico({ n, size = 18, fill = false }: { n: string; size?: number; fill?: boolean }) {
-  const Cmp = icons[n as keyof typeof icons] || icons.Sparkles
-  return <Cmp size={size} strokeWidth={2} fill={fill ? 'currentColor' : 'none'} />
+  const Cmp = (icons && (icons[n as keyof typeof icons] || icons.Sparkles)) || null
+  return Cmp ? <Cmp size={size} strokeWidth={2} fill={fill ? 'currentColor' : 'none'} /> : <span>✦</span>
 }
 
 const offIcons: Record<string, string> = { Power: 'PowerOff', Volume2: 'VolumeX', Heart: 'HeartOff', Star: 'StarOff', BellOff: 'Bell', Wifi: 'WifiOff', Lightbulb: 'LightbulbOff', Mic: 'MicOff', Camera: 'CameraOff', Eye: 'EyeOff', SunMoon: 'Moon', Lock: 'LockOpen', SquareCheck: 'Square', Gamepad2: 'Gamepad' }
@@ -209,15 +209,22 @@ export function Preview({
   customSpeed?: number
 }) {
   const [run, setRun] = useState(0)
-  const [live, setLive] = useState(false)
+  const [live, setLive] = useState(true)
   const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
+    if (large) {
+      setLive(true)
+      return
+    }
     const node = ref.current
     if (!node) return
-    const observer = new IntersectionObserver(([entry]) => setLive(entry.isIntersecting), { rootMargin: '80px' })
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry) setLive(entry.isIntersecting)
+    }, { rootMargin: '120px' })
     observer.observe(node)
     return () => observer.disconnect()
-  }, [])
+  }, [large])
 
   const effHue = customHue !== undefined ? customHue : (asset.customHue !== undefined ? asset.customHue : asset.hue)
   const effIcon = customIcon || asset.customIcon || asset.icon
@@ -232,9 +239,39 @@ export function Preview({
     customSpeed: effSpeed,
   }
 
-  const Body = bodies[asset.categoryIndex]
-  return <div ref={ref} className={`preview ${large ? 'large' : ''}`} onClick={() => setRun(run + 1)} style={vars({ '--h': effHue, '--v': asset.variant })}>
-    <div key={run} className={`fx fxc-${prefixes[asset.categoryIndex]} fx-${prefixes[asset.categoryIndex]}${asset.archetype} ${large ? 'lg' : ''} ${live ? 'live' : ''}`} data-s={asset.style} style={effSpeed !== 1 ? vars({ animationDuration: `${effSpeed * 2}s` }) : undefined}><Body a={asset.archetype} asset={effectiveAsset} /></div>
-    <span className="preview-hint">Click to replay</span>
-  </div>
+  const Body = bodies[asset.categoryIndex] || bodies[0]
+  const pfx = prefixes[asset.categoryIndex] || prefixes[0]
+
+  return (
+    <div
+      ref={ref}
+      className={`preview ${large ? 'large' : ''}`}
+      onClick={() => setRun(run + 1)}
+      style={{
+        ...vars({ '--h': effHue, '--v': asset.variant }),
+        width: '100%',
+        minWidth: large ? '280px' : '220px',
+        maxWidth: large ? '460px' : '100%',
+        height: large ? '280px' : '180px',
+        position: 'relative',
+        display: 'grid',
+        placeItems: 'center',
+        overflow: 'hidden',
+        background: '#15161d',
+        borderRadius: large ? '16px' : '10px',
+        border: large ? '1px solid rgba(162, 155, 254, 0.3)' : '1px solid rgba(255, 255, 255, 0.06)',
+        boxShadow: large ? '0 12px 40px rgba(0, 0, 0, 0.7), 0 0 35px rgba(108, 92, 231, 0.25)' : 'none',
+      }}
+    >
+      <div
+        key={run}
+        className={`fx fxc-${pfx} fx-${pfx}${asset.archetype} ${large ? 'lg' : ''} ${live ? 'live' : ''}`}
+        data-s={asset.style}
+        style={effSpeed !== 1 ? vars({ animationDuration: `${effSpeed * 2}s` }) : undefined}
+      >
+        <Body a={asset.archetype} asset={effectiveAsset} />
+      </div>
+      <span className="preview-hint">Click to replay</span>
+    </div>
+  )
 }
