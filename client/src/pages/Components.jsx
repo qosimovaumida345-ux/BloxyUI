@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Copy, Check, Sparkles, Box, Layout, Bell, Shield, Sliders, Layers } from 'lucide-react';
 
 const COMPONENTS_CATALOG = [
@@ -295,6 +296,27 @@ function Components() {
         <p className="text-[var(--text-secondary)] mt-1 max-w-2xl">
           BloxyUI is not just buttons! It is a complete design system for Roblox games — modals, cards, HUD topbars, notifications, progress bars, dropdowns, inputs, and tabs.
         </p>
+      </div>
+
+      {/* Visual Constructor Integration Banner */}
+      <div className="mb-8 p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-red-500/20 via-purple-500/20 to-blue-500/20 border border-red-500/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg">
+        <div className="flex items-center gap-3.5">
+          <div className="p-3 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 flex-shrink-0">
+            <Sparkles className="w-5 h-5 animate-pulse" />
+          </div>
+          <div>
+            <h4 className="text-base font-black text-white">All Components Unified in Visual Constructor!</h4>
+            <p className="text-xs text-gray-300">
+              Panels, Health & XP Bars, Buttons, Loot Cards, and Toasts are all now fully interactive with live physics, 16 palettes, and Luau generation.
+            </p>
+          </div>
+        </div>
+        <Link 
+          to="/builder" 
+          className="px-5 py-2.5 bg-gradient-to-r from-[var(--accent-primary)] to-[#ff7675] hover:opacity-90 text-white rounded-xl text-xs font-black transition-all whitespace-nowrap shadow-md hover:scale-105"
+        >
+          Open Visual Constructor →
+        </Link>
       </div>
 
       {/* Grid */}

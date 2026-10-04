@@ -184,18 +184,11 @@ async function handleToolCall(name, args) {
       }
 
       case 'bloxyui_build_ui': {
-        const icon = catalog.icons.find(i => i.slug === args.iconSlug) || null;
-        const effect = catalog.effects.find(e => e.slug === args.effectSlug) || null;
-        const animation = catalog.animations.find(a => a.slug === args.animationSlug) || null;
-        const theme = { name: args.themeSlug, slug: args.themeSlug };
-
         const luauCode = generateLuauCode({
-          componentType: { slug: args.componentSlug, name: args.componentSlug },
-          icon,
-          effect,
-          animation,
-          theme,
-          customOptions: { text: args.customText || 'SHOP' }
+          componentType: args.componentSlug || 'button',
+          text: args.customText || 'SHOP',
+          theme: args.themeSlug || 'cartoony',
+          icon: args.iconSlug || 'shop'
         });
 
         return { content: [{ type: 'text', text: luauCode }] };
