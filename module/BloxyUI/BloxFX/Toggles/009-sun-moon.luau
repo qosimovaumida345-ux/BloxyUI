@@ -88,16 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Continuous Silk Shine Sweep
-task.spawn(function()
-	while gui.Parent do
-		shine.Position = UDim2.fromScale(-0.6, -0.4)
-		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
-		tw:Play()
-		tw.Completed:Wait()
-		task.wait(1.2 * speed)
-	end
-end)

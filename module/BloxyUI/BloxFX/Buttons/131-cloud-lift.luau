@@ -85,6 +85,7 @@ local shadow = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Position = UDim
 round(shadow, 6)
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -115,30 +116,32 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = root.Position
+	local up = TweenService:Create(root, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos - UDim2.fromOffset(0, 14)})
+	local tilt = TweenService:Create(icon, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 14})
+	local shShrink = TweenService:Create(shadow, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(130, 7), BackgroundTransparency = 0.88})
+	up:Play() tilt:Play() shShrink:Play()
+	up.Completed:Wait()
+	
+	local down = TweenService:Create(root, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Position = origPos})
+	local tiltBack = TweenService:Create(icon, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 0})
+	local shGrow = TweenService:Create(shadow, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(180, 12), BackgroundTransparency = 0.65})
+	down:Play() tiltBack:Play() shGrow:Play()
+	down.Completed:Wait()
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Gentle Levitation Float with Floor Shadow
-task.spawn(function()
-	local origPos = root.Position
-	while gui.Parent do
-		local up = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos - UDim2.fromOffset(0, 10)})
-		local tilt = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = 8})
-		local shShrink = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(140, 8), BackgroundTransparency = 0.85})
-		up:Play() tilt:Play() shShrink:Play()
-		up.Completed:Wait()
-		
-		local down = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos})
-		local tiltBack = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = -4})
-		local shGrow = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(180, 12), BackgroundTransparency = 0.65})
-		down:Play() tiltBack:Play() shGrow:Play()
-		down.Completed:Wait()
-	end
 end)

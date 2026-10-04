@@ -88,26 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Rotating Rainbow Border Aura
-local rainbowStroke = make("UIGradient", {
-	Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
-		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
-		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
-		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
-		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
-		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
-	}),
-	Rotation = 0
-}, stroke)
-task.spawn(function()
-	while gui.Parent do
-		local tw = TweenService:Create(rainbowStroke, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
-		tw:Play()
-		tw.Completed:Wait()
-		rainbowStroke.Rotation = 0
-	end
-end)

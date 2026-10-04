@@ -88,32 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Rocket Launch Pad Lift & Recoil
-task.spawn(function()
-	local origPos = icon.Position
-	while gui.Parent do
-		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
-			Position = origPos + UDim2.fromOffset(46, -34),
-			ImageTransparency = 1,
-			Rotation = 25
-		})
-		blast:Play()
-		blast.Completed:Wait()
-		
-		icon.Position = origPos + UDim2.fromOffset(-46, 34)
-		icon.Rotation = -15
-		icon.ImageTransparency = 0.6
-		
-		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-			Position = origPos,
-			ImageTransparency = 0,
-			Rotation = 0
-		})
-		land:Play()
-		land.Completed:Wait()
-	end
-end)

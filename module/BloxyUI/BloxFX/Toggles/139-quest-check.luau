@@ -88,23 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Gentle Levitation Float with Floor Shadow
-task.spawn(function()
-	local origPos = root.Position
-	while gui.Parent do
-		local up = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos - UDim2.fromOffset(0, 10)})
-		local tilt = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = 8})
-		local shShrink = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(140, 8), BackgroundTransparency = 0.85})
-		up:Play() tilt:Play() shShrink:Play()
-		up.Completed:Wait()
-		
-		local down = TweenService:Create(root, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Position = origPos})
-		local tiltBack = TweenService:Create(icon, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Rotation = -4})
-		local shGrow = TweenService:Create(shadow, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut), {Size = UDim2.fromOffset(180, 12), BackgroundTransparency = 0.65})
-		down:Play() tiltBack:Play() shGrow:Play()
-		down.Completed:Wait()
-	end
-end)

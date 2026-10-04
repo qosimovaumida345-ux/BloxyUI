@@ -88,16 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- 3D Mechanical Key Tactile Press
-task.spawn(function()
-	local origPos = root.Position
-	while gui.Parent do
-		task.wait(1.8 * speed)
-		TweenService:Create(root, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 5)}):Play()
-		task.wait(0.14 * speed)
-		TweenService:Create(root, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
-	end
-end)

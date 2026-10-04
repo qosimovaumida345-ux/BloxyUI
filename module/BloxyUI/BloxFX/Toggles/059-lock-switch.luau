@@ -88,20 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Squishy Jelly Bounce & Icon Wobble
-task.spawn(function()
-	while gui.Parent do
-		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Scale = 1.09}):Play()
-		TweenService:Create(icon, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Sine, Enum.EasingDirection.Out), {Rotation = 12}):Play()
-		task.wait(0.35 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 0.93}):Play()
-		TweenService:Create(icon, TweenInfo.new(0.45 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Rotation = -12}):Play()
-		task.wait(0.45 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
-		TweenService:Create(icon, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Rotation = 0}):Play()
-		task.wait(1.4 * speed)
-	end
-end)

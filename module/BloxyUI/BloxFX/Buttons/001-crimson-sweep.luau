@@ -84,6 +84,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2
 
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -114,23 +115,24 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	shine.Position = UDim2.fromScale(-0.6, -0.4)
+	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
+	tw:Play()
+	tw.Completed:Wait()
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Continuous Silk Shine Sweep
-task.spawn(function()
-	while gui.Parent do
-		shine.Position = UDim2.fromScale(-0.6, -0.4)
-		local tw = TweenService:Create(shine, TweenInfo.new(1.1 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
-		tw:Play()
-		tw.Completed:Wait()
-		task.wait(1.2 * speed)
-	end
 end)

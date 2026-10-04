@@ -86,6 +86,7 @@ make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, f
 
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -116,33 +117,33 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	fill.AnchorPoint = Vector2.new(0, 0)
+	fill.Position = UDim2.new(0, 0, 0, 0)
+	TweenService:Create(fill, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+	TweenService:Create(label, TweenInfo.new(0.14 * speed), {TextColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.14 * speed), {ImageColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+	task.wait(0.35 * speed)
+	
+	fill.AnchorPoint = Vector2.new(1, 0)
+	fill.Position = UDim2.new(1, 0, 0, 0)
+	TweenService:Create(fill, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 1, 0)}):Play()
+	TweenService:Create(label, TweenInfo.new(0.14 * speed), {TextColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.14 * speed), {ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)}):Play()
+	task.wait(0.28 * speed)
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- High-Energy Color Flood (Fill Rush)
-task.spawn(function()
-	while gui.Parent do
-		fill.AnchorPoint = Vector2.new(0, 0)
-		fill.Position = UDim2.new(0, 0, 0, 0)
-		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(1, 0, 1, 0)}):Play()
-		task.wait(0.2 * speed)
-		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.fromRGB(13, 14, 12)}):Play()
-		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.fromRGB(13, 14, 12)}):Play()
-		task.wait(0.7 * speed)
-		
-		fill.AnchorPoint = Vector2.new(1, 0)
-		fill.Position = UDim2.new(1, 0, 0, 0)
-		TweenService:Create(fill, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.InOut), {Size = UDim2.new(0, 0, 1, 0)}):Play()
-		task.wait(0.25 * speed)
-		TweenService:Create(label, TweenInfo.new(0.25 * speed), {TextColor3 = Color3.new(1, 1, 1)}):Play()
-		TweenService:Create(icon, TweenInfo.new(0.25 * speed), {ImageColor3 = Color3.new(1, 1, 1)}):Play()
-		task.wait(0.8 * speed)
-	end
 end)

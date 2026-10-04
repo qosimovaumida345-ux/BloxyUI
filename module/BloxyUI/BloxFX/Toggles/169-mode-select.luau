@@ -88,21 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Digital Glitch Split Twitch
-task.spawn(function()
-	local origPos = root.Position
-	while gui.Parent do
-		task.wait(2.2 * speed)
-		for i = 1, 6 do
-			local off = (i % 2 == 0) and 4 or -4
-			root.Position = origPos + UDim2.fromOffset(off, 0)
-			icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
-			task.wait(0.04)
-		end
-		root.Position = origPos
-		icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
-	end
-end)

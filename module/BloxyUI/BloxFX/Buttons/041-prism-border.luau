@@ -82,6 +82,17 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2
 
 
 
+local rainbowStroke = make("UIGradient", {
+	Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
+		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
+		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
+		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
+		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+	}),
+	Rotation = 0
+}, stroke)
 
 
 local content = make("Frame", {
@@ -114,33 +125,25 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	rainbowStroke.Rotation = 0
+	local tw = TweenService:Create(rainbowStroke, TweenInfo.new(0.8 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 360})
+	tw:Play()
+	tw.Completed:Wait()
+	rainbowStroke.Rotation = 0
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Rotating Rainbow Border Aura
-local rainbowStroke = make("UIGradient", {
-	Color = ColorSequence.new({
-		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
-		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
-		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
-		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
-		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
-		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
-	}),
-	Rotation = 0
-}, stroke)
-task.spawn(function()
-	while gui.Parent do
-		local tw = TweenService:Create(rainbowStroke, TweenInfo.new(3.2 * speed, Enum.EasingStyle.Linear), {Rotation = 360})
-		tw:Play()
-		tw.Completed:Wait()
-		rainbowStroke.Rotation = 0
-	end
 end)

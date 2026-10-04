@@ -91,6 +91,7 @@ local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transpar
 
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -121,32 +122,30 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	ring1.Size = root.Size
+	ringStroke1.Transparency = 0.2
+	TweenService:Create(ring1, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(42, 26)}):Play()
+	TweenService:Create(ringStroke1, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+	task.wait(0.08 * speed)
+	ring2.Size = root.Size
+	ringStroke2.Transparency = 0.2
+	TweenService:Create(ring2, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(42, 26)}):Play()
+	TweenService:Create(ringStroke2, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+	task.wait(0.5 * speed)
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Neon Pulse Rings + Heartbeat
-task.spawn(function()
-	while gui.Parent do
-		ring1.Size = root.Size
-		ringStroke1.Transparency = 0.2
-		TweenService:Create(ring1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
-		TweenService:Create(ringStroke1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
-		TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
-		task.wait(0.2 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
-		task.wait(0.4 * speed)
-		
-		ring2.Size = root.Size
-		ringStroke2.Transparency = 0.2
-		TweenService:Create(ring2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
-		TweenService:Create(ringStroke2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
-		task.wait(0.8 * speed)
-	end
 end)

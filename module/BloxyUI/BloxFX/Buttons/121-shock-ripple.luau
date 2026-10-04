@@ -84,6 +84,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2
 
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -114,37 +115,34 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local function playEffect()
+	for i = 1, 2 do
+		local rip = make("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(14, 14),
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BackgroundTransparency = 0.35,
+			ZIndex = 3
+		}, root)
+		round(rip, 100)
+		local t = TweenService:Create(rip, TweenInfo.new(0.6 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.fromOffset(320, 320),
+			BackgroundTransparency = 1
+		})
+		t:Play()
+		t.Completed:Connect(function() rip:Destroy() end)
+		task.wait(0.12 * speed)
+	end
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Expanding Ripple Burst Loops
-task.spawn(function()
-	while gui.Parent do
-		for i = 1, 2 do
-			local rip = make("Frame", {
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.fromScale(0.5, 0.5),
-				Size = UDim2.fromOffset(12, 12),
-				BackgroundColor3 = Color3.new(1, 1, 1),
-				BackgroundTransparency = 0.35,
-				ZIndex = 3
-			}, root)
-			round(rip, 100)
-			local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				Size = UDim2.fromOffset(320, 320),
-				BackgroundTransparency = 1
-			})
-			t:Play()
-			t.Completed:Connect(function() rip:Destroy() end)
-			task.wait(0.22 * speed)
-		end
-		task.wait(1.4 * speed)
-	end
 end)

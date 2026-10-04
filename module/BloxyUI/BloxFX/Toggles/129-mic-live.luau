@@ -88,30 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Expanding Ripple Burst Loops
-task.spawn(function()
-	while gui.Parent do
-		for i = 1, 2 do
-			local rip = make("Frame", {
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Position = UDim2.fromScale(0.5, 0.5),
-				Size = UDim2.fromOffset(12, 12),
-				BackgroundColor3 = Color3.new(1, 1, 1),
-				BackgroundTransparency = 0.35,
-				ZIndex = 3
-			}, root)
-			round(rip, 100)
-			local t = TweenService:Create(rip, TweenInfo.new(0.9 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-				Size = UDim2.fromOffset(320, 320),
-				BackgroundTransparency = 1
-			})
-			t:Play()
-			t.Completed:Connect(function() rip:Destroy() end)
-			task.wait(0.22 * speed)
-		end
-		task.wait(1.4 * speed)
-	end
-end)

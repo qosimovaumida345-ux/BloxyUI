@@ -84,6 +84,7 @@ local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2
 
 
 
+
 local content = make("Frame", {
 	AnchorPoint = Vector2.new(0.5, 0.5),
 	Position = UDim2.fromScale(0.5, 0.5),
@@ -114,39 +115,40 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = icon.Position
+	local blast = TweenService:Create(icon, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+		Position = origPos + UDim2.fromOffset(46, -34),
+		ImageTransparency = 1,
+		Rotation = 25
+	})
+	blast:Play()
+	blast.Completed:Wait()
+	
+	icon.Position = origPos + UDim2.fromOffset(-46, 34)
+	icon.Rotation = -15
+	icon.ImageTransparency = 0.6
+	
+	local land = TweenService:Create(icon, TweenInfo.new(0.42 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+		Position = origPos,
+		ImageTransparency = 0,
+		Rotation = 0
+	})
+	land:Play()
+	land.Completed:Wait()
+	isEffectBusy = false
+end
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
-end)
-
--- MOTION
--- Rocket Launch Pad Lift & Recoil
-task.spawn(function()
-	local origPos = icon.Position
-	while gui.Parent do
-		task.wait(1.8 * speed)
-		local blast = TweenService:Create(icon, TweenInfo.new(0.4 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
-			Position = origPos + UDim2.fromOffset(46, -34),
-			ImageTransparency = 1,
-			Rotation = 25
-		})
-		blast:Play()
-		blast.Completed:Wait()
-		
-		icon.Position = origPos + UDim2.fromOffset(-46, 34)
-		icon.Rotation = -15
-		icon.ImageTransparency = 0.6
-		
-		local land = TweenService:Create(icon, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-			Position = origPos,
-			ImageTransparency = 0,
-			Rotation = 0
-		})
-		land:Play()
-		land.Completed:Wait()
-	end
 end)

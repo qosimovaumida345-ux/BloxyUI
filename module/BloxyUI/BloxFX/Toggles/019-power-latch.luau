@@ -88,25 +88,3 @@ local function set(state)
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
 root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)
-
--- MOTION
--- Neon Pulse Rings + Heartbeat
-task.spawn(function()
-	while gui.Parent do
-		ring1.Size = root.Size
-		ringStroke1.Transparency = 0.2
-		TweenService:Create(ring1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
-		TweenService:Create(ringStroke1, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
-		TweenService:Create(scale, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 1.06}):Play()
-		task.wait(0.2 * speed)
-		TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {Scale = 1}):Play()
-		task.wait(0.4 * speed)
-		
-		ring2.Size = root.Size
-		ringStroke2.Transparency = 0.2
-		TweenService:Create(ring2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(36, 24)}):Play()
-		TweenService:Create(ringStroke2, TweenInfo.new(1.2 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
-		task.wait(0.8 * speed)
-	end
-end)

@@ -1029,6 +1029,189 @@ local clickSound = make("Sound", {
 `
 }
 
+const buttonMotions: string[] = [
+  // 0: Silk Shine Sweep
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	shine.Position = UDim2.fromScale(-0.6, -0.4)
+	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
+	tw:Play()
+	tw.Completed:Wait()
+	isEffectBusy = false
+end`,
+
+  // 1: Neon Pulse Rings Burst
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	ring1.Size = root.Size
+	ringStroke1.Transparency = 0.2
+	TweenService:Create(ring1, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(42, 26)}):Play()
+	TweenService:Create(ringStroke1, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+	task.wait(0.08 * speed)
+	ring2.Size = root.Size
+	ringStroke2.Transparency = 0.2
+	TweenService:Create(ring2, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = root.Size + UDim2.fromOffset(42, 26)}):Play()
+	TweenService:Create(ringStroke2, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Transparency = 1}):Play()
+	task.wait(0.5 * speed)
+	isEffectBusy = false
+end`,
+
+  // 2: Expanding Ripple Burst
+  `local function playEffect()
+	for i = 1, 2 do
+		local rip = make("Frame", {
+			AnchorPoint = Vector2.new(0.5, 0.5),
+			Position = UDim2.fromScale(0.5, 0.5),
+			Size = UDim2.fromOffset(14, 14),
+			BackgroundColor3 = Color3.new(1, 1, 1),
+			BackgroundTransparency = 0.35,
+			ZIndex = 3
+		}, root)
+		round(rip, 100)
+		local t = TweenService:Create(rip, TweenInfo.new(0.6 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+			Size = UDim2.fromOffset(320, 320),
+			BackgroundTransparency = 1
+		})
+		t:Play()
+		t.Completed:Connect(function() rip:Destroy() end)
+		task.wait(0.12 * speed)
+	end
+end`,
+
+  // 3: Levitation Hop & Bounce
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = root.Position
+	local up = TweenService:Create(root, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos - UDim2.fromOffset(0, 14)})
+	local tilt = TweenService:Create(icon, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 14})
+	local shShrink = TweenService:Create(shadow, TweenInfo.new(0.22 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(130, 7), BackgroundTransparency = 0.88})
+	up:Play() tilt:Play() shShrink:Play()
+	up.Completed:Wait()
+	
+	local down = TweenService:Create(root, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Bounce, Enum.EasingDirection.Out), {Position = origPos})
+	local tiltBack = TweenService:Create(icon, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 0})
+	local shGrow = TweenService:Create(shadow, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Size = UDim2.fromOffset(180, 12), BackgroundTransparency = 0.65})
+	down:Play() tiltBack:Play() shGrow:Play()
+	down.Completed:Wait()
+	isEffectBusy = false
+end`,
+
+  // 4: Rotating Rainbow Border Aura Burst
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	rainbowStroke.Rotation = 0
+	local tw = TweenService:Create(rainbowStroke, TweenInfo.new(0.8 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 360})
+	tw:Play()
+	tw.Completed:Wait()
+	rainbowStroke.Rotation = 0
+	isEffectBusy = false
+end`,
+
+  // 5: Squishy Jelly Bounce & Icon Wobble
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	TweenService:Create(scale, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.88}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.12 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = -14}):Play()
+	task.wait(0.12 * speed)
+	TweenService:Create(scale, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Scale = 1.12}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.38 * speed, Enum.EasingStyle.Elastic, Enum.EasingDirection.Out), {Rotation = 14}):Play()
+	task.wait(0.28 * speed)
+	TweenService:Create(scale, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.2 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Rotation = 0}):Play()
+	task.wait(0.2 * speed)
+	isEffectBusy = false
+end`,
+
+  // 6: Digital Glitch Split Twitch
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = root.Position
+	for i = 1, 8 do
+		local off = (i % 2 == 0) and 6 or -6
+		root.Position = origPos + UDim2.fromOffset(off, 0)
+		icon.ImageColor3 = (i % 2 == 0) and Color3.fromRGB(255, 43, 214) or Color3.fromRGB(0, 240, 255)
+		task.wait(0.035 * speed)
+	end
+	root.Position = origPos
+	icon.ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)
+	isEffectBusy = false
+end`,
+
+  // 7: High-Energy Color Flood (Fill Rush)
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	fill.AnchorPoint = Vector2.new(0, 0)
+	fill.Position = UDim2.new(0, 0, 0, 0)
+	TweenService:Create(fill, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.Out), {Size = UDim2.new(1, 0, 1, 0)}):Play()
+	TweenService:Create(label, TweenInfo.new(0.14 * speed), {TextColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.14 * speed), {ImageColor3 = Color3.fromRGB(13, 14, 12)}):Play()
+	task.wait(0.35 * speed)
+	
+	fill.AnchorPoint = Vector2.new(1, 0)
+	fill.Position = UDim2.new(1, 0, 0, 0)
+	TweenService:Create(fill, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 1, 0)}):Play()
+	TweenService:Create(label, TweenInfo.new(0.14 * speed), {TextColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)}):Play()
+	TweenService:Create(icon, TweenInfo.new(0.14 * speed), {ImageColor3 = isDark and Color3.new(1, 1, 1) or Color3.fromRGB(13, 14, 12)}):Play()
+	task.wait(0.28 * speed)
+	isEffectBusy = false
+end`,
+
+  // 8: Rocket Launch Pad Lift & Recoil
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = icon.Position
+	local blast = TweenService:Create(icon, TweenInfo.new(0.28 * speed, Enum.EasingStyle.Cubic, Enum.EasingDirection.In), {
+		Position = origPos + UDim2.fromOffset(46, -34),
+		ImageTransparency = 1,
+		Rotation = 25
+	})
+	blast:Play()
+	blast.Completed:Wait()
+	
+	icon.Position = origPos + UDim2.fromOffset(-46, 34)
+	icon.Rotation = -15
+	icon.ImageTransparency = 0.6
+	
+	local land = TweenService:Create(icon, TweenInfo.new(0.42 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
+		Position = origPos,
+		ImageTransparency = 0,
+		Rotation = 0
+	})
+	land:Play()
+	land.Completed:Wait()
+	isEffectBusy = false
+end`,
+
+  // 9: 3D Mechanical Key Tactile Press
+  `local isEffectBusy = false
+local function playEffect()
+	if isEffectBusy then return end
+	isEffectBusy = true
+	local origPos = root.Position
+	TweenService:Create(root, TweenInfo.new(0.08 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = origPos + UDim2.fromOffset(0, 6)}):Play()
+	task.wait(0.1 * speed)
+	TweenService:Create(root, TweenInfo.new(0.18 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = origPos}):Play()
+	task.wait(0.18 * speed)
+	isEffectBusy = false
+end`
+]
+
 const builders: ((a: Asset) => string)[] = [
   (a: Asset) => {
     const isDark = a.archetype === 4 || a.archetype === 6 || a.archetype === 7 || a.style === 1;
@@ -1059,6 +1242,17 @@ ring2.BackgroundTransparency = 1
 local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 0.2}, ring2)` : ''}
 ${a.archetype === 3 ? `local shadow = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 38), Size = UDim2.fromOffset(180, 12), BackgroundColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 0.65, BorderSizePixel = 0}, root.Parent)
 round(shadow, 6)` : ''}
+${a.archetype === 4 ? `local rainbowStroke = make("UIGradient", {
+	Color = ColorSequence.new({
+		ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 80, 80)),
+		ColorSequenceKeypoint.new(0.2, Color3.fromRGB(255, 210, 50)),
+		ColorSequenceKeypoint.new(0.4, Color3.fromRGB(50, 255, 130)),
+		ColorSequenceKeypoint.new(0.6, Color3.fromRGB(50, 210, 255)),
+		ColorSequenceKeypoint.new(0.8, Color3.fromRGB(210, 80, 255)),
+		ColorSequenceKeypoint.new(1, Color3.fromRGB(255, 80, 80))
+	}),
+	Rotation = 0
+}, stroke)` : ''}
 ${a.archetype === 9 ? `local shadowKey = make("Frame", {AnchorPoint = Vector2.new(0.5, 0.5), Position = root.Position + UDim2.fromOffset(0, 6), Size = root.Size, BackgroundColor3 = dark, ZIndex = root.ZIndex - 1}, root.Parent)
 round(shadowKey, 34)` : ''}
 
@@ -1092,11 +1286,15 @@ local label = text(content, {
 	ZIndex = 4
 })
 
+-- INTERACTIVE CLICK ANIMATION (Plays strictly on click)
+${buttonMotions[a.archetype]}
+
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
 	if clickSound then clickSound:Play() end
-	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.92}):Play()
+	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
+	task.spawn(playEffect)
 	task.wait(0.08)
 	TweenService:Create(scale, TweenInfo.new(0.18, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Scale = 1.05}):Play()
 end)`
@@ -1274,8 +1472,7 @@ local function set(state)
 	TweenService:Create(root, TweenInfo.new(0.3 * speed), {BackgroundColor3 = on and accent or dark}):Play()
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
 end
-root.Activated:Connect(function() set(not on) end)
-task.spawn(function() while gui.Parent do task.wait(2.4 * speed) set(not on) end end)`,
+root.Activated:Connect(function() set(not on) end)`,
 
   () => `-- TRANSITION (Scene Wipe FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = accent, BorderSizePixel = 0, ClipsDescendants = true, ZIndex = 10, Position = UDim2.fromScale(-1, 0)}, gui)
@@ -1496,6 +1693,13 @@ export function scriptFor(asset: Asset, custom?: CustomConfig) {
     .replaceAll('${radius}', String(radius))
     .replaceAll('${LABEL}', label)
     .replaceAll('${seed}', String(asset.id * 17))
+  // For Buttons (c === 0) and Toggles (c === 8), animations trigger strictly on click/interaction - no continuous background loop
+  if (c === 0 || c === 8) {
+    return `${prelude(asset, custom)}
+${body}
+`
+  }
+
   const motion = asset.archetype === 3 && [1, 5, 9].includes(c) ? 'loop(icon, {Rotation = 10}, 1.1)' : motions[asset.archetype]
   return `${prelude(asset, custom)}
 ${body}
