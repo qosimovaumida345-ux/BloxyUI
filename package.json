@@ -7,11 +7,11 @@
     "dev:server": "nodemon server/index.js",
     "dev:client": "cd client && npm run dev",
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
-    "build": "cd client && npm run build",
-    "start": "node server/index.js",
-    "db:migrate": "npx prisma migrate deploy",
+    "build": "cd client && npm install --include=dev && npm run build",
+    "start": "node scripts/start-production.js",
+    "db:migrate": "npx prisma db push --skip-generate",
     "db:seed": "node prisma/seed.js",
-    "postinstall": "npx prisma generate && cd client && npm install && npm run build",
+    "postinstall": "npx prisma generate && cd client && npm install --include=dev && npm run build",
     "mcp": "node server/mcp/server.js"
   },
   "dependencies": {
