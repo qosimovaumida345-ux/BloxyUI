@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { 
   Book, Terminal, Code, Settings, Server, Database, Globe, Cpu, 
-  Check, Copy, Play, Sparkles, Send, ExternalLink, HelpCircle, ArrowRight
+  Check, Copy, Play, Sparkles, Send, ExternalLink, HelpCircle, ArrowRight, Box
 } from 'lucide-react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -92,6 +92,40 @@ When the user asks for Roblox UI, buttons, health bars, inventory panels, loader
 
       <div className="space-y-12">
         
+        {/* ROBLOX STUDIO PLUGIN BANNER */}
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-purple-900/40 via-indigo-900/30 to-[#12131f] border border-purple-500/40 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl shadow-purple-950/20">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-300 shrink-0">
+              <Box className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-xl font-bold text-white">Roblox Studio Rasmiy Plagini</h3>
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-purple-500/30 text-purple-300 border border-purple-500/40">v2.0.0</span>
+              </div>
+              <p className="text-sm text-[var(--text-secondary)] mt-0.5">
+                Barcha 200+ BloxFX animatsiyalar va 146+ Lucide iconlarni to'g'ridan-to'g'ri Roblox Studio ichida 1 marta bosishda ishlatish!
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="/plugin"
+              className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm flex items-center gap-2 shadow-lg shadow-purple-600/30 transition-all hover:scale-[1.02]"
+            >
+              <span>O'rnatish Qo'llanmasi</span>
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="/BloxyUI.rbxmx"
+              download="BloxyUI.rbxmx"
+              className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium text-sm border border-white/10 transition-all"
+            >
+              <span>.rbxmx Yuklab olish</span>
+            </a>
+          </div>
+        </div>
+
         {/* ================================================================== */}
         {/* SECTION 1: REMOTE MCP SERVER (NO LOCAL CODE NEEDED!)               */}
         {/* ================================================================== */}

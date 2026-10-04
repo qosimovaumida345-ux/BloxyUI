@@ -59,11 +59,14 @@ local function center(size)
 end
 
 -- UI Click Sound FX
-local clickSound = make("Sound", {
-	SoundId = "rbxassetid://6895079853",
-	Volume = 0.5,
-	PlayOnRemove = false
-}, gui)
+local clickSound
+pcall(function()
+	clickSound = make("Sound", {
+		SoundId = "rbxassetid://6895079853",
+		Volume = 0.5,
+		PlayOnRemove = false
+	}, gui)
+end)
 
 -- TRANSITION (Scene Wipe FX)
 local root = make("Frame", {Size = UDim2.fromScale(1, 1), BackgroundColor3 = accent, BorderSizePixel = 0, ClipsDescendants = true, ZIndex = 10, Position = UDim2.fromScale(-1, 0)}, gui)

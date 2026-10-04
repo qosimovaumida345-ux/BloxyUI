@@ -978,14 +978,16 @@ local subtitle = "${asset.description.replaceAll('"', '\\\"')}"
 local speed = ${spd} -- higher = slower
 ---------------------------------------------------------------------
 
-local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-local old = playerGui:FindFirstChild("BloxFX_${asset.id}")
+local player = Players.LocalPlayer
+local guiParent = player and (player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")) or game:GetService("StarterGui")
+local old = guiParent:FindFirstChild("BloxFX_${asset.id}")
 if old then old:Destroy() end
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "BloxFX_${asset.id}"
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
-gui.Parent = playerGui
+gui.Parent = guiParent
 
 local function make(class, props, parent)
 	local object = Instance.new(class)
@@ -1021,11 +1023,14 @@ local function center(size)
 end
 
 -- UI Click Sound FX
-local clickSound = make("Sound", {
-	SoundId = "rbxassetid://6895079853",
-	Volume = 0.5,
-	PlayOnRemove = false
-}, gui)
+local clickSound
+pcall(function()
+	clickSound = make("Sound", {
+		SoundId = "rbxassetid://6895079853",
+		Volume = 0.5,
+		PlayOnRemove = false
+	}, gui)
+end)
 `
 }
 
@@ -1033,12 +1038,19 @@ const buttonMotions: string[] = [
   // 0: Silk Shine Sweep
   `local isEffectBusy = false
 local function playEffect()
-	if isEffectBusy then return end
+	if isEffectBusy or not shine then return end
 	isEffectBusy = true
+	shine.Visible = true
+	shine.BackgroundTransparency = 0.65
 	shine.Position = UDim2.fromScale(-0.6, -0.4)
-	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
+	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Position = UDim2.fromScale(1.4, -0.4),
+		BackgroundTransparency = 1
+	})
 	tw:Play()
 	tw.Completed:Wait()
+	shine.Visible = false
+	shine.BackgroundTransparency = 1
 	isEffectBusy = false
 end`,
 
@@ -1227,7 +1239,7 @@ local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent),
 if isDark then gradient.Enabled = false end
 local stroke = make("UIStroke", {Color = isDark and accent or accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
+${a.archetype === 0 ? `local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2.fromScale(-0.6, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 1, Visible = false, BorderSizePixel = 0, ZIndex = 3}, root)` : ''}
 
 ${a.archetype === 7 ? `local fill = make("Frame", {Size = UDim2.new(0, 0, 1, 0), Position = UDim2.new(0, 0, 0, 0), BackgroundColor3 = accent, BorderSizePixel = 0, ZIndex = 2}, root)
 round(fill, 34)
@@ -1235,11 +1247,11 @@ make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, f
 ${a.archetype === 1 ? `local ring1 = make("Frame", center(root.Size), root.Parent)
 round(ring1, 34)
 ring1.BackgroundTransparency = 1
-local ringStroke1 = make("UIStroke", {Color = accent, Thickness = 2.5, Transparency = 0.2}, ring1)
+local ringStroke1 = make("UIStroke", {Color = accent, Thickness = 2.5, Transparency = 1}, ring1)
 local ring2 = make("Frame", center(root.Size), root.Parent)
 round(ring2, 34)
 ring2.BackgroundTransparency = 1
-local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 0.2}, ring2)` : ''}
+local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 1}, ring2)` : ''}
 ${a.archetype === 3 ? `local shadow = make("Frame", {AnchorPoint = Vector2.new(0.5, 0), Position = UDim2.new(0.5, 0, 0.5, 38), Size = UDim2.fromOffset(180, 12), BackgroundColor3 = Color3.fromRGB(0, 0, 0), BackgroundTransparency = 0.65, BorderSizePixel = 0}, root.Parent)
 round(shadow, 6)` : ''}
 ${a.archetype === 4 ? `local rainbowStroke = make("UIGradient", {

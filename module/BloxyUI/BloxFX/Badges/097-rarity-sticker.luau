@@ -59,11 +59,14 @@ local function center(size)
 end
 
 -- UI Click Sound FX
-local clickSound = make("Sound", {
-	SoundId = "rbxassetid://6895079853",
-	Volume = 0.5,
-	PlayOnRemove = false
-}, gui)
+local clickSound
+pcall(function()
+	clickSound = make("Sound", {
+		SoundId = "rbxassetid://6895079853",
+		Volume = 0.5,
+		PlayOnRemove = false
+	}, gui)
+end)
 
 -- BADGE
 local root = make("Frame", center(UDim2.fromOffset(160, 160)), gui)

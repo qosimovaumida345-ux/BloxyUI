@@ -25,6 +25,12 @@ function Navbar() {
       label: 'Icons (520+)'
     },
     {
+      to: '/plugin',
+      label: 'Roblox Plugin',
+      badge: 'v2.0',
+      highlight: true
+    },
+    {
       to: '/docs',
       label: 'Docs & MCP'
     }

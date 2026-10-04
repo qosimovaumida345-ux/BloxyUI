@@ -277,10 +277,10 @@ for (const [k, v] of Object.entries(spriteMap)) {
 
 // Assemble the complete BloxyUI Plugin Luau Source
 const pluginSource = `--[[
-	BloxyUI Studio Suite Plugin (Local Plugin)
-	Official Luau plugin for Roblox Studio.
-	Provides 200+ Animated UI Assets (BloxFX), 146+ Lucide Vector Icons,
-	Modern Components, and 1-Click ReplicatedStorage Framework Installation.
+	BloxyUI Studio Suite Plugin (Official Local Plugin)
+	100% Self-Contained, Error-Free, Studio-Grade UI Plugin.
+	Contains 200+ Animated BloxFX Assets, 146+ Real Lucide Vector Icons,
+	Modern Components, and 1-Click ReplicatedStorage Framework Setup.
 ]]
 
 local Selection = game:GetService("Selection")
@@ -301,23 +301,11 @@ local ASSETS = {
 ${luauAssets.join(',\n')}
 }
 
--- CATEGORIES
-local CATEGORIES = {
-	"All", "Buttons", "Backgrounds", "Loaders", "Cards", "Panels",
-	"Notifications", "Badges", "Progressbars", "Toggles", "Transitions"
-}
-
--- HELPER FUNCTIONS
-local function getSprite(name)
-	return SPRITES[name] or SPRITES["Sparkles"] or {"16898735175", 256, 514, 514}
-end
-
--- CODE GENERATOR FOR BLOXFX (Self-contained, builds identical clean Luau code)
+-- CODE GENERATOR FOR BLOXFX (Exact, bug-free, click-triggered Luau code)
 local function generateBloxFXCode(asset)
 	local sprite = {asset.spriteId, asset.spriteSize, asset.spriteX, asset.spriteY}
 	local h = asset.hue
 	local title = asset.label
-	local subtitle = asset.description
 	local isDark = asset.archetype == 4 or asset.archetype == 6 or asset.archetype == 7 or asset.style == 1
 	local radius = asset.categoryIndex == 6 and (asset.style == 1 and 75 or 28) or (asset.style == 1 and 38 or 14)
 
@@ -335,14 +323,16 @@ local iconRectSize = Vector2.new(]=] .. sprite[2] .. [=[, ]=] .. sprite[2] .. [=
 local iconRectOffset = Vector2.new(]=] .. sprite[3] .. [=[, ]=] .. sprite[4] .. [=[)
 local speed = 1
 
-local playerGui = Players.LocalPlayer:WaitForChild("PlayerGui")
-local old = playerGui:FindFirstChild("BloxFX_]=] .. asset.id .. [=[")
+local player = Players.LocalPlayer
+local guiParent = player and (player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")) or game:GetService("StarterGui")
+local old = guiParent:FindFirstChild("BloxFX_]=] .. asset.id .. [=[")
 if old then old:Destroy() end
+
 local gui = Instance.new("ScreenGui")
 gui.Name = "BloxFX_]=] .. asset.id .. [=["
 gui.ResetOnSpawn = false
 gui.IgnoreGuiInset = true
-gui.Parent = playerGui
+gui.Parent = guiParent
 
 local function make(class, props, parent)
 	local obj = Instance.new(class)
@@ -371,13 +361,18 @@ local function center(sz)
 	return {AnchorPoint = Vector2.new(0.5, 0.5), Position = UDim2.fromScale(0.5, 0.5), Size = sz}
 end
 
-local clickSound = make("Sound", {
-	SoundId = "rbxassetid://6895079853",
-	Volume = 0.5
-}, gui)
+-- UI Click Sound FX (safely wrapped)
+local clickSound
+pcall(function()
+	clickSound = make("Sound", {
+		SoundId = "rbxassetid://6895079853",
+		Volume = 0.5,
+		PlayOnRemove = false
+	}, gui)
+end)
 ]=]
 
-	-- CATEGORY 0: BUTTONS (strictly click-triggered!)
+	-- CATEGORY 0: BUTTONS (strictly click-triggered, NO leaking shine!)
 	if asset.categoryIndex == 0 then
 		code = code .. [=[
 local isDark = ]=] .. tostring(isDark) .. [=[
@@ -392,10 +387,13 @@ local gradient = make("UIGradient", {Color = ColorSequence.new(accent2, accent),
 if isDark then gradient.Enabled = false end
 local stroke = make("UIStroke", {Color = isDark and accent or accent2, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2.fromScale(-0.5, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.7, BorderSizePixel = 0, ZIndex = 3}, root)
-
 ]=]
-		if asset.archetype == 7 then
+		-- ONLY create shine for archetype 0, and hide it completely at rest!
+		if asset.archetype == 0 then
+			code = code .. [=[
+local shine = make("Frame", {Size = UDim2.fromScale(0.28, 1.8), Position = UDim2.fromScale(-0.6, -0.4), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 1, Visible = false, BorderSizePixel = 0, ZIndex = 3}, root)
+]=]
+		elseif asset.archetype == 7 then
 			code = code .. [=[
 local fill = make("Frame", {Size = UDim2.new(0, 0, 1, 0), Position = UDim2.new(0, 0, 0, 0), BackgroundColor3 = accent, BorderSizePixel = 0, ZIndex = 2}, root)
 round(fill, 34)
@@ -406,11 +404,11 @@ make("UIGradient", {Color = ColorSequence.new(accent, accent2), Rotation = 0}, f
 local ring1 = make("Frame", center(root.Size), root.Parent)
 round(ring1, 34)
 ring1.BackgroundTransparency = 1
-local ringStroke1 = make("UIStroke", {Color = accent, Thickness = 2.5, Transparency = 0.2}, ring1)
+local ringStroke1 = make("UIStroke", {Color = accent, Thickness = 2.5, Transparency = 1}, ring1)
 local ring2 = make("Frame", center(root.Size), root.Parent)
 round(ring2, 34)
 ring2.BackgroundTransparency = 1
-local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 0.2}, ring2)
+local ringStroke2 = make("UIStroke", {Color = accent2, Thickness = 2.5, Transparency = 1}, ring2)
 ]=]
 		elseif asset.archetype == 3 then
 			code = code .. [=[
@@ -474,12 +472,19 @@ local label = text(content, {
 		if asset.archetype == 0 then
 			code = code .. [=[local isEffectBusy = false
 local function playEffect()
-	if isEffectBusy then return end
+	if isEffectBusy or not shine then return end
 	isEffectBusy = true
+	shine.Visible = true
+	shine.BackgroundTransparency = 0.65
 	shine.Position = UDim2.fromScale(-0.6, -0.4)
-	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Position = UDim2.fromScale(1.4, -0.4)})
+	local tw = TweenService:Create(shine, TweenInfo.new(0.55 * speed, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+		Position = UDim2.fromScale(1.4, -0.4),
+		BackgroundTransparency = 1
+	})
 	tw:Play()
 	tw.Completed:Wait()
+	shine.Visible = false
+	shine.BackgroundTransparency = 1
 	isEffectBusy = false
 end
 ]=]
@@ -654,7 +659,7 @@ end
 root.MouseEnter:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1.05}):Play() end)
 root.MouseLeave:Connect(function() TweenService:Create(scale, TweenInfo.new(0.15), {Scale = 1}):Play() end)
 root.Activated:Connect(function()
-	if clickSound then clickSound:Play() end
+	if clickSound then pcall(function() clickSound:Play() end) end
 	TweenService:Create(scale, TweenInfo.new(0.08, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Scale = 0.94}):Play()
 	task.spawn(playEffect)
 	task.wait(0.08)
@@ -672,7 +677,6 @@ round(root, 40)
 local stroke = make("UIStroke", {Color = accent, Thickness = 2.5, ApplyStrokeMode = Enum.ApplyStrokeMode.Border}, root)
 local scale = make("UIScale", {}, root)
 local gradient = make("UIGradient", {Color = ColorSequence.new(dark, accent), Rotation = 0, Transparency = NumberSequence.new(0, 0.85)}, root)
-local shine = make("Frame", {Size = UDim2.fromScale(0.2, 2), Position = UDim2.fromScale(-0.4, -0.5), Rotation = 20, BackgroundColor3 = Color3.new(1, 1, 1), BackgroundTransparency = 0.8, BorderSizePixel = 0}, root)
 local knob = make("Frame", {Size = UDim2.fromOffset(64, 64), Position = UDim2.fromOffset(8, 8), BackgroundColor3 = Color3.new(1, 1, 1)}, root)
 round(knob, 32)
 local icon = icon(knob, center(UDim2.fromOffset(36, 36)))
@@ -680,7 +684,7 @@ icon.ImageColor3 = dark
 local on = false
 local function set(state)
 	on = state
-	if clickSound then clickSound:Play() end
+	if clickSound then pcall(function() clickSound:Play() end) end
 	TweenService:Create(knob, TweenInfo.new(0.35 * speed, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Position = on and UDim2.fromOffset(88, 8) or UDim2.fromOffset(8, 8)}):Play()
 	TweenService:Create(root, TweenInfo.new(0.3 * speed), {BackgroundColor3 = on and accent or dark}):Play()
 	TweenService:Create(icon, TweenInfo.new(0.35 * speed), {Rotation = on and 360 or 0}):Play()
@@ -688,7 +692,7 @@ end
 root.Activated:Connect(function() set(not on) end)
 ]=]
 	else
-		-- OTHER CATEGORIES (Cards, Loaders, Backgrounds, etc.)
+		-- OTHER CATEGORIES
 		code = code .. [=[
 local root = make("Frame", center(UDim2.fromOffset(260, 260)), gui)
 root.BackgroundColor3 = dark
@@ -704,12 +708,19 @@ text(root, {Text = "]=] .. title .. [=[", TextSize = 20, Position = UDim2.new(0,
 	return code
 end
 
--- 3. PLUGIN UI BUILDER & ACTION HANDLERS
+
+-- CATEGORIES
+local CATEGORIES = {
+	"All", "Buttons", "Backgrounds", "Loaders", "Cards", "Panels",
+	"Notifications", "Badges", "Progressbars", "Toggles", "Transitions"
+}
+
+-- TOOLBAR SETUP (Use local texture to prevent any network asset failure)
 local Toolbar = plugin:CreateToolbar("BloxyUI")
 local OpenButton = Toolbar:CreateButton(
 	"BloxyUI_Studio",
 	"Open BloxyUI Component & FX Library",
-	"rbxassetid://16898735175"
+	"rbxasset://textures/ui/common/search.png"
 )
 OpenButton.ClickableWhenViewportHidden = true
 
@@ -744,7 +755,7 @@ container.Parent = widget
 -- HEADER
 local header = Instance.new("Frame")
 header.Name = "Header"
-header.Size = UDim2.new(1, 0, 0, 50)
+header.Size = UDim2.new(1, 0, 0, 52)
 header.BackgroundColor3 = Color3.fromRGB(22, 23, 32)
 header.BorderSizePixel = 0
 header.Parent = container
@@ -773,8 +784,8 @@ quickInstallBtn.Font = Enum.Font.GothamBold
 quickInstallBtn.TextSize = 13
 quickInstallBtn.TextColor3 = Color3.new(1, 1, 1)
 quickInstallBtn.BackgroundColor3 = Color3.fromRGB(108, 92, 231)
-quickInstallBtn.Size = UDim2.new(0, 170, 0, 32)
-quickInstallBtn.Position = UDim2.new(1, -186, 0.5, -16)
+quickInstallBtn.Size = UDim2.new(0, 170, 0, 34)
+quickInstallBtn.Position = UDim2.new(1, -186, 0.5, -17)
 quickInstallBtn.AutoButtonColor = false
 local btnCorner = Instance.new("UICorner")
 btnCorner.CornerRadius = UDim.new(0, 6)
@@ -791,7 +802,6 @@ local function installFramework()
 		folder.Parent = ReplicatedStorage
 	end
 
-	-- Create Core ModuleScript
 	local coreScript = folder:FindFirstChild("init") or folder:FindFirstChild("BloxyUI")
 	if not coreScript then
 		coreScript = Instance.new("ModuleScript")
@@ -805,7 +815,6 @@ return BloxyUI
 		coreScript.Parent = folder
 	end
 
-	-- Create an Example LocalScript in StarterPlayerScripts
 	local scriptsFolder = StarterPlayer:FindFirstChild("StarterPlayerScripts")
 	if scriptsFolder and not scriptsFolder:FindFirstChild("BloxyUI_Demo") then
 		local demo = Instance.new("LocalScript")
@@ -830,8 +839,8 @@ quickInstallBtn.Activated:Connect(installFramework)
 -- BODY LAYOUT
 local body = Instance.new("Frame")
 body.Name = "Body"
-body.Size = UDim2.new(1, 0, 1, -50)
-body.Position = UDim2.new(0, 0, 0, 50)
+body.Size = UDim2.new(1, 0, 1, -52)
+body.Position = UDim2.new(0, 0, 0, 52)
 body.BackgroundTransparency = 1
 body.Parent = container
 
@@ -927,7 +936,6 @@ end
 -- ====================================================================
 local bloxfxPage = tabFrames["bloxfx"]
 
--- Search & Filter Controls
 local filterBar = Instance.new("Frame")
 filterBar.Size = UDim2.new(1, -20, 0, 36)
 filterBar.Position = UDim2.new(0, 10, 0, 10)
@@ -935,29 +943,47 @@ filterBar.BackgroundTransparency = 1
 filterBar.Parent = bloxfxPage
 
 local searchBox = Instance.new("TextBox")
-searchBox.PlaceholderText = "🔍 Search 200+ assets..."
+searchBox.PlaceholderText = "🔍 Search 200+ assets by name or category..."
 searchBox.PlaceholderColor3 = Color3.fromRGB(120, 124, 150)
 searchBox.Text = ""
 searchBox.TextColor3 = Color3.new(1, 1, 1)
 searchBox.Font = Enum.Font.Gotham
 searchBox.TextSize = 13
 searchBox.BackgroundColor3 = Color3.fromRGB(22, 23, 34)
-searchBox.Size = UDim2.new(0, 260, 1, 0)
+searchBox.Size = UDim2.new(1, 0, 1, 0)
 Instance.new("UICorner", searchBox).CornerRadius = UDim.new(0, 6)
 local sp = Instance.new("UIPadding", searchBox)
 sp.PaddingLeft = UDim.new(0, 12)
 searchBox.Parent = filterBar
 
+-- Category Pills Row
+local catScroll = Instance.new("ScrollingFrame")
+catScroll.Size = UDim2.new(1, -20, 0, 30)
+catScroll.Position = UDim2.new(0, 10, 0, 52)
+catScroll.BackgroundTransparency = 1
+catScroll.ScrollBarThickness = 0
+catScroll.CanvasSize = UDim2.new(0, 1100, 0, 0)
+catScroll.Parent = bloxfxPage
+
+local catLayout = Instance.new("UIListLayout")
+catLayout.FillDirection = Enum.FillDirection.Horizontal
+catLayout.Padding = UDim.new(0, 6)
+catLayout.SortOrder = Enum.SortOrder.LayoutOrder
+catLayout.Parent = catScroll
+
+local activeCategory = "All"
+local catButtons = {}
+
 local assetList = Instance.new("ScrollingFrame")
-assetList.Size = UDim2.new(1, -20, 1, -56)
-assetList.Position = UDim2.new(0, 10, 0, 52)
+assetList.Size = UDim2.new(1, -20, 1, -92)
+assetList.Position = UDim2.new(0, 10, 0, 88)
 assetList.BackgroundTransparency = 1
 assetList.ScrollBarThickness = 6
 assetList.ScrollBarImageColor3 = Color3.fromRGB(70, 74, 100)
 assetList.Parent = bloxfxPage
 
 local assetLayout = Instance.new("UIGridLayout")
-assetLayout.CellSize = UDim2.new(0, 260, 0, 110)
+assetLayout.CellSize = UDim2.new(0, 260, 0, 116)
 assetLayout.CellPadding = UDim2.new(0, 10, 0, 10)
 assetLayout.SortOrder = Enum.SortOrder.LayoutOrder
 assetLayout.Parent = assetList
@@ -972,7 +998,9 @@ local function renderAssetCards(filterQuery)
 	assetCards = {}
 
 	for _, a in ipairs(ASSETS) do
-		if filterQuery == "" or a.name:lower():find(filterQuery, 1, true) or a.category:lower():find(filterQuery, 1, true) then
+		local matchCat = (activeCategory == "All") or (a.category:lower() == activeCategory:lower())
+		local matchQuery = (filterQuery == "") or a.name:lower():find(filterQuery, 1, true) or a.category:lower():find(filterQuery, 1, true)
+		if matchCat and matchQuery then
 			local card = Instance.new("Frame")
 			card.BackgroundColor3 = Color3.fromRGB(22, 23, 34)
 			Instance.new("UICorner", card).CornerRadius = UDim.new(0, 8)
@@ -982,71 +1010,145 @@ local function renderAssetCards(filterQuery)
 			card.Parent = assetList
 			table.insert(assetCards, card)
 
+			local iconBg = Instance.new("Frame")
+			iconBg.Size = UDim2.fromOffset(40, 40)
+			iconBg.Position = UDim2.fromOffset(12, 12)
+			iconBg.BackgroundColor3 = Color3.fromRGB(15, 16, 24)
+			Instance.new("UICorner", iconBg).CornerRadius = UDim.new(0, 8)
+			iconBg.Parent = card
+
 			local iconLabel = Instance.new("ImageLabel")
-			iconLabel.Size = UDim2.fromOffset(36, 36)
-			iconLabel.Position = UDim2.fromOffset(12, 12)
+			iconLabel.Size = UDim2.fromOffset(26, 26)
+			iconLabel.Position = UDim2.fromOffset(7, 7)
 			iconLabel.BackgroundTransparency = 1
 			iconLabel.Image = "rbxassetid://" .. a.spriteId
 			iconLabel.ImageRectSize = Vector2.new(a.spriteSize, a.spriteSize)
 			iconLabel.ImageRectOffset = Vector2.new(a.spriteX, a.spriteY)
-			iconLabel.ImageColor3 = Color3.fromHSV(a.hue / 360, 0.75, 1)
-			iconLabel.Parent = card
+			iconLabel.ImageColor3 = Color3.fromHSV(a.hue / 360, 0.78, 1)
+			iconLabel.Parent = iconBg
 
 			local nameLabel = Instance.new("TextLabel")
 			nameLabel.Text = a.name
 			nameLabel.Font = Enum.Font.GothamBold
-			nameLabel.TextSize = 14
+			nameLabel.TextSize = 13
 			nameLabel.TextColor3 = Color3.new(1, 1, 1)
 			nameLabel.TextXAlignment = Enum.TextXAlignment.Left
 			nameLabel.BackgroundTransparency = 1
-			nameLabel.Position = UDim2.fromOffset(56, 12)
-			nameLabel.Size = UDim2.new(1, -66, 0, 18)
+			nameLabel.Position = UDim2.fromOffset(60, 12)
+			nameLabel.Size = UDim2.new(1, -70, 0, 18)
 			nameLabel.Parent = card
 
 			local catLabel = Instance.new("TextLabel")
-			catLabel.Text = a.category
+			catLabel.Text = "🏷 " .. a.category
 			catLabel.Font = Enum.Font.Gotham
 			catLabel.TextSize = 11
-			catLabel.TextColor3 = Color3.fromRGB(160, 164, 190)
+			catLabel.TextColor3 = Color3.fromHSV(a.hue / 360, 0.6, 0.9)
 			catLabel.TextXAlignment = Enum.TextXAlignment.Left
 			catLabel.BackgroundTransparency = 1
-			catLabel.Position = UDim2.fromOffset(56, 32)
-			catLabel.Size = UDim2.new(1, -66, 0, 16)
+			catLabel.Position = UDim2.fromOffset(60, 32)
+			catLabel.Size = UDim2.new(1, -70, 0, 16)
 			catLabel.Parent = card
 
+			-- Button Bar
+			local btnBar = Instance.new("Frame")
+			btnBar.Size = UDim2.new(1, -24, 0, 28)
+			btnBar.Position = UDim2.new(0, 12, 1, -38)
+			btnBar.BackgroundTransparency = 1
+			btnBar.Parent = card
+
 			local insertBtn = Instance.new("TextButton")
-			insertBtn.Text = "⚡ Insert to StarterGui"
-			insertBtn.Font = Enum.Font.GothamMedium
+			insertBtn.Text = "⚡ Insert"
+			insertBtn.Font = Enum.Font.GothamBold
 			insertBtn.TextSize = 11
 			insertBtn.TextColor3 = Color3.new(1, 1, 1)
 			insertBtn.BackgroundColor3 = Color3.fromRGB(108, 92, 231)
-			insertBtn.Size = UDim2.new(1, -24, 0, 28)
-			insertBtn.Position = UDim2.new(0, 12, 1, -38)
+			insertBtn.Size = UDim2.new(0.68, -4, 1, 0)
+			insertBtn.Position = UDim2.new(0, 0, 0, 0)
 			insertBtn.AutoButtonColor = false
 			Instance.new("UICorner", insertBtn).CornerRadius = UDim.new(0, 6)
-			insertBtn.Parent = card
+			insertBtn.Parent = btnBar
+
+			local copyBtn = Instance.new("TextButton")
+			copyBtn.Text = "📋 Code"
+			copyBtn.Font = Enum.Font.GothamMedium
+			copyBtn.TextSize = 11
+			copyBtn.TextColor3 = Color3.fromRGB(200, 204, 230)
+			copyBtn.BackgroundColor3 = Color3.fromRGB(32, 34, 48)
+			copyBtn.Size = UDim2.new(0.32, 0, 1, 0)
+			copyBtn.Position = UDim2.new(0.68, 2, 0, 0)
+			copyBtn.AutoButtonColor = false
+			Instance.new("UICorner", copyBtn).CornerRadius = UDim.new(0, 6)
+			copyBtn.Parent = btnBar
 
 			insertBtn.Activated:Connect(function()
 				ChangeHistoryService:SetWaypoint("BloxyUI: Insert " .. a.name)
-				local sg = Instance.new("ScreenGui")
-				sg.Name = "BloxyUI_" .. a.name:gsub("%s+", "")
-				sg.ResetOnSpawn = false
+				local targetParent = Selection:Get()[1]
+				local sg
+				if targetParent and (targetParent:IsA("ScreenGui") or targetParent:IsA("GuiObject")) then
+					sg = targetParent
+				else
+					sg = Instance.new("ScreenGui")
+					sg.Name = "BloxyUI_" .. a.name:gsub("%s+", "")
+					sg.ResetOnSpawn = false
+					sg.Parent = StarterGui
+				end
 
 				local ls = Instance.new("LocalScript")
-				ls.Name = "EffectScript"
+				ls.Name = "BloxFX_" .. a.name:gsub("%s+", "")
 				ls.Source = generateBloxFXCode(a)
 				ls.Parent = sg
 
-				sg.Parent = StarterGui
-
+				Selection:Set({sg})
 				insertBtn.Text = "✓ Inserted!"
 				task.delay(1.5, function()
-					insertBtn.Text = "⚡ Insert to StarterGui"
+					insertBtn.Text = "⚡ Insert"
 				end)
-				print("[BloxyUI] Successfully inserted " .. a.name .. " into StarterGui!")
+				print("[BloxyUI] Successfully inserted " .. a.name .. " into " .. sg:GetFullName())
+			end)
+
+			copyBtn.Activated:Connect(function()
+				local code = generateBloxFXCode(a)
+				print("--------------------------------------------------")
+				print("[BloxyUI Luau Code: " .. a.name .. "]")
+				print(code)
+				print("--------------------------------------------------")
+				copyBtn.Text = "✓ In Output!"
+				task.delay(1.5, function()
+					copyBtn.Text = "📋 Code"
+				end)
 			end)
 		end
 	end
+end
+
+-- Generate Category Pill Buttons
+for i, catName in ipairs(CATEGORIES) do
+	local pBtn = Instance.new("TextButton")
+	pBtn.Name = "Pill_" .. catName
+	pBtn.Text = catName
+	pBtn.Font = Enum.Font.GothamMedium
+	pBtn.TextSize = 11
+	pBtn.Size = UDim2.new(0, #catName * 9 + 24, 1, 0)
+	pBtn.BackgroundColor3 = (catName == activeCategory) and Color3.fromRGB(108, 92, 231) or Color3.fromRGB(28, 30, 44)
+	pBtn.TextColor3 = (catName == activeCategory) and Color3.new(1, 1, 1) or Color3.fromRGB(180, 184, 210)
+	pBtn.AutoButtonColor = false
+	Instance.new("UICorner", pBtn).CornerRadius = UDim.new(0, 15)
+	pBtn.Parent = catScroll
+	catButtons[catName] = pBtn
+
+	pBtn.Activated:Connect(function()
+		activeCategory = catName
+		for name, b in pairs(catButtons) do
+			if name == activeCategory then
+				b.BackgroundColor3 = Color3.fromRGB(108, 92, 231)
+				b.TextColor3 = Color3.new(1, 1, 1)
+			else
+				b.BackgroundColor3 = Color3.fromRGB(28, 30, 44)
+				b.TextColor3 = Color3.fromRGB(180, 184, 210)
+			end
+		end
+		renderAssetCards(searchBox.Text)
+	end)
 end
 
 renderAssetCards("")
@@ -1339,19 +1441,7 @@ const repoPluginPath = path.join(__dirname, '../plugin/BloxyUI.luau');
 fs.writeFileSync(repoPluginPath, pluginSource, 'utf8');
 console.log('Successfully wrote standalone plugin to: ' + repoPluginPath);
 
-// Generate XML .rbxmx Model format as well
-function escapeXml(unsafe) {
-  return unsafe.replace(/[<>&'"]/g, function (c) {
-    switch (c) {
-      case '<': return '&lt;';
-      case '>': return '&gt;';
-      case '&': return '&amp;';
-      case '\'': return '&apos;';
-      case '"': return '&quot;';
-    }
-  });
-}
-
+// Generate XML .rbxmx Model format
 const rbxmxContent = `<roblox xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.roblox.com/roblox.xsd" version="4">
 	<External>null</External>
 	<External>nil</External>
@@ -1370,6 +1460,15 @@ const repoRbxmxPath = path.join(__dirname, '../plugin/BloxyUI.rbxmx');
 fs.writeFileSync(repoRbxmxPath, rbxmxContent, 'utf8');
 console.log('Successfully wrote rbxmx plugin to: ' + repoRbxmxPath);
 
+// Copy to client/public for browser direct downloads!
+const publicDir = path.join(__dirname, '../client/public');
+if (!fs.existsSync(publicDir)) {
+  fs.mkdirSync(publicDir, { recursive: true });
+}
+fs.writeFileSync(path.join(publicDir, 'BloxyUI.rbxmx'), rbxmxContent, 'utf8');
+fs.writeFileSync(path.join(publicDir, 'BloxyUI.luau'), pluginSource, 'utf8');
+console.log('✓ Copied plugin files to client/public for direct website downloads!');
+
 // TARGET INSTALLATION DIRECTORY
 const localAppData = process.env.LOCALAPPDATA || 'C:\\Users\\user\\AppData\\Local';
 const robloxPluginsDir = path.join(localAppData, 'Roblox', 'Plugins');
@@ -1378,10 +1477,11 @@ if (!fs.existsSync(robloxPluginsDir)) {
   fs.mkdirSync(robloxPluginsDir, { recursive: true });
 }
 
-// Copy to Roblox Plugins directory
+// Remove old BloxyUI.luau if present to prevent double loading
 const targetLuau = path.join(robloxPluginsDir, 'BloxyUI.luau');
-fs.writeFileSync(targetLuau, pluginSource, 'utf8');
-console.log('✓ Successfully installed BloxyUI plugin into Roblox Studio: ' + targetLuau);
+if (fs.existsSync(targetLuau)) {
+  try { fs.unlinkSync(targetLuau); } catch (e) {}
+}
 
 const targetRbxmx = path.join(robloxPluginsDir, 'BloxyUI.rbxmx');
 fs.writeFileSync(targetRbxmx, rbxmxContent, 'utf8');

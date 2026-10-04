@@ -9,6 +9,7 @@ import Animations from './pages/Animations';
 import Components from './pages/Components';
 import Builder from './pages/Builder';
 import Docs from './pages/Docs';
+import Plugin from './pages/Plugin';
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/components" element={<Components />} />
           <Route path="/builder" element={<Builder />} />
           <Route path="/docs" element={<Docs />} />
+          <Route path="/plugin" element={<Plugin />} />
         </Routes>
       </main>
       <Footer />
